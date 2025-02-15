@@ -8,16 +8,18 @@ import (
 	"net/http"
 )
 
-func (h *Handler) RegisterUserHandler(c *gin.Context) {
+func (h *Handler) SignUpHandler(c *gin.Context) {
 	var user models.User
 
 	if err := c.ShouldBindWith(&user, binding.JSON); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
-	//c.JSON(http.StatusCreated, user)
 	if err := services.AddNewUser(h.database, &user); err != nil {
 		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
+		return
 	}
-
+	
+	c.JSON(http.StatusCreated, user)
 }

@@ -23,3 +23,17 @@ func AddNewUser(db *sql.DB, user *models.User) error {
 
 	return repository.AddNewUser(db, user)
 }
+
+func SignIn(db *sql.DB, username string, password string) error {
+	user, err := repository.FindUserByUsername(db, username)
+
+	if err != nil {
+		return err
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -6,5 +6,6 @@ import (
 )
 
 func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
-	router.POST("/signup", handler.RegisterUserHandler)
+	router.POST("/sign-up", handler.SignUpHandler)
+	router.POST("/sign-in", handler.SignInHandler)
 }

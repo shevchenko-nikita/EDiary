@@ -2,9 +2,22 @@ package repository
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/shevchenko-nikita/EDiary/internals/models"
 )
+
+func FindUserByUsername(db *sql.DB, username string) (*models.User, error) {
+	var user models.User
+
+	err := db.QueryRow("SELECT * FROM users WHERE username = ?", username).
+		Scan(&user.Id, &user.FirstName, &user.FatherName, &user.SecondName,
+			&user.Email, &user.Username, &user.Password, &user.ProfileImgPath)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
 
 func AddNewUser(db *sql.DB, user *models.User) error {
 	var alreadyExists bool
@@ -12,11 +25,11 @@ func AddNewUser(db *sql.DB, user *models.User) error {
 	err := db.QueryRow("SElECT EXISTS (SELECT * FROM users WHERE username = ?)", user.Username).Scan(&alreadyExists)
 
 	if err != nil {
-		return fmt.Errorf("error occured while insert user to DB: %v", err)
+		return err
 	}
 
 	if alreadyExists {
-		return fmt.Errorf("user with username %s already exists", user.Username)
+		return err
 	}
 
 	query := `INSERT INTO users (
@@ -41,7 +54,7 @@ func AddNewUser(db *sql.DB, user *models.User) error {
 	)
 
 	if err != nil {
-		return fmt.Errorf("failed to insert user to DB: %v", err)
+		return err
 	}
 
 	return nil
