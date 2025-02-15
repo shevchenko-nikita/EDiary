@@ -20,6 +20,6 @@ func (h *Handler) SignUpHandler(c *gin.Context) {
 		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
 		return
 	}
-	
-	c.JSON(http.StatusCreated, user)
+
+	c.JSON(http.StatusCreated, gin.H{})
 }
