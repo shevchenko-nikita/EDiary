@@ -3,7 +3,7 @@ package models
 type User struct {
 	Id             int    `json:"-"`
 	FirstName      string `json:"first_name"`
-	FatherName     string `json:"father_name"`
+	MiddleName     string `json:"middle_name"`
 	SecondName     string `json:"second_name"`
 	Email          string `json:"email"`
 	Username       string `json:"username"`

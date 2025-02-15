@@ -9,7 +9,7 @@ func FindUserByUsername(db *sql.DB, username string) (*models.User, error) {
 	var user models.User
 
 	err := db.QueryRow("SELECT * FROM users WHERE username = ?", username).
-		Scan(&user.Id, &user.FirstName, &user.FatherName, &user.SecondName,
+		Scan(&user.Id, &user.FirstName, &user.MiddleName, &user.SecondName,
 			&user.Email, &user.Username, &user.Password, &user.ProfileImgPath)
 
 	if err != nil {
@@ -34,7 +34,7 @@ func AddNewUser(db *sql.DB, user *models.User) error {
 
 	query := `INSERT INTO users (
                    first_name, 
-                   father_name, 
+                   middle_name, 
                    second_name, 
                    email, 
                    username, 
@@ -45,7 +45,7 @@ func AddNewUser(db *sql.DB, user *models.User) error {
 			  `
 	_, err = db.Exec(query,
 		user.FirstName,
-		user.FatherName,
+		user.MiddleName,
 		user.SecondName,
 		user.Email,
 		user.Username,
