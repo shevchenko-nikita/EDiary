@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/shevchenko-nikita/EDiary/internals/models"
 )
 
@@ -13,7 +14,7 @@ func FindUserByUsername(db *sql.DB, username string) (*models.User, error) {
 			&user.Email, &user.Username, &user.Password, &user.ProfileImgPath)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("user not found")
 	}
 
 	return &user, nil
@@ -29,7 +30,7 @@ func AddNewUser(db *sql.DB, user *models.User) error {
 	}
 
 	if alreadyExists {
-		return err
+		return fmt.Errorf("user already exists")
 	}
 
 	query := `INSERT INTO users (

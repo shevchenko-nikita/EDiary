@@ -18,11 +18,22 @@ func (h *Handler) SignInHandler(c *gin.Context) {
 		return
 	}
 
-	err := services.SignIn(h.database, req.Username, req.Password)
+	token, err := services.SignIn(h.database, req.Username, req.Password)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "Username or Password is incorrect"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Username and Password are correct"})
+
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie(
+		"Authorization",
+		token,
+		3600*24*30,
+		"",
+		"",
+		false,
+		true)
+
+	c.JSON(http.StatusOK, gin.H{})
 }
