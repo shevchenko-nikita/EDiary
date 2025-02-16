@@ -16,7 +16,7 @@ func (h *Handler) SignUpHandler(c *gin.Context) {
 		return
 	}
 
-	if err := services.AddNewUser(h.database, &user); err != nil {
+	if err := services.AddNewUser(h.Database, &user); err != nil {
 		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
 		return
 	}

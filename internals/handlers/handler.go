@@ -3,9 +3,9 @@ package handlers
 import "database/sql"
 
 type Handler struct {
-	database *sql.DB
+	Database *sql.DB
 }
 
 func NewHandler(database *sql.DB) *Handler {
-	return &Handler{database: database}
+	return &Handler{Database: database}
 }

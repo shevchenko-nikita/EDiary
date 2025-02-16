@@ -18,7 +18,7 @@ func (h *Handler) SignInHandler(c *gin.Context) {
 		return
 	}
 
-	token, err := services.SignIn(h.database, req.Username, req.Password)
+	token, err := services.SignIn(h.Database, req.Username, req.Password)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "Username or Password is incorrect"})
