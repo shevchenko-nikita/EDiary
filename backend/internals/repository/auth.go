@@ -9,7 +9,10 @@ import (
 func FindUserByUsername(db *sql.DB, username string) (*models.User, error) {
 	var user models.User
 
-	err := db.QueryRow("SELECT * FROM users WHERE username = ?", username).
+	query := "SELECT id, first_name, middle_name, second_name, email, username, password, profile_image_path " +
+		"FROM users WHERE username = ?"
+
+	err := db.QueryRow(query, username).
 		Scan(&user.Id, &user.FirstName, &user.MiddleName, &user.SecondName,
 			&user.Email, &user.Username, &user.Password, &user.ProfileImgPath)
 
