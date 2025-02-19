@@ -9,6 +9,7 @@ import (
 func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 	router.POST("/sign-up", handler.SignUpHandler)
 	router.POST("/sign-in", handler.SignInHandler)
+	router.POST("/logout", handler.LogoutHandler)
 
 	router.GET("/profile", middleware.RequireAuth(handler.Database), handler.ProfileHandler)
 

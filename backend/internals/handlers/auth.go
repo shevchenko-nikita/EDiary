@@ -54,3 +54,14 @@ func (h *Handler) SignUpHandler(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{})
 }
+
+func (h *Handler) LogoutHandler(c *gin.Context) {
+	c.SetCookie(
+		"Authorization",
+		"",
+		-1,
+		"",
+		"",
+		false,
+		true)
+}
