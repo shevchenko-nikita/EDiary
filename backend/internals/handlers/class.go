@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin/binding"
 	"github.com/shevchenko-nikita/EDiary/internals/services"
 	"net/http"
+	"strconv"
 )
 
 func (h Handler) CreateNewClassHandler(c *gin.Context) {
@@ -51,6 +52,28 @@ func (h Handler) JoinTheClassHanler(c *gin.Context) {
 
 	if err := services.JoinTheClass(h.Database, user.Id, req.ClassCode); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "error while joining the class"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{})
+}
+
+func (h Handler) DeleteClassHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	classId, err := strconv.Atoi(c.Param("class-id"))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := services.DeleteClass(h.Database, user.Id, classId); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{})
 		return
 	}
 

@@ -53,3 +53,17 @@ func JoinTheClass(db *sql.DB, studentId int, classCode string) error {
 
 	return repository.JoinTheClass(db, studentId, class.Id)
 }
+
+func DeleteClass(db *sql.DB, teacherId int, classId int) error {
+	actualTeacher, err := repository.GetClassById(db, classId)
+
+	if err != nil {
+		return err
+	}
+
+	if actualTeacher.TeacherId != teacherId {
+		return fmt.Errorf("you are not owner of the class")
+	}
+
+	return repository.DeleteClass(db, classId)
+}
