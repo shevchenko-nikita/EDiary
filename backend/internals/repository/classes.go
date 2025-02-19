@@ -18,7 +18,7 @@ func ClassExists(db *sql.DB, classCode string) bool {
 }
 
 func CreateNewClass(db *sql.DB, classCode, className string, teacherId int) error {
-	query := `INSERT INTO classes (class_code_id, name, teacher_id) VALUES (?, ?, ?)`
+	query := `INSERT INTO classes (class_code, name, teacher_id) VALUES (?, ?, ?)`
 
 	_, err := db.Exec(query, classCode, className, teacherId)
 

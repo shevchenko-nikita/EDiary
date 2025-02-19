@@ -1,7 +1,8 @@
 package models
 
 type Class struct {
-	CodeId    string `json:"class_code_id"`
+	Id        int    `json:"id"`
+	Code      string `json:"class_code"`
 	Name      string `json:"name"`
 	TeacherId int    `json:"teacher_id"`
 }
