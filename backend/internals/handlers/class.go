@@ -115,3 +115,24 @@ func (h Handler) CreateAssignmentHandler(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{})
 }
+
+func (h Handler) DeleteAssignmentHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+	}
+
+	assignmentId, err := strconv.Atoi(c.Param("assignment-id"))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := services.DeleteAssignment(h.Database, user.Id, assignmentId); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{})
+}

@@ -3,7 +3,6 @@ package repository
 import (
 	"database/sql"
 	"github.com/shevchenko-nikita/EDiary/internals/models"
-	"time"
 )
 
 func CreateNewClass(db *sql.DB, classCode, className string, teacherId int) error {
@@ -38,23 +37,6 @@ func LeaveClass(db *sql.DB, studentId, classId int) error {
 	query := `DELETE FROM students_of_classes WHERE student_id = ? AND class_id = ?`
 
 	_, err := db.Exec(query, studentId, classId)
-
-	return err
-}
-
-func AddNewAssignment(db *sql.DB, assignment *models.Assignment) error {
-	query := `INSERT INTO assignments (name, class_id, statement, time_created, dead_line) VALUES(?, ?, ?, ?, ?)`
-
-	timeCreated, err := time.Parse(time.DateTime, assignment.TimeCreated)
-	deadLine, err := time.Parse(time.DateTime, assignment.DeadLine)
-
-	_, err = db.Exec(
-		query,
-		assignment.Name,
-		assignment.ClassId,
-		assignment.Statement,
-		timeCreated,
-		deadLine)
 
 	return err
 }

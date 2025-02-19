@@ -56,13 +56,13 @@ func JoinTheClass(db *sql.DB, studentId int, classCode string) error {
 }
 
 func DeleteClass(db *sql.DB, teacherId, classId int) error {
-	actualTeacher, err := repository.GetClassById(db, classId)
+	class, err := repository.GetClassById(db, classId)
 
 	if err != nil {
 		return err
 	}
 
-	if actualTeacher.TeacherId != teacherId {
+	if class.TeacherId != teacherId {
 		return fmt.Errorf("you are not owner of the class")
 	}
 
@@ -89,4 +89,24 @@ func CreateNewAssignment(db *sql.DB, teacherId int, assignment *models.Assignmen
 	}
 
 	return repository.AddNewAssignment(db, assignment)
+}
+
+func DeleteAssignment(db *sql.DB, teacherId, assignmentId int) error {
+	assignment, err := repository.GetAssignmentByID(db, assignmentId)
+
+	if err != nil {
+		return err
+	}
+
+	class, err := repository.GetClassById(db, assignment.ClassId)
+
+	if err != nil {
+		return err
+	}
+
+	if class.TeacherId != teacherId {
+		return fmt.Errorf("user is not a teacher")
+	}
+
+	return repository.DeleteAssignment(db, assignmentId)
 }
