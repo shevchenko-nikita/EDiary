@@ -12,6 +12,7 @@ func (h Handler) CreateNewClassHandler(c *gin.Context) {
 
 	if !ok {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
 	}
 
 	var req struct {
@@ -24,9 +25,34 @@ func (h Handler) CreateNewClassHandler(c *gin.Context) {
 	}
 
 	if err := services.CreateNewClass(h.Database, teacher.Id, req.ClassName); err != nil {
-		c.JSON(500, gin.H{"message": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusCreated, gin.H{})
+}
+
+func (h Handler) JoinTheClassHanler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	var req struct {
+		ClassCode string `json:"class_code"`
+	}
+
+	if err := c.ShouldBindWith(&req, binding.JSON); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := services.JoinTheClass(h.Database, user.Id, req.ClassCode); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "error while joining the class"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{})
 }

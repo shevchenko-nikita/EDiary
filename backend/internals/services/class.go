@@ -2,6 +2,7 @@ package services
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/shevchenko-nikita/EDiary/internals/repository"
 	"math/rand"
 )
@@ -33,4 +34,22 @@ func CreateNewClass(db *sql.DB, teacherId int, className string) error {
 	}
 
 	return repository.CreateNewClass(db, classCode, className, teacherId)
+}
+
+func JoinTheClass(db *sql.DB, studentId int, classCode string) error {
+	if !repository.ClassExists(db, classCode) {
+		return fmt.Errorf("class %s does not exist", classCode)
+	}
+
+	class, err := repository.GetClassByCode(db, classCode)
+
+	if err != nil {
+		return err
+	}
+
+	if class.TeacherId == studentId {
+		return fmt.Errorf("User is a teacher of the class")
+	}
+
+	return repository.JoinTheClass(db, studentId, class.Id)
 }
