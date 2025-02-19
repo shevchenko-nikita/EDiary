@@ -29,5 +29,11 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 			"/delete-class/:class-id",
 			middleware.RequireAuth(handler.Database),
 			handler.DeleteClassHandler)
+
+		classes.DELETE(
+			"/leave-class/:class-id",
+			middleware.RequireAuth(handler.Database),
+			handler.LeaveTheClassHandler)
+
 	}
 }

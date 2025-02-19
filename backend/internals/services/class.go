@@ -54,7 +54,7 @@ func JoinTheClass(db *sql.DB, studentId int, classCode string) error {
 	return repository.JoinTheClass(db, studentId, class.Id)
 }
 
-func DeleteClass(db *sql.DB, teacherId int, classId int) error {
+func DeleteClass(db *sql.DB, teacherId, classId int) error {
 	actualTeacher, err := repository.GetClassById(db, classId)
 
 	if err != nil {
@@ -66,4 +66,12 @@ func DeleteClass(db *sql.DB, teacherId int, classId int) error {
 	}
 
 	return repository.DeleteClass(db, classId)
+}
+
+func LeaveClass(db *sql.DB, studentId, classId int) error {
+	//if !repository.StudentExistInClass(db, studentId, classId) {
+	//	return fmt.Errorf("the student does not exist in the class")
+	//}
+
+	return repository.LeaveClass(db, studentId, classId)
 }

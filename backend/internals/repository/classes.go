@@ -33,6 +33,14 @@ func DeleteClass(db *sql.DB, classId int) error {
 	return err
 }
 
+func LeaveClass(db *sql.DB, studentId, classId int) error {
+	query := `DELETE FROM students_of_classes WHERE student_id = ? AND class_id = ?`
+
+	_, err := db.Exec(query, studentId, classId)
+
+	return err
+}
+
 func GetClassById(db *sql.DB, classId int) (models.Class, error) {
 	var class models.Class
 	err := db.QueryRow("SELECT * FROM classes WHERE id = ?", classId).
