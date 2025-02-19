@@ -1,16 +1,16 @@
 package handlers
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func (h Handler) ProfileHandler(c *gin.Context) {
-	user, err := c.Get("user")
+	user, ok := c.Get("user")
 
-	if err {
-		fmt.Println(err)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No user present"})
+		return
 	}
 
 	c.JSON(http.StatusOK, user)
