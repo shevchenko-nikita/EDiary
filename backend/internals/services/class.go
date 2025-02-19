@@ -3,6 +3,7 @@ package services
 import (
 	"database/sql"
 	"fmt"
+	"github.com/shevchenko-nikita/EDiary/internals/models"
 	"github.com/shevchenko-nikita/EDiary/internals/repository"
 	"math/rand"
 )
@@ -74,4 +75,18 @@ func LeaveClass(db *sql.DB, studentId, classId int) error {
 	//}
 
 	return repository.LeaveClass(db, studentId, classId)
+}
+
+func CreateNewAssignment(db *sql.DB, teacherId int, assignment *models.Assignment) error {
+	class, err := repository.GetClassById(db, assignment.ClassId)
+
+	if err != nil {
+		return fmt.Errorf("class isn't exist")
+	}
+
+	if class.TeacherId != teacherId {
+		return fmt.Errorf("user is not a teacher")
+	}
+
+	return repository.AddNewAssignment(db, assignment)
 }

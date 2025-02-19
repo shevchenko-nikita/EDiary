@@ -8,6 +8,22 @@ import (
 	"net/http"
 )
 
+func (h *Handler) SignUpHandler(c *gin.Context) {
+	var user models.User
+
+	if err := c.ShouldBindWith(&user, binding.JSON); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := services.AddNewUser(h.Database, &user); err != nil {
+		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{})
+}
+
 func (h *Handler) SignInHandler(c *gin.Context) {
 	var req struct {
 		Username string `json:"username"`
@@ -37,22 +53,6 @@ func (h *Handler) SignInHandler(c *gin.Context) {
 		true)
 
 	c.JSON(http.StatusOK, gin.H{})
-}
-
-func (h *Handler) SignUpHandler(c *gin.Context) {
-	var user models.User
-
-	if err := c.ShouldBindWith(&user, binding.JSON); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	if err := services.AddNewUser(h.Database, &user); err != nil {
-		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusCreated, gin.H{})
 }
 
 func (h *Handler) LogoutHandler(c *gin.Context) {

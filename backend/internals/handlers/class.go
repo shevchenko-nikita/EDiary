@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/shevchenko-nikita/EDiary/internals/models"
 	"github.com/shevchenko-nikita/EDiary/internals/services"
 	"net/http"
 	"strconv"
@@ -91,4 +92,26 @@ func (h Handler) LeaveTheClassHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{})
 		return
 	}
+}
+
+func (h Handler) CreateAssignmentHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	var assignment models.Assignment
+
+	if err := c.ShouldBindWith(&assignment, binding.JSON); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := services.CreateNewAssignment(h.Database, user.Id, &assignment); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{})
 }
