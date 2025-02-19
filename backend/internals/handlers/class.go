@@ -41,16 +41,9 @@ func (h Handler) JoinTheClassHanler(c *gin.Context) {
 		return
 	}
 
-	var req struct {
-		ClassCode string `json:"class_code"`
-	}
+	classCode := c.Param("class-code")
 
-	if err := c.ShouldBindWith(&req, binding.JSON); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	if err := services.JoinTheClass(h.Database, user.Id, req.ClassCode); err != nil {
+	if err := services.JoinTheClass(h.Database, user.Id, classCode); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "error while joining the class"})
 		return
 	}

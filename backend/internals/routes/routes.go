@@ -21,7 +21,7 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 			handler.CreateNewClassHandler)
 
 		classes.POST(
-			"/join-class",
+			"/join-class/:class-code",
 			middleware.RequireAuth(handler.Database),
 			handler.JoinTheClassHanler)
 
