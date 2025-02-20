@@ -111,7 +111,7 @@ func DeleteAssignment(db *sql.DB, teacherId, assignmentId int) error {
 	return repository.DeleteAssignment(db, assignmentId)
 }
 
-func SetMark(db *sql.DB, teacherId int, mark models.Mark) error {
+func GradeAssignment(db *sql.DB, teacherId int, mark models.Mark) error {
 	assignment, err := repository.GetAssignmentByID(db, mark.AssignmentId)
 
 	if err != nil {

@@ -153,7 +153,7 @@ func (h Handler) GradeAssignmentHandler(c *gin.Context) {
 		return
 	}
 
-	if err := services.SetMark(h.Database, user.Id, mark); err != nil {
+	if err := services.GradeAssignment(h.Database, user.Id, mark); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{})
 		return
 	}
