@@ -46,5 +46,10 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 			"/delete-assignment/:assignment-id",
 			middleware.RequireAuth(handler.Database),
 			handler.DeleteAssignmentHandler)
+
+		classes.PUT(
+			"/grade-assignment",
+			middleware.RequireAuth(handler.Database),
+			handler.GradeAssignmentHandler)
 	}
 }

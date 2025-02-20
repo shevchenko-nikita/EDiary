@@ -120,6 +120,7 @@ func (h Handler) DeleteAssignmentHandler(c *gin.Context) {
 	user, ok := GetUserFromCookie(c)
 	if !ok {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
 	}
 
 	assignmentId, err := strconv.Atoi(c.Param("assignment-id"))
@@ -130,6 +131,29 @@ func (h Handler) DeleteAssignmentHandler(c *gin.Context) {
 	}
 
 	if err := services.DeleteAssignment(h.Database, user.Id, assignmentId); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{})
+}
+
+func (h Handler) GradeAssignmentHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	var mark models.Mark
+
+	if err := c.ShouldBindWith(&mark, binding.JSON); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := services.SetMark(h.Database, user.Id, mark); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{})
 		return
 	}

@@ -110,3 +110,31 @@ func DeleteAssignment(db *sql.DB, teacherId, assignmentId int) error {
 
 	return repository.DeleteAssignment(db, assignmentId)
 }
+
+func SetMark(db *sql.DB, teacherId int, mark models.Mark) error {
+	assignment, err := repository.GetAssignmentByID(db, mark.AssignmentId)
+
+	if err != nil {
+		return err
+	}
+
+	class, err := repository.GetClassById(db, assignment.ClassId)
+
+	if err != nil {
+		return err
+	}
+
+	if class.TeacherId != teacherId {
+		return fmt.Errorf("user is not a teacher")
+	}
+
+	if !repository.StudentExistInClass(db, mark.StudentId, class.Id) {
+		return fmt.Errorf("user is not a student of the class")
+	}
+
+	if repository.MarkAlreadyExist(db, mark) {
+		return repository.UpdateMark(db, mark)
+	}
+
+	return repository.AddNewMark(db, mark)
+}
