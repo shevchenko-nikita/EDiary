@@ -71,6 +71,32 @@ func GetClassByCode(db *sql.DB, classCode string) (models.Class, error) {
 	return class, err
 }
 
+func GetUsersList(db *sql.DB, classId int) ([]models.User, error) {
+	query := "SELECT student_id FROM students_of_classes WHERE class_id = ?"
+
+	rows, err := db.Query(query, classId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+	var users []models.User
+
+	for rows.Next() {
+		var user models.User
+
+		var userId int
+		if err := rows.Scan(&userId); err != nil {
+			return nil, err
+		}
+
+		users = append(users, user)
+	}
+
+	return users, nil
+}
+
 func StudentExistInClass(db *sql.DB, studentId, classId int) bool {
 	var alreadyExists bool
 	err := db.QueryRow(
