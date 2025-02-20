@@ -84,10 +84,15 @@ func GetUsersList(db *sql.DB, classId int) ([]models.User, error) {
 	var users []models.User
 
 	for rows.Next() {
-		var user models.User
 
 		var userId int
 		if err := rows.Scan(&userId); err != nil {
+			return nil, err
+		}
+
+		user, err := GetUserById(db, userId)
+
+		if err != nil {
 			return nil, err
 		}
 

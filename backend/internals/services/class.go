@@ -92,13 +92,13 @@ func LeaveClass(db *sql.DB, studentId, classId int) error {
 }
 
 func GetUsersList(db *sql.DB, userId, classId int) ([]models.User, error) {
-	class, err := repository.GetClassById(db, userId)
+	class, err := repository.GetClassById(db, classId)
 
 	if err != nil {
 		return nil, err
 	}
 
-	if repository.StudentExistInClass(db, userId, classId) &&
+	if !repository.StudentExistInClass(db, userId, classId) &&
 		class.TeacherId != userId {
 		return nil, fmt.Errorf("User has not access")
 	}
