@@ -43,7 +43,10 @@ func LeaveClass(db *sql.DB, studentId, classId int) error {
 
 func GetClassById(db *sql.DB, classId int) (models.Class, error) {
 	var class models.Class
-	err := db.QueryRow("SELECT * FROM classes WHERE id = ?", classId).
+
+	query := "SELECT id, class_code, name, teacher_id FROM classes WHERE id = ?"
+
+	err := db.QueryRow(query, classId).
 		Scan(&class.Id, &class.Code, &class.Name, &class.TeacherId)
 
 	return class, err
@@ -51,7 +54,10 @@ func GetClassById(db *sql.DB, classId int) (models.Class, error) {
 
 func GetClassByCode(db *sql.DB, classCode string) (models.Class, error) {
 	var class models.Class
-	err := db.QueryRow("SELECT * FROM classes WHERE class_code = ?", classCode).
+
+	query := "SELECT id, class_code, name, teacher_id FROM classes WHERE class_code = ?"
+
+	err := db.QueryRow(query, classCode).
 		Scan(&class.Id, &class.Code, &class.Name, &class.TeacherId)
 
 	return class, err

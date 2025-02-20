@@ -7,6 +7,8 @@ import (
 )
 
 func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
+	router.Static("/images", "./images")
+
 	router.POST("/sign-up", handler.SignUpHandler)
 	router.POST("/sign-in", handler.SignInHandler)
 	router.POST("/logout", handler.LogoutHandler)
