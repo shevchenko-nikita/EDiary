@@ -106,6 +106,21 @@ func GetUsersList(db *sql.DB, userId, classId int) ([]models.User, error) {
 	return repository.GetUsersList(db, classId)
 }
 
+func GetClassTeacher(db *sql.DB, userId, classId int) (models.User, error) {
+	class, err := repository.GetClassById(db, classId)
+
+	if err != nil {
+		return models.User{}, err
+	}
+
+	if !repository.StudentExistInClass(db, userId, classId) &&
+		class.TeacherId != userId {
+		return models.User{}, fmt.Errorf("User has not access")
+	}
+
+	return repository.GetUserById(db, class.TeacherId)
+}
+
 func CreateNewAssignment(db *sql.DB, teacherId int, assignment *models.Assignment) error {
 	class, err := repository.GetClassById(db, assignment.ClassId)
 

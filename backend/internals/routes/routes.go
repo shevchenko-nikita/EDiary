@@ -47,6 +47,11 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 			middleware.RequireAuth(handler.Database),
 			handler.GetUsersListHandler)
 
+		classes.GET(
+			"/teacher/:class-id",
+			middleware.RequireAuth(handler.Database),
+			handler.GetClassTeacherHandler)
+
 		classes.POST(
 			"/create-assignment",
 			middleware.RequireAuth(handler.Database),

@@ -143,6 +143,31 @@ func (h Handler) GetUsersListHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, users)
 }
 
+func (h Handler) GetClassTeacherHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	classId, err := strconv.Atoi(c.Param("class-id"))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	teacher, err := services.GetClassTeacher(h.Database, user.Id, classId)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, teacher)
+}
+
 func (h Handler) CreateAssignmentHandler(c *gin.Context) {
 	user, ok := GetUserFromCookie(c)
 	if !ok {
