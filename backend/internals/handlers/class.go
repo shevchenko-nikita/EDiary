@@ -52,6 +52,30 @@ func (h Handler) JoinTheClassHanler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
+func (h Handler) UpdateClassHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	var req struct {
+		ClassId int    `json:"class_id"`
+		NewName string `json:"new_name"`
+	}
+
+	if err := c.ShouldBindWith(&req, binding.JSON); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := services.UpdateClass(h.Database, user.Id, req.ClassId, req.NewName); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "error while updating class"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{})
+}
+
 func (h Handler) DeleteClassHandler(c *gin.Context) {
 	user, ok := GetUserFromCookie(c)
 	if !ok {

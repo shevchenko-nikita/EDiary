@@ -25,6 +25,14 @@ func JoinTheClass(db *sql.DB, studentId, classId int) error {
 	return err
 }
 
+func UpdateClass(db *sql.DB, classId int, newClassName string) error {
+	query := "UPDATE classes SET name = ? WHERE id = ?"
+
+	_, err := db.Exec(query, newClassName, classId)
+
+	return err
+}
+
 func DeleteClass(db *sql.DB, classId int) error {
 	query := `DELETE FROM classes WHERE id = ?`
 

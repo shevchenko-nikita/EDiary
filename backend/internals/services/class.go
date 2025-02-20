@@ -55,6 +55,20 @@ func JoinTheClass(db *sql.DB, studentId int, classCode string) error {
 	return repository.JoinTheClass(db, studentId, class.Id)
 }
 
+func UpdateClass(db *sql.DB, teacherId, classId int, newClassName string) error {
+	class, err := repository.GetClassById(db, classId)
+
+	if err != nil {
+		return err
+	}
+
+	if class.TeacherId != teacherId {
+		return fmt.Errorf("User is not a teacher of the class")
+	}
+
+	return repository.UpdateClass(db, classId, newClassName)
+}
+
 func DeleteClass(db *sql.DB, teacherId, classId int) error {
 	class, err := repository.GetClassById(db, classId)
 
