@@ -143,6 +143,7 @@ func (h Handler) GetUsersListHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, users)
 }
 
+// Get information about teacher from class
 func (h Handler) GetClassTeacherHandler(c *gin.Context) {
 	user, ok := GetUserFromCookie(c)
 
