@@ -47,3 +47,37 @@ func GetAssignmentByID(db *sql.DB, assignmentId int) (models.Assignment, error) 
 
 	return assignment, err
 }
+
+func GetAssignmentsList(db *sql.DB, classId int) ([]models.Assignment, error) {
+	var assignments []models.Assignment
+
+	query := "SELECT id, name, class_id, statement, time_created, dead_line FROM assignments WHERE class_id = ?"
+
+	rows, err := db.Query(query, classId)
+
+	if err != nil {
+		return assignments, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var assignment models.Assignment
+
+		err := rows.Scan(
+			&assignment.Id,
+			&assignment.Name,
+			&assignment.ClassId,
+			&assignment.Statement,
+			&assignment.TimeCreated,
+			&assignment.DeadLine)
+
+		if err != nil {
+			return nil, err
+		}
+
+		assignments = append(assignments, assignment)
+	}
+
+	return assignments, nil
+}

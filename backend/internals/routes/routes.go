@@ -66,5 +66,10 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 			"/grade-assignment",
 			middleware.RequireAuth(handler.Database),
 			handler.GradeAssignmentHandler)
+
+		classes.GET(
+			"/assignments-list/:class-id",
+			middleware.RequireAuth(handler.Database),
+			handler.GetAssignmentsListHandler)
 	}
 }

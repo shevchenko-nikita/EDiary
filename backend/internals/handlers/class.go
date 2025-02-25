@@ -235,3 +235,28 @@ func (h Handler) GradeAssignmentHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{})
 }
+
+func (h Handler) GetAssignmentsListHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	classId, err := strconv.Atoi(c.Param("class-id"))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	assignments, err := services.GetAssignmentsList(h.Database, user.Id, classId)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, assignments)
+}

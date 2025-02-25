@@ -182,3 +182,17 @@ func GradeAssignment(db *sql.DB, teacherId int, mark models.Mark) error {
 
 	return repository.AddNewMark(db, mark)
 }
+
+func GetAssignmentsList(db *sql.DB, userId, classId int) ([]models.Assignment, error) {
+	class, err := repository.GetClassById(db, classId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if class.TeacherId != userId && !repository.StudentExistInClass(db, userId, classId) {
+		return nil, fmt.Errorf("user has no access")
+	}
+
+	return repository.GetAssignmentsList(db, classId)
+}
