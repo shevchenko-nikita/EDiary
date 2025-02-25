@@ -48,6 +48,25 @@ func GetAssignmentByID(db *sql.DB, assignmentId int) (models.Assignment, error) 
 	return assignment, err
 }
 
+func UpdateAssignment(db *sql.DB, newAssignmentInfo *models.Assignment) error {
+	query := "UPDATE assignments SET name = ?, statement = ?, dead_line = ? WHERE id = ?"
+
+	deadLine, err := time.Parse(time.DateTime, newAssignmentInfo.DeadLine)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = db.Exec(
+		query,
+		newAssignmentInfo.Name,
+		newAssignmentInfo.Statement,
+		deadLine,
+		newAssignmentInfo.Id)
+
+	return err
+}
+
 func GetAssignmentsList(db *sql.DB, classId int) ([]models.Assignment, error) {
 	var assignments []models.Assignment
 
@@ -80,4 +99,14 @@ func GetAssignmentsList(db *sql.DB, classId int) ([]models.Assignment, error) {
 	}
 
 	return assignments, nil
+}
+
+func AssignmentExist(db *sql.DB, assignmentId int) (bool, error) {
+	var exist bool
+
+	query := "SELECT EXISTS (SELECT * FROM assignments WHERE id = ?)"
+
+	err := db.QueryRow(query, assignmentId).Scan(&exist)
+
+	return exist, err
 }

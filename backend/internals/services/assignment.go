@@ -82,3 +82,23 @@ func GetAssignmentsList(db *sql.DB, userId, classId int) ([]models.Assignment, e
 
 	return repository.GetAssignmentsList(db, classId)
 }
+
+func UpdateAssignment(db *sql.DB, teacherId int, newAssignmentInfo *models.Assignment) error {
+	assignmentOrigin, err := repository.GetAssignmentByID(db, newAssignmentInfo.Id)
+
+	if err != nil {
+		return err
+	}
+
+	class, err := repository.GetClassById(db, assignmentOrigin.ClassId)
+
+	if err != nil {
+		return err
+	}
+
+	if class.TeacherId != teacherId {
+		return fmt.Errorf("user doesn't have access")
+	}
+
+	return repository.UpdateAssignment(db, newAssignmentInfo)
+}
