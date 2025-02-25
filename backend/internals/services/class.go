@@ -91,7 +91,7 @@ func LeaveClass(db *sql.DB, studentId, classId int) error {
 	return repository.LeaveClass(db, studentId, classId)
 }
 
-func GetUsersList(db *sql.DB, userId, classId int) ([]models.User, error) {
+func GetStudentsList(db *sql.DB, userId, classId int) ([]models.User, error) {
 	class, err := repository.GetClassById(db, classId)
 
 	if err != nil {
@@ -103,7 +103,7 @@ func GetUsersList(db *sql.DB, userId, classId int) ([]models.User, error) {
 		return nil, fmt.Errorf("User has not access")
 	}
 
-	return repository.GetUsersList(db, classId)
+	return repository.GetStudentsList(db, classId)
 }
 
 func GetClassTeacher(db *sql.DB, userId, classId int) (models.User, error) {

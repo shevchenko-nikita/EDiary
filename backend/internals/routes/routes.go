@@ -43,9 +43,9 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 			handler.LeaveTheClassHandler)
 
 		classes.GET(
-			"/users-list/:class-id",
+			"/student-list/:class-id",
 			middleware.RequireAuth(handler.Database),
-			handler.GetUsersListHandler)
+			handler.GetStudentsListHandler)
 
 		classes.GET(
 			"/teacher/:class-id",

@@ -71,7 +71,7 @@ func GetClassByCode(db *sql.DB, classCode string) (models.Class, error) {
 	return class, err
 }
 
-func GetUsersList(db *sql.DB, classId int) ([]models.User, error) {
+func GetStudentsList(db *sql.DB, classId int) ([]models.User, error) {
 	query := "SELECT student_id FROM students_of_classes WHERE class_id = ?"
 
 	rows, err := db.Query(query, classId)

@@ -118,7 +118,7 @@ func (h Handler) LeaveTheClassHandler(c *gin.Context) {
 	}
 }
 
-func (h Handler) GetUsersListHandler(c *gin.Context) {
+func (h Handler) GetStudentsListHandler(c *gin.Context) {
 	user, ok := GetUserFromCookie(c)
 
 	if !ok {
@@ -133,7 +133,7 @@ func (h Handler) GetUsersListHandler(c *gin.Context) {
 		return
 	}
 
-	users, err := services.GetUsersList(h.Database, user.Id, classId)
+	users, err := services.GetStudentsList(h.Database, user.Id, classId)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
