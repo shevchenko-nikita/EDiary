@@ -20,65 +20,22 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 	router.GET("/profile", middleware.RequireAuth(handler.Database), handler.ProfileHandler)
 
 	classes := router.Group("/classes")
+
+	classes.Use(middleware.RequireAuth(handler.Database))
 	{
-		classes.POST(
-			"/create-new-class",
-			middleware.RequireAuth(handler.Database),
-			handler.CreateNewClassHandler)
+		classes.POST("/create-new-class", handler.CreateNewClassHandler)
+		classes.POST("/join-class/:class-code", handler.JoinTheClassHanler)
+		classes.PUT("/update-class", handler.UpdateClassHandler)
+		classes.DELETE("/delete-class/:class-id", handler.DeleteClassHandler)
+		classes.DELETE("/leave-class/:class-id", handler.LeaveTheClassHandler)
 
-		classes.POST(
-			"/join-class/:class-code",
-			middleware.RequireAuth(handler.Database),
-			handler.JoinTheClassHanler)
+		classes.GET("/student-list/:class-id", handler.GetStudentsListHandler)
+		classes.GET("/teacher/:class-id", handler.GetClassTeacherHandler)
 
-		classes.PUT(
-			"/update-class",
-			middleware.RequireAuth(handler.Database),
-			handler.UpdateClassHandler)
-
-		classes.DELETE(
-			"/delete-class/:class-id",
-			middleware.RequireAuth(handler.Database),
-			handler.DeleteClassHandler)
-
-		classes.DELETE(
-			"/leave-class/:class-id",
-			middleware.RequireAuth(handler.Database),
-			handler.LeaveTheClassHandler)
-
-		classes.GET(
-			"/student-list/:class-id",
-			middleware.RequireAuth(handler.Database),
-			handler.GetStudentsListHandler)
-
-		classes.GET(
-			"/teacher/:class-id",
-			middleware.RequireAuth(handler.Database),
-			handler.GetClassTeacherHandler)
-
-		classes.POST(
-			"/create-assignment",
-			middleware.RequireAuth(handler.Database),
-			handler.CreateAssignmentHandler)
-
-		classes.PUT(
-			"/update-assignment",
-			middleware.RequireAuth(handler.Database),
-			handler.UpdateAssignmentHandler)
-
-		classes.DELETE(
-			"/delete-assignment/:assignment-id",
-			middleware.RequireAuth(handler.Database),
-			handler.DeleteAssignmentHandler)
-
-		classes.GET(
-			"/assignments-list/:class-id",
-			middleware.RequireAuth(handler.Database),
-			handler.GetAssignmentsListHandler)
-
-		classes.PUT(
-			"/grade-assignment",
-			middleware.RequireAuth(handler.Database),
-			handler.GradeAssignmentHandler)
+		classes.POST("/create-assignment", handler.CreateAssignmentHandler)
+		classes.PUT("/update-assignment", handler.UpdateAssignmentHandler)
+		classes.DELETE("/delete-assignment/:assignment-id", handler.DeleteAssignmentHandler)
+		classes.GET("/assignments-list/:class-id", handler.GetAssignmentsListHandler)
+		classes.PUT("/grade-assignment", handler.GradeAssignmentHandler)
 	}
 }
