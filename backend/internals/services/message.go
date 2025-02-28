@@ -21,3 +21,22 @@ func CreateClassMessage(db *sql.DB, message models.Message) error {
 
 	return repository.CreateClassMessage(db, message)
 }
+
+func DeleteClassMessage(db *sql.DB, userId, messageId int) error {
+	exist, err := repository.MessageExists(db, messageId)
+
+	if !exist || err != nil {
+		return fmt.Errorf("message doesn't exist")
+	}
+
+	message, err := repository.GetMessageById(db, messageId)
+	if err != nil {
+		return err
+	}
+
+	if message.UserId != userId {
+		return fmt.Errorf("user doesn't have access")
+	}
+
+	return repository.DeleteClassMessage(db, messageId)
+}

@@ -19,3 +19,32 @@ func CreateClassMessage(db *sql.DB, message models.Message) error {
 
 	return err
 }
+
+func DeleteClassMessage(db *sql.DB, messageId int) error {
+	query := "DELETE FROM class_comments WHERE id = ?"
+
+	_, err := db.Exec(query, messageId)
+
+	return err
+}
+
+func MessageExists(db *sql.DB, messageId int) (bool, error) {
+	query := "SELECT EXISTS(SELECT * FROM class_comments WHERE id = ?)"
+
+	var exists bool
+
+	err := db.QueryRow(query, messageId).Scan(&exists)
+
+	return exists, err
+}
+
+func GetMessageById(db *sql.DB, messageId int) (models.Message, error) {
+	var message models.Message
+	query := "SELECT * FROM class_comments WHERE id = ?"
+
+	row := db.QueryRow(query, messageId)
+
+	err := row.Scan(&message.Id, &message.ClassId, &message.UserId, &message.Text, &message.TimePosted)
+
+	return message, err
+}
