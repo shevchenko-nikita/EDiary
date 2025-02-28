@@ -40,5 +40,6 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 
 		classes.POST("/create-message", handler.CreateClassMessageHandler)
 		classes.DELETE("/delete-message/:message-id", handler.DeleteClassMessageHandler)
+		classes.GET("/all-messages/:class-id", handler.GetAllClassMessagesHandler)
 	}
 }

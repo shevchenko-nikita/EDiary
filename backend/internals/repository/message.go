@@ -28,6 +28,38 @@ func DeleteClassMessage(db *sql.DB, messageId int) error {
 	return err
 }
 
+func GetAllClassMessages(db *sql.DB, classId int) ([]models.Message, error) {
+	query := "SELECT id, class_id, user_id, text, time_posted FROM class_comments WHERE class_id = ?"
+
+	rows, err := db.Query(query, classId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var messages []models.Message
+	for rows.Next() {
+		var message models.Message
+
+		err := rows.Scan(
+			&message.Id,
+			&message.ClassId,
+			&message.UserId,
+			&message.Text,
+			&message.TimePosted)
+		
+		if err != nil {
+			return nil, err
+		}
+
+		messages = append(messages, message)
+	}
+
+	return messages, nil
+}
+
 func MessageExists(db *sql.DB, messageId int) (bool, error) {
 	query := "SELECT EXISTS(SELECT * FROM class_comments WHERE id = ?)"
 

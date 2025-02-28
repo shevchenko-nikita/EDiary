@@ -30,6 +30,7 @@ func DeleteClassMessage(db *sql.DB, userId, messageId int) error {
 	}
 
 	message, err := repository.GetMessageById(db, messageId)
+
 	if err != nil {
 		return err
 	}
@@ -39,4 +40,20 @@ func DeleteClassMessage(db *sql.DB, userId, messageId int) error {
 	}
 
 	return repository.DeleteClassMessage(db, messageId)
+}
+
+func GetAllClassMessages(db *sql.DB, userId, classId int) ([]models.Message, error) {
+	class, err := repository.GetClassById(db, classId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	exists := repository.StudentExistInClass(db, userId, class.Id)
+
+	if !exists && class.TeacherId != userId {
+		return nil, fmt.Errorf("user doesn't have access")
+	}
+
+	return repository.GetAllClassMessages(db, classId)
 }
