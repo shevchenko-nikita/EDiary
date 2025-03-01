@@ -23,6 +23,7 @@ func AddNewUser(db *sql.DB, user *models.User) error {
 	}
 
 	user.Password = string(hashedPassword)
+	user.ProfileImgPath = os.Getenv("IMAGE_PATH") + "default_image.png"
 
 	return repository.AddNewUser(db, user)
 }
