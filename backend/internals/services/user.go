@@ -20,3 +20,7 @@ func UpdateUserProfile(db *sql.DB, userId int, newUserInfo *models.User) error {
 
 	return repository.UpdateUserProfile(db, newUserInfo)
 }
+
+func UpdateUserProfileImage(db *sql.DB, userId int, imageDst string) error {
+	return repository.UpdateUserProfileImage(db, userId, imageDst)
+}

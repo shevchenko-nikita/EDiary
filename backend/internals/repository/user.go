@@ -41,6 +41,14 @@ func UpdateUserProfile(db *sql.DB, newUserInfo *models.User) error {
 	return err
 }
 
+func UpdateUserProfileImage(db *sql.DB, userId int, imageDst string) error {
+	query := "UPDATE users SET profile_image_path = ? WHERE id = ?"
+
+	_, err := db.Exec(query, imageDst, userId)
+
+	return err
+}
+
 func UserExists(db *sql.DB, userId int) (bool, error) {
 	query := "SELECT EXISTS(SELECT * FROM users WHERE id = ?)"
 

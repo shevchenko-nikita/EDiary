@@ -44,12 +44,12 @@ func (h Handler) UpdateUserProfileHandler(c *gin.Context) {
 }
 
 func (h Handler) UpdateProfileImageHandler(c *gin.Context) {
-	//user, ok := GetUserFromCookie(c)
-	//
-	//if !ok {
-	//	c.JSON(http.StatusBadRequest, gin.H{"error": "No user present"})
-	//	return
-	//}
+	user, ok := GetUserFromCookie(c)
+
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No user present"})
+		return
+	}
 
 	profileImg, err := c.FormFile("profile_image")
 	if err != nil {
@@ -58,10 +58,16 @@ func (h Handler) UpdateProfileImageHandler(c *gin.Context) {
 	}
 
 	rootPath, _ := os.Getwd()
-	dst := filepath.Join(rootPath, os.Getenv("IMAGE_PATH"), "new_img.jpg")
+	dstFull := filepath.Join(rootPath, os.Getenv("IMAGE_PATH"), "new_img.jpg")
+	dstRelative := os.Getenv("IMAGE_PATH") + filepath.Base(dstFull)
 
-	if err := c.SaveUploadedFile(profileImg, dst); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Can not save file"})
+	if err := services.UpdateUserProfileImage(h.Database, user.Id, dstRelative); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't save image"})
+		return
+	}
+
+	if err := c.SaveUploadedFile(profileImg, dstFull); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't save file"})
 		return
 	}
 
