@@ -39,6 +39,7 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 		classes.PUT("/grade-assignment", handler.GradeAssignmentHandler)
 
 		classes.POST("/create-message", handler.CreateClassMessageHandler)
+		classes.PUT("update-message", handler.UpdateMessageHandler)
 		classes.DELETE("/delete-message/:message-id", handler.DeleteClassMessageHandler)
 		classes.GET("/all-messages/:class-id", handler.GetAllClassMessagesHandler)
 	}

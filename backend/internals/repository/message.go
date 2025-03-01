@@ -20,6 +20,14 @@ func CreateClassMessage(db *sql.DB, message models.Message) error {
 	return err
 }
 
+func UpdateMessage(db *sql.DB, messageId int, text string) error {
+	query := "UPDATE class_comments SET text = ? WHERE id = ?"
+
+	_, err := db.Exec(query, text, messageId)
+	
+	return err
+}
+
 func DeleteClassMessage(db *sql.DB, messageId int) error {
 	query := "DELETE FROM class_comments WHERE id = ?"
 
@@ -49,7 +57,7 @@ func GetAllClassMessages(db *sql.DB, classId int) ([]models.Message, error) {
 			&message.UserId,
 			&message.Text,
 			&message.TimePosted)
-		
+
 		if err != nil {
 			return nil, err
 		}
