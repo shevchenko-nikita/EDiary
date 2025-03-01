@@ -12,12 +12,15 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 	router.POST("/sign-up", handler.SignUpHandler)
 	router.POST("/sign-in", handler.SignInHandler)
 	router.POST("/logout", handler.LogoutHandler)
-	router.PUT(
-		"/update-profile",
-		middleware.RequireAuth(handler.Database),
-		handler.UpdateUserProfileHandler)
 
-	router.GET("/profile", middleware.RequireAuth(handler.Database), handler.ProfileHandler)
+	user := router.Group("/user")
+
+	user.Use(middleware.RequireAuth(handler.Database))
+	{
+		user.PUT("/update-profile", handler.UpdateUserProfileHandler)
+		user.PUT("/update-profile-image", handler.UpdateProfileImageHandler)
+		user.GET("/profile", handler.ProfileHandler)
+	}
 
 	classes := router.Group("/classes")
 

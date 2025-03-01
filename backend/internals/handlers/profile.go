@@ -5,6 +5,8 @@ import (
 	"github.com/shevchenko-nikita/EDiary/internals/models"
 	"github.com/shevchenko-nikita/EDiary/internals/services"
 	"net/http"
+	"os"
+	"path/filepath"
 )
 
 func (h Handler) ProfileHandler(c *gin.Context) {
@@ -35,6 +37,31 @@ func (h Handler) UpdateUserProfileHandler(c *gin.Context) {
 
 	if err := services.UpdateUserProfile(h.Database, user.Id, &newUserInfo); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{})
+}
+
+func (h Handler) UpdateProfileImageHandler(c *gin.Context) {
+	//user, ok := GetUserFromCookie(c)
+	//
+	//if !ok {
+	//	c.JSON(http.StatusBadRequest, gin.H{"error": "No user present"})
+	//	return
+	//}
+
+	profileImg, err := c.FormFile("profile_image")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Не удалось загрузить файл"})
+		return
+	}
+
+	rootPath, _ := os.Getwd()
+	dst := filepath.Join(rootPath, os.Getenv("IMAGE_PATH"), "new_img.jpg")
+
+	if err := c.SaveUploadedFile(profileImg, dst); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can not save file"})
 		return
 	}
 
