@@ -114,7 +114,7 @@ func (h Handler) GetAssignmentsListHandler(c *gin.Context) {
 	classId, err := strconv.Atoi(c.Param("class-id"))
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Wrong class id"})
 		return
 	}
 
@@ -126,4 +126,45 @@ func (h Handler) GetAssignmentsListHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, assignments)
+}
+
+func (h Handler) GetClassTableHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	classId, err := strconv.Atoi(c.Param("class-id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Wrong class id"})
+		return
+	}
+
+	assignments, err := services.GetAssignmentsList(h.Database, user.Id, classId)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get assignments list"})
+		return
+	}
+
+	students, err := services.GetStudentsList(h.Database, user.Id, classId)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get students list"})
+		return
+	}
+
+	marks, err := services.GetAllClassMarks(h.Database, classId)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get all class_marks"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"assignments": assignments,
+		"students":    students,
+		"marks":       marks,
+	})
 }

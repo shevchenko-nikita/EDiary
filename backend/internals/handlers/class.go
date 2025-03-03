@@ -132,14 +132,14 @@ func (h Handler) GetStudentsListHandler(c *gin.Context) {
 		return
 	}
 
-	users, err := services.GetStudentsList(h.Database, user.Id, classId)
+	students, err := services.GetStudentsList(h.Database, user.Id, classId)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, users)
+	c.JSON(http.StatusOK, students)
 }
 
 // Get information about teacher from class

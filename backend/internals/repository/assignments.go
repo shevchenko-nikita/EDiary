@@ -110,3 +110,36 @@ func AssignmentExist(db *sql.DB, assignmentId int) (bool, error) {
 
 	return exist, err
 }
+
+func GetAllClassMarks(db *sql.DB, classId int) ([]models.Mark, error) {
+	var marks []models.Mark
+	query := "SELECT m.id, m.assignment_id, m.student_id, m.mark " +
+		"FROM marks m " +
+		"JOIN assignments a ON m.assignment_id = a.id " +
+		"WHERE class_id = ?"
+
+	rows, err := db.Query(query, classId)
+	if err != nil {
+		return marks, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var mark models.Mark
+
+		err := rows.Scan(
+			&mark.Id,
+			&mark.AssignmentId,
+			&mark.StudentId,
+			&mark.Mark)
+
+		if err != nil {
+			return marks, err
+		}
+
+		marks = append(marks, mark)
+	}
+
+	return marks, nil
+}

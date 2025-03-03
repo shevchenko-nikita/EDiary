@@ -102,3 +102,7 @@ func UpdateAssignment(db *sql.DB, teacherId int, newAssignmentInfo *models.Assig
 
 	return repository.UpdateAssignment(db, newAssignmentInfo)
 }
+
+func GetAllClassMarks(db *sql.DB, classId int) ([]models.Mark, error) {
+	return repository.GetAllClassMarks(db, classId)
+}
