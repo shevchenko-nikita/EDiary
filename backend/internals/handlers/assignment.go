@@ -68,7 +68,7 @@ func (h Handler) DeleteAssignmentHandler(c *gin.Context) {
 	assignmentId, err := strconv.Atoi(c.Param("assignment-id"))
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad assignment id"})
 		return
 	}
 
@@ -121,7 +121,7 @@ func (h Handler) GetAssignmentsListHandler(c *gin.Context) {
 	assignments, err := services.GetAssignmentsList(h.Database, user.Id, classId)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get assignments"})
 		return
 	}
 
