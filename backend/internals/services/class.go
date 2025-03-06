@@ -10,7 +10,7 @@ import (
 const CODE_LEN int8 = 7
 
 func generateClassCode() string {
-	return generateCode(CODE_LEN)
+	return GenerateCode(CODE_LEN)
 }
 
 func CreateNewClass(db *sql.DB, teacherId int, className string) error {

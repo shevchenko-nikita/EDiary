@@ -6,7 +6,7 @@ const CHARSET = "abcdfghjklmnpqrstvwxyz" +
 	"ABCDFGHJKLMNPQRSTVWXYZ" +
 	"0123456789"
 
-func generateCode(codeLen int8) string {
+func GenerateCode(codeLen int8) string {
 	b := make([]byte, codeLen)
 
 	for i := int8(0); i < codeLen; i++ {
