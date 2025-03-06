@@ -52,14 +52,14 @@ func (h Handler) UpdateProfileImageHandler(c *gin.Context) {
 	}
 
 	profileImg, err := c.FormFile("profile_image")
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't upload image"})
 		return
 	}
 
 	rootPath, _ := os.Getwd()
-	//imgName := GenerateFileName(filepath.Ext(profileImg.Filename), user.Id)
-	imgName := "text.jpg"
+	imgName := GenerateFileName(filepath.Ext(profileImg.Filename), user.Id)
 
 	dstFull := filepath.Join(rootPath, os.Getenv("IMAGE_PATH"), imgName)
 	dstRelative := os.Getenv("IMAGE_PATH") + filepath.Base(dstFull)
@@ -76,7 +76,3 @@ func (h Handler) UpdateProfileImageHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{})
 }
-
-//func GenerateFileName(extension string, userId int) string {
-//
-//}
