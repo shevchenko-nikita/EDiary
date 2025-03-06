@@ -53,12 +53,15 @@ func (h Handler) UpdateProfileImageHandler(c *gin.Context) {
 
 	profileImg, err := c.FormFile("profile_image")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Не удалось загрузить файл"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't upload image"})
 		return
 	}
 
 	rootPath, _ := os.Getwd()
-	dstFull := filepath.Join(rootPath, os.Getenv("IMAGE_PATH"), "new_img.jpg")
+	//imgName := GenerateFileName(filepath.Ext(profileImg.Filename), user.Id)
+	imgName := "text.jpg"
+
+	dstFull := filepath.Join(rootPath, os.Getenv("IMAGE_PATH"), imgName)
 	dstRelative := os.Getenv("IMAGE_PATH") + filepath.Base(dstFull)
 
 	if err := services.UpdateUserProfileImage(h.Database, user.Id, dstRelative); err != nil {
@@ -67,9 +70,13 @@ func (h Handler) UpdateProfileImageHandler(c *gin.Context) {
 	}
 
 	if err := c.SaveUploadedFile(profileImg, dstFull); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't save file"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't save image"})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{})
 }
+
+//func GenerateFileName(extension string, userId int) string {
+//
+//}
