@@ -2,9 +2,13 @@ package handlers
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/shevchenko-nikita/EDiary/internals/models"
 	"github.com/shevchenko-nikita/EDiary/internals/services"
+	"mime/multipart"
+	"os"
+	"path/filepath"
 	"strconv"
 )
 
@@ -30,6 +34,20 @@ func GetUserFromCookie(c *gin.Context) (*models.User, bool) {
 	}
 
 	return user, true
+}
+
+func SaveFile(c *gin.Context, path string, file *multipart.FileHeader, userId int) (string, error) {
+	rootPath, _ := os.Getwd()
+	imgName := GenerateFileName(filepath.Ext(file.Filename), userId)
+
+	dstFull := filepath.Join(rootPath, path, imgName)
+	dstRelative := path + filepath.Base(dstFull)
+
+	if err := c.SaveUploadedFile(file, dstFull); err != nil {
+		return "", fmt.Errorf("can't save file")
+	}
+
+	return dstRelative, nil
 }
 
 const CODE_LEN = 5

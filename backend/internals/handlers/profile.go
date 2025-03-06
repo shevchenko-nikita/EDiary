@@ -6,7 +6,6 @@ import (
 	"github.com/shevchenko-nikita/EDiary/internals/services"
 	"net/http"
 	"os"
-	"path/filepath"
 )
 
 func (h Handler) ProfileHandler(c *gin.Context) {
@@ -58,18 +57,14 @@ func (h Handler) UpdateProfileImageHandler(c *gin.Context) {
 		return
 	}
 
-	rootPath, _ := os.Getwd()
-	imgName := GenerateFileName(filepath.Ext(profileImg.Filename), user.Id)
+	dstRelative, err := SaveFile(c, os.Getenv("IMAGE_PATH"), profileImg, user.Id)
 
-	dstFull := filepath.Join(rootPath, os.Getenv("IMAGE_PATH"), imgName)
-	dstRelative := os.Getenv("IMAGE_PATH") + filepath.Base(dstFull)
-
-	if err := services.UpdateUserProfileImage(h.Database, user.Id, dstRelative); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't save image"})
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "can't save image"})
 		return
 	}
 
-	if err := c.SaveUploadedFile(profileImg, dstFull); err != nil {
+	if err := services.UpdateUserProfileImage(h.Database, user.Id, dstRelative); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't save image"})
 		return
 	}
