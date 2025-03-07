@@ -19,6 +19,7 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 	{
 		user.PUT("/update-profile", handler.UpdateUserProfileHandler)
 		user.PUT("/update-profile-image", handler.UpdateProfileImageHandler)
+		user.DELETE("/delete-profile-image", handler.DeleteProfileImageHandler)
 		user.GET("/profile", handler.ProfileHandler)
 	}
 

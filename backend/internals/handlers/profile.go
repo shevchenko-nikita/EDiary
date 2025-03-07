@@ -75,3 +75,18 @@ func (h Handler) UpdateProfileImageHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{})
 }
+
+func (h Handler) DeleteProfileImageHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No user present"})
+		return
+	}
+
+	if err := services.DeleteProfileImage(h.Database, user.Id); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't delete image"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{})
+}
