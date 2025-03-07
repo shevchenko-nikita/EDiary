@@ -57,6 +57,10 @@ func (h Handler) UpdateProfileImageHandler(c *gin.Context) {
 		return
 	}
 
+	if err := services.DeleteProfileImage(h.Database, user.Id); err != nil {
+		// TBD
+	}
+
 	dstRelative, err := SaveFile(c, os.Getenv("IMAGE_PATH"), profileImg, user.Id)
 
 	if err != nil {

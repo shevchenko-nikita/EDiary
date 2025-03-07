@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"github.com/shevchenko-nikita/EDiary/internals/models"
+	"os"
 )
 
 func GetUserById(db *sql.DB, userId int) (models.User, error) {
@@ -45,6 +46,16 @@ func UpdateUserProfileImage(db *sql.DB, userId int, imageDst string) error {
 	query := "UPDATE users SET profile_image_path = ? WHERE id = ?"
 
 	_, err := db.Exec(query, imageDst, userId)
+
+	return err
+}
+
+func DeleteUserProfileImage(db *sql.DB, userId int) error {
+	query := "UPDATE users SET profile_image_path = ? WHERE id = ?"
+
+	defaultImgPath := os.Getenv("DEFAULT_IMAGE_PATH")
+
+	_, err := db.Exec(query, defaultImgPath, userId)
 
 	return err
 }
