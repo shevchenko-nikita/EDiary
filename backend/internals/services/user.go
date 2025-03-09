@@ -22,6 +22,10 @@ func UpdateUserProfile(db *sql.DB, userId int, newUserInfo *models.User) error {
 	return repository.UpdateUserProfile(db, newUserInfo)
 }
 
+func UpdateUserProfileImage(db *sql.DB, userId int, imageDst string) error {
+	return repository.UpdateUserProfileImage(db, userId, imageDst)
+}
+
 func DeleteProfileImage(db *sql.DB, userId int) error {
 	user, err := repository.GetUserById(db, userId)
 	if err != nil {
@@ -32,9 +36,9 @@ func DeleteProfileImage(db *sql.DB, userId int) error {
 		return nil
 	}
 
-	return repository.DeleteUserProfileImage(db, user.Id)
-}
+	if err := repository.DeleteUserProfileImage(db, user.Id); err != nil {
+		return fmt.Errorf("Failed to delete user profile image")
+	}
 
-func UpdateUserProfileImage(db *sql.DB, userId int, imageDst string) error {
-	return repository.UpdateUserProfileImage(db, userId, imageDst)
+	return os.Remove(user.ProfileImgPath)
 }
