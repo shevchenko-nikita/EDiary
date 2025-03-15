@@ -1,0 +1,34 @@
+<div class="container">
+  <input type="checkbox" id="check" />
+
+  <div class="login form">
+    <header>Вхід</header>
+
+    <form (submit)="onLogin(); $event.preventDefault()">
+      <input
+        type="text"
+        placeholder="Введіть ім'я користувача"
+        [(ngModel)]="username"
+        name="username"
+        required
+      />
+
+      <input
+        type="password"
+        placeholder="Введіть пароль"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+
+      <input type="submit" class="button" value="Увійти" />
+    </form>
+
+    <div class="signup">
+      <span class="signup"
+        >Ще не зареєстровані?
+        <a routerLink="/sign-up">Реєстрація</a>
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="container">
+  <div class="registration form">
+    <header>Реєстрація</header>
+
+    <form (ngSubmit)="onSubmit()">
+      <div #page class="page slide-page">
+        <div class="field">
+          <input
+            type="text"
+            placeholder="Ім'я"
+            [(ngModel)]="firstName"
+            name="firstName"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <input
+            type="text"
+            placeholder="По батькові"
+            [(ngModel)]="middleName"
+            name="middleName"
+          />
+        </div>
+
+        <div class="field">
+          <input
+            type="text"
+            placeholder="Прізвище"
+            [(ngModel)]="secondName"
+            name="secondName"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <button type="button" (click)="nextPage()">Далі</button>
+        </div>
+      </div>
+
+      <div #page class="page">
+        <div class="field">
+          <input
+            type="email"
+            placeholder="email"
+            [(ngModel)]="email"
+            name="email"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <input
+            type="text"
+            placeholder="Ім'я користувача"
+            [(ngModel)]="username"
+            name="username"
+            required
+          />
+        </div>
+
+        <div class="field btns">
+          <button type="button" (click)="prevPage()" class="prev">Назад</button>
+          <button type="button" (click)="nextPage()" class="next">Далі</button>
+        </div>
+      </div>
+
+      <div #page class="page">
+        <div class="field">
+          <input
+            type="password"
+            placeholder="Пароль"
+            [(ngModel)]="password"
+            name="password"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <input
+            type="password"
+            placeholder="Підтвердіть пароль"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            required
+          />
+        </div>
+
+        <div class="field btns">
+          <button type="button" (click)="prevPage()" class="prev">Назад</button>
+          <button type="submit" class="submit">Відправити</button>
+        </div>
+      </div>
+
+      <!-- <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div> -->
+    </form>
+
+    <div class="signup">
+      Вже зареєстровані?
+      <a routerLink="/log-in"><label>Увійти</label></a>
+    </div>
+  </div>
+</div>

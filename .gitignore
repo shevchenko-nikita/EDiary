@@ -1,3 +1,7 @@
 backend/.idea
 backend/.env
 backend/images
+
+frontend/.vscode
+frontend/node_modules
+frontend/.angular

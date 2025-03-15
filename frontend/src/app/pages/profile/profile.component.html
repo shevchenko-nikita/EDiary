@@ -1,0 +1,39 @@
+<app-sidebar></app-sidebar>
+
+<div class="profile_form">
+  <h3>Профіль</h3>
+  <div class="image-container">
+    <img class="profile-image" [src]="profileImage" alt="Фото профілю" />
+    <div class="edit-icon" (click)="changeImage()"><i class="bx bx-pencil"></i></div>
+    <div class="tooltip">Змінити зображення</div>
+  </div>
+
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-4">
+        <label for="first_name">Ім'я</label>
+        <input type="text" id="first_name" formControlName="firstName" placeholder="Ім'я" required />
+      </div>
+      <div class="col-md-4">
+        <label for="father_name">По батькові</label>
+        <input type="text" id="father_name" formControlName="fatherName" placeholder="По батькові" />
+      </div>
+      <div class="col-md-4">
+        <label for="second_name">Прізвище</label>
+        <input type="text" id="second_name" formControlName="lastName" placeholder="Прізвище" required />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <label for="username">Ім'я користувача</label>
+        <input type="text" id="username" formControlName="username" placeholder="Ім'я користувача" required />
+      </div>
+      <div class="col-md-4">
+        <label for="email">Пошта</label>
+        <input type="email" id="email" formControlName="email" placeholder="Пошта" required />
+      </div>
+    </div>
+    <button class="save-button" type="submit">Зберегти</button>
+  </form>
+</div>
