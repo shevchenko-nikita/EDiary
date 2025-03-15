@@ -65,3 +65,7 @@ func (h *Handler) LogoutHandler(c *gin.Context) {
 		false,
 		true)
 }
+
+func (h *Handler) CheckAuthHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{})
+}

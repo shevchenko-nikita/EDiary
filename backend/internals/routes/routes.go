@@ -1,17 +1,28 @@
 package routes
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/shevchenko-nikita/EDiary/internals/handlers"
 	"github.com/shevchenko-nikita/EDiary/internals/middleware"
+	"time"
 )
 
 func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:4200"}, // Разрешенные домены
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Content-Type", "Authorization"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
 	router.Static("/images", "./images")
 
 	router.POST("/sign-up", handler.SignUpHandler)
 	router.POST("/sign-in", handler.SignInHandler)
 	router.POST("/logout", handler.LogoutHandler)
+	router.GET("/check-auth", middleware.RequireAuth(handler.Database), handler.CheckAuthHandler)
 
 	user := router.Group("/user")
 

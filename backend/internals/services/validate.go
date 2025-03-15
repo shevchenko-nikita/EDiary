@@ -6,16 +6,23 @@ import (
 )
 
 func ValidatePassword(password string) error {
-
+	if len(password) < 5 || len(password) > 40 {
+		return fmt.Errorf("password must be between 8 and 40 characters")
+	}
 	return nil
 }
 
 func ValidateEmail(email string) error {
-
+	if len(email) == 0 {
+		return fmt.Errorf("empty email")
+	}
 	return nil
 }
 
 func ValidateUsername(username string) error {
+	if len(username) < 5 || len(username) > 20 {
+		return fmt.Errorf("username must be between 5 and 20 characters")
+	}
 	return nil
 }
 
