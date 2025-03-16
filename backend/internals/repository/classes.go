@@ -128,3 +128,45 @@ func ClassExists(db *sql.DB, classCode string) bool {
 
 	return alreadyExists
 }
+
+func GetEducationClasses(db *sql.DB, userId int) ([]models.ClassCard, error) {
+	query := "SELECT c.id, c.class_code, c.name, " +
+		"u.first_name, u.middle_name, u.second_name, u.profile_image_path, " +
+		"COALESCE(SUM(m.mark), 0) as grade " +
+		"FROM classes c " +
+		"LEFT JOIN users u ON c.teacher_id = u.id " +
+		"LEFT JOIN assignments a ON a.class_id = c.id " +
+		"LEFT JOIN marks m ON a.id = m.assignment_id " +
+		"WHERE m.student_id = ? GROUP BY c.id;"
+
+	rows, err := db.Query(query, userId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var classes []models.ClassCard
+
+	for rows.Next() {
+		var class models.ClassCard
+		err := rows.Scan(
+			&class.Id,
+			&class.Code,
+			&class.Name,
+			&class.FirstName,
+			&class.MiddleName,
+			&class.SecondName,
+			&class.ProfileImgPath,
+			&class.Grade)
+
+		if err != nil {
+			return nil, err
+		}
+
+		classes = append(classes, class)
+	}
+
+	return classes, nil
+}

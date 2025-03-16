@@ -108,3 +108,7 @@ func GetClassTeacher(db *sql.DB, userId, classId int) (models.User, error) {
 
 	return repository.GetUserById(db, class.TeacherId)
 }
+
+func GetEducationClasses(db *sql.DB, userId int) ([]models.ClassCard, error) {
+	return repository.GetEducationClasses(db, userId)
+}
