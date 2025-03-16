@@ -35,9 +35,15 @@
     transition: all 0.4s ease;
     z-index: 10;
 }
+
 .sidebar.close {
     width: calc(55px + 20px);
 }
+
+.sidebar.locked.close {
+    width: calc(55px + 20px);
+}
+
 .logo_items {
     gap: 8px;
 }
