@@ -34,6 +34,8 @@ func (h Handler) UpdateUserProfileHandler(c *gin.Context) {
 		return
 	}
 
+	newUserInfo.Id = user.Id
+
 	if err := services.UpdateUserProfile(h.Database, user.Id, &newUserInfo); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return

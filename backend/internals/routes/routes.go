@@ -10,7 +10,8 @@ import (
 
 func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:4200"}, // Разрешенные домены
+		AllowOrigins: []string{"http://localhost:4200"}, // Р
+		// азрешенные домены
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Content-Type", "Authorization"},
 		AllowCredentials: true,

@@ -9,9 +9,9 @@ import (
 )
 
 func UpdateUserProfile(db *sql.DB, userId int, newUserInfo *models.User) error {
-	if userId != newUserInfo.Id {
-		return fmt.Errorf("User ID does not match")
-	}
+	//if userId != newUserInfo.Id {
+	//	return fmt.Errorf("User ID does not match")
+	//}
 
 	exists, err := repository.UserExists(db, userId)
 
