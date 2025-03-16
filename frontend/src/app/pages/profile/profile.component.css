@@ -118,7 +118,13 @@ input:focus {
     border-color: #55f;
 }
 
+.save-button-div {
+    width: 100%;
+    text-align: center;
+}
+
 .save-button {
+    margin: auto;
     margin-top: 20px;
     padding: 12px 20px;
     background: #55f;
@@ -129,7 +135,6 @@ input:focus {
     border-radius: 6px;
     cursor: pointer;
     transition: background 0.3s ease;
-    align-self: center;
 }
 
 .save-button:hover {
