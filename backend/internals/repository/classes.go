@@ -169,3 +169,28 @@ func GetEducationClasses(db *sql.DB, userId int) ([]models.ClassCard, error) {
 
 	return classes, nil
 }
+
+func GetTeachingClasses(db *sql.DB, userId int) ([]models.Class, error) {
+	query := "SELECT c.id, c.class_code, c.name FROM classes c WHERE c.teacher_id = ?"
+
+	rows, err := db.Query(query, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var classes []models.Class
+
+	for rows.Next() {
+		var class models.Class
+		err := rows.Scan(&class.Id, &class.Code, &class.Name)
+		if err != nil {
+			return nil, err
+		}
+
+		classes = append(classes, class)
+	}
+
+	return classes, nil
+}

@@ -112,3 +112,7 @@ func GetClassTeacher(db *sql.DB, userId, classId int) (models.User, error) {
 func GetEducationClasses(db *sql.DB, userId int) ([]models.ClassCard, error) {
 	return repository.GetEducationClasses(db, userId)
 }
+
+func GetTeachingClasses(db *sql.DB, userId int) ([]models.Class, error) {
+	return repository.GetTeachingClasses(db, userId)
+}

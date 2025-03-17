@@ -184,3 +184,20 @@ func (h Handler) GetEducationClassesHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, classes)
 }
+
+func (h Handler) GetTeachingListHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	classes, err := services.GetTeachingClasses(h.Database, user.Id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{})
+		return
+	}
+
+	c.JSON(http.StatusOK, classes)
+}
