@@ -1,0 +1,245 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #eef5fe;
+    position: relative;
+}
+
+.add-class-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #55f;
+    border: none;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-class-btn:hover {
+    background-color: rgb(72, 72, 251);
+    transform: scale(1.1);
+}
+
+.add-class-btn i {
+    pointer-events: none;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.modal-content label {
+    display: block;
+    margin: 10px 0;
+    font-size: 14px;
+    color: #666666;
+}
+
+.modal-content input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: #333333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-modal-btn:hover {
+    color: #f44336;
+}
+
+.add-btn {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #55f;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-btn:hover {
+    background-color: rgb(72, 72, 251);
+}
+
+.cancel-btn {
+    width: calc(50% - 20px);
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: rgb(235, 54, 54);
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background-color: rgb(235, 54, 54, 0.8);
+}
+
+.exit-btn {
+    width: calc(50% - 20px);
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: rgb(25, 198, 80);
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.exit-btn:hover {
+    background-color: rgb(25, 198, 80, 0.8);
+}
+
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    gap: 50px;
+    padding-left: 100px;
+    padding-top: 50px;
+    justify-items: center;
+    /* align-items: start; */
+}
+
+.card {
+    width: 300px;
+    height: 200px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: box-shadow 0.3s ease;
+    position: relative;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    padding: 10px 15px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.card-content {
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.teacher {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333333;
+}
+
+.grade {
+    align-self: flex-start;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-top: 1px solid #e0e0e0;
+    position: relative;
+}
+
+.card-footer i {
+    font-size: 24px;
+    color: #000000;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.3s;
+}
+
+.enter-class-icon:hover {
+    color: #4caf50; 
+    transform: scale(1.2);
+}
+
+.delete-class-icon:hover {
+    color: #f44336; 
+    transform: scale(1.2);
+}
+
+.show {
+    display: flex !important;
+}

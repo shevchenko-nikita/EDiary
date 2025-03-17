@@ -1,0 +1,50 @@
+<app-sidebar></app-sidebar>
+
+<div class="card-container">
+    <div *ngFor="let class of classes" class="card">
+        <div class="card-header" [style.background-color]="'#55f'">
+            {{ class.name }}
+        </div>
+        <div class="card-content">
+            <div class="teacher">
+                <img [src]="class.profile_img_path" alt="Аватарка" class="avatar" />
+                <span class="teacher-name">{{ class.teacher_name }}</span>
+            </div>
+            <div class="grade" [ngStyle]="{'background-color': '#d4edda', 'color': '#155724'}">
+                <span>{{ class.grade }} / 100</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a [routerLink]="'/class/' + class.class_id">
+                <i class="bx bx-right-top-arrow-circle enter-class-icon" title="Увійти в клас"></i>
+            </a>
+            <i class="bx bx-door-open delete-class-icon" title="Вийти з класу" (click)="leaveClass(class.class_id)"></i>
+        </div>
+    </div>
+</div>
+
+<button class="add-class-btn" (click)="openJoinModal()">
+    <i class="bx bx-plus" title="Приєднатись до класу"></i>
+</button>
+
+<div class="modal" [class.show]="isJoinModalOpen">
+    <div class="modal-content">
+        <span class="close-modal-btn" (click)="closeJoinModal()">&times;</span>
+        <h2>Приєднатись до класу</h2>
+        <label for="class-code">Введіть код класу:</label>
+        <input type="text" id="class-code" [(ngModel)]="classCode" placeholder="17#SeDl" />
+        <div class="modal-buttons">
+            <button class="add-btn" (click)="joinClass()">Приєднатись</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" [class.show]="isExitModalOpen">
+    <div class="modal-content">
+        <h2>Ви точно бажаєте покинути клас?</h2>
+        <div class="modal-buttons">
+            <button class="cancel-btn" (click)="closeExitModal()">Залишитись</button>
+            <button class="exit-btn" (click)="confirmLeaveClass()">Покинути</button>
+        </div>
+    </div>
+</div>
