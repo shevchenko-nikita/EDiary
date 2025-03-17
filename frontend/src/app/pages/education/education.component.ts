@@ -52,7 +52,7 @@ export class EducationComponent implements OnInit {
   joinClass() {
     if (!this.classCode.trim()) return;
     
-    this.http.post(`http://localhost:8080/join-class/${this.classCode}`, {})
+    this.http.post(`http://localhost:8080/classes/join-class/${this.classCode}`, {}, { withCredentials: true })
       .subscribe(() => {
         this.closeJoinModal();
         this.loadClasses();
