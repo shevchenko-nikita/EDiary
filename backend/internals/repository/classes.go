@@ -134,10 +134,11 @@ func GetEducationClasses(db *sql.DB, userId int) ([]models.ClassCard, error) {
 		"CONCAT(u.second_name, ' ', u.first_name, ' ', u.middle_name), " +
 		"u.profile_image_path, COALESCE(SUM(m.mark), 0) as grade " +
 		"FROM classes c " +
+		"LEFT JOIN students_of_classes st ON c.id = st.class_id " +
 		"LEFT JOIN users u ON c.teacher_id = u.id " +
 		"LEFT JOIN assignments a ON a.class_id = c.id " +
 		"LEFT JOIN marks m ON a.id = m.assignment_id " +
-		"WHERE m.student_id = ? GROUP BY c.id;"
+		"WHERE st.student_id = ? GROUP BY c.id;"
 
 	rows, err := db.Query(query, userId)
 
