@@ -10,7 +10,7 @@
                 <img [src]="class.profile_img_path" alt="Аватарка" class="avatar" />
                 <span class="teacher-name">{{ class.teacher_name }}</span>
             </div>
-            <div class="grade" [ngStyle]="{'background-color': '#d4edda', 'color': '#155724'}">
+            <div class="grade" [ngStyle]="{'background-color': getGradeColor(class.grade), 'color': getTextColor(class.grade)}">
                 <span>{{ class.grade }} / 100</span>
             </div>
         </div>
@@ -33,9 +33,9 @@
         <h2>Приєднатись до класу</h2>
         <label for="class-code">Введіть код класу:</label>
         <input type="text" id="class-code" [(ngModel)]="classCode" placeholder="17#SeDl" />
-        <div class="modal-buttons">
+        <!-- <div class="modal-buttons"> -->
             <button class="add-btn" (click)="joinClass()">Приєднатись</button>
-        </div>
+        <!-- </div> -->
     </div>
 </div>
 

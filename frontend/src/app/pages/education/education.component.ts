@@ -39,6 +39,19 @@ export class EducationComponent implements OnInit {
       });
   }
   
+  getGradeColor(grade: number): string {
+    if (grade < 60) return '#f8d7da'; 
+    if (grade < 75) return '#fff3cd'; 
+    if (grade < 90) return '#cce5ff'; 
+    return '#d4edda'; 
+  }
+  
+  getTextColor(grade: number): string {
+    if (grade < 60) return '#721c24'; 
+    if (grade < 75) return '#856404'; 
+    if (grade < 90) return '#004085'; 
+    return '#155724'; 
+  }
 
   openJoinModal() {
     this.isJoinModalOpen = true;
