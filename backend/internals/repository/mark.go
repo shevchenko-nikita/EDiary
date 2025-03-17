@@ -6,9 +6,9 @@ import (
 )
 
 func AddNewMark(db *sql.DB, mark models.Mark) error {
-	query := "INSERT INTO marks (assignment_id, student_id, mark) VALUES(?, ?, ?)"
+	query := "INSERT INTO marks (class_id, assignment_id, student_id, mark) VALUES(?, ?, ?, ?)"
 
-	_, err := db.Exec(query, mark.AssignmentId, mark.StudentId, mark.Mark)
+	_, err := db.Exec(query, mark.ClassId, mark.AssignmentId, mark.StudentId, mark.Mark)
 
 	return err
 }

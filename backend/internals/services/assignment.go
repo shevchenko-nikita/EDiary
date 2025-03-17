@@ -53,6 +53,7 @@ func GradeAssignment(db *sql.DB, teacherId int, mark models.Mark) error {
 	if err != nil {
 		return err
 	}
+	mark.ClassId = class.Id
 
 	if class.TeacherId != teacherId {
 		return fmt.Errorf("user is not a teacher")

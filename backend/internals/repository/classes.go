@@ -131,8 +131,8 @@ func ClassExists(db *sql.DB, classCode string) bool {
 
 func GetEducationClasses(db *sql.DB, userId int) ([]models.ClassCard, error) {
 	query := "SELECT c.id, c.class_code, c.name, " +
-		"u.first_name, u.middle_name, u.second_name, u.profile_image_path, " +
-		"COALESCE(SUM(m.mark), 0) as grade " +
+		"CONCAT(u.second_name, ' ', u.first_name, ' ', u.middle_name), " +
+		"u.profile_image_path, COALESCE(SUM(m.mark), 0) as grade " +
 		"FROM classes c " +
 		"LEFT JOIN users u ON c.teacher_id = u.id " +
 		"LEFT JOIN assignments a ON a.class_id = c.id " +
@@ -155,9 +155,7 @@ func GetEducationClasses(db *sql.DB, userId int) ([]models.ClassCard, error) {
 			&class.Id,
 			&class.Code,
 			&class.Name,
-			&class.FirstName,
-			&class.MiddleName,
-			&class.SecondName,
+			&class.TeacherName,
 			&class.ProfileImgPath,
 			&class.Grade)
 
