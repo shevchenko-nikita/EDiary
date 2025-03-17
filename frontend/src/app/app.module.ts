@@ -10,9 +10,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SidebarComponent } from './pages/sidebar/sidebar.component';
 import { EducationComponent } from './pages/education/education.component';
+import { TeachingComponent } from './pages/teaching/teaching.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, SignupComponent, ProfileComponent, SidebarComponent, EducationComponent],
+  declarations: [AppComponent, LoginComponent, SignupComponent, ProfileComponent, SidebarComponent, EducationComponent, TeachingComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],

@@ -4,14 +4,16 @@ import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EducationComponent } from './pages/education/education.component';
+import { TeachingComponent } from './pages/teaching/teaching.component';
 
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   { path: 'log-in', component: LoginComponent },
   { path: 'sign-up', component: SignupComponent },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '', component: EducationComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'teaching', component: TeachingComponent, canActivate: [AuthGuard] },
   // { path: '', component: MainComponent, canActivate: [AuthGuard]} ,
   // { path: '**', redirectTo: 'log-in'},
 ];

@@ -1,0 +1,39 @@
+<app-sidebar></app-sidebar>
+
+<div class="main-div">
+    <div class="container classes">
+        <table class="classes-list">
+            <thead>
+                <tr>
+                    <th scope="col"><span>Предмет</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let class of classes">
+                    <td>
+                        <a [routerLink]="'/class/' + class.id">
+                            <span>{{ class.name }}</span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <button class="create-class-btn" (click)="openModal()">
+        <i class="bx bx-plus" title="Створити клас"></i>
+    </button>
+    
+    <div class="modal" [ngClass]="{ 'show': isModalOpen }">
+        <div class="modal-content">
+            <span class="close-modal-btn" (click)="closeModal()">&times;</span>
+            <h2>Створити новий клас</h2>
+            <label for="class-name">Введіть назву класу:</label>
+            <input type="text" id="class-name" [(ngModel)]="newClassName" placeholder="Математика" />
+            <div class="modal-buttons">
+                <button class="create-btn" (click)="createClass()">Створити</button>
+            </div>
+        </div>
+    </div>
+    
+</div>
