@@ -1,0 +1,205 @@
+body {
+    background: #eef5fe;
+}
+
+.content {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.subject_head {
+    width: 100%;
+    height: 150px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #55f, rgb(72, 72, 251));
+    padding: 20px;
+    color: white;
+    font-size: 27px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.announcement {
+    width: 100%;
+    background-color: white;
+    border-radius: 15px;
+    padding: 15px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.avatar {
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.announcement-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.teacher-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.announcement-date {
+    font-size: 14px;
+    color: gray;
+    margin-top: 2px;
+}
+
+.message-text {
+    clear: both;
+    font-size: 16px;
+    padding-left: 10px;
+    padding-top: 10px;
+    margin: 10px 0 0;
+    max-height: 150px;
+    overflow: hidden;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    /* border: 1px solid black;  */
+    border-radius: 5px;
+}
+
+.menu {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.menu-options {
+    display: none;
+    position: absolute;
+    top: 25px;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.menu-options button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+}
+
+.menu-options button:hover {
+    background: #f0f0f0;
+}
+
+.toggle-text {
+    color: gray;
+    margin-top: 10px;
+    font-size: 25px;
+    float: right;
+}
+
+.toggle-text:hover {
+    color: black;
+}
+
+.save-button {
+    background: #55f;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    /* visibility: hidden; */
+    margin-top: 10px;
+    float: right;
+    cursor: pointer;
+}
+
+.save-button:hover {
+    background: rgb(72, 72, 251);
+}
+
+.edit-textarea {
+    width: 100%;
+    height: 170px;
+    margin-top: 20px;
+    font-size: 16px;
+    padding: 10px;
+    resize: none;
+}
+
+.make_announcement {
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: "Bezier Sans", sans-serif;
+}
+
+.announcement-textarea {
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    resize: none;
+    outline: none;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.2s ease;
+}
+
+.announcement-textarea:focus {
+    border-color: #007bff;
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.submit-button {
+    margin-top: 12px;
+    font-size: 25px;
+    color: gray;
+    border: none;
+    float: right;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.submit-button:hover {
+    color: black;
+}
+
+.submit-button:active {
+    color: black;
+}
+
+.submit-button:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+}

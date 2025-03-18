@@ -1,2 +1,56 @@
 <app-sidebar></app-sidebar>
 <app-topbar></app-topbar>
+
+<div class="content">
+    <div class="subject_head">
+        <h4 class="subject_name">{{ subjectName }}</h4>
+    </div>
+
+    <div class="make_announcement">
+        <textarea
+            class="announcement-textarea"
+            placeholder="Зробити оголошення"
+            [(ngModel)]="newMessage"
+            (input)="onMessageInput()"
+        ></textarea>
+        <i
+            class="bx bx-send submit-button"
+            [ngStyle]="{ display: newMessage ? 'block' : 'none' }"
+            title="Відправити"
+            (click)="sendMessage()"
+        ></i>
+    </div>
+
+    <div class="announcement" *ngFor="let message of messages">
+        <img [src]="message.user_profile_img" alt="Аватарка" class="avatar" />
+        <div class="announcement-header">
+            <span class="teacher-name">{{ message.user_name }}</span>
+            <span class="announcement-date">{{ message.time_posted }}</span>
+        </div>
+
+        <div class="menu">
+            <button class="menu-button" (click)="toggleMenu(message)">
+                <i class="bx bx-dots-vertical-rounded"></i>
+            </button>
+            <div class="menu-options" *ngIf="message.showMenu">
+                <button class="edit-button" (click)="editMessage(message)">Редагувати</button>
+                <button class="delete-button" (click)="deleteMessage(message)">Видалити</button>
+            </div>
+        </div>
+
+        <p class="message-text" *ngIf="!message.editing">
+            {{ message.text }}
+        </p>
+
+        <textarea
+            class="edit-textarea"
+            *ngIf="message.editing"
+            [(ngModel)]="message.text"
+        ></textarea>
+
+        <i class="bx bxs-chevron-down toggle-text"></i>
+        <button class="save-button" *ngIf="message.editing" (click)="saveEdit(message)">
+            Зберегти
+        </button>
+    </div>
+</div>

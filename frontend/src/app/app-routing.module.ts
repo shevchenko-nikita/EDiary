@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: '', component: EducationComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'teaching', component: TeachingComponent, canActivate: [AuthGuard] },
-  { path: 'class/main', component: AnnouncementComponent, canActivate: [AuthGuard] },
+  { path: 'class/:id', component: AnnouncementComponent, canActivate: [AuthGuard] },
   // { path: '', component: MainComponent, canActivate: [AuthGuard]} ,
   // { path: '**', redirectTo: 'log-in'},
 ];
