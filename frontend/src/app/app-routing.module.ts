@@ -5,6 +5,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EducationComponent } from './pages/education/education.component';
 import { TeachingComponent } from './pages/teaching/teaching.component';
+import { AnnouncementComponent } from './pages/class/announcement/announcement.component';
 
 import { AuthGuard } from './auth.guard';
 
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: '', component: EducationComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'teaching', component: TeachingComponent, canActivate: [AuthGuard] },
+  { path: 'class/main', component: AnnouncementComponent, canActivate: [AuthGuard] },
   // { path: '', component: MainComponent, canActivate: [AuthGuard]} ,
   // { path: '**', redirectTo: 'log-in'},
 ];
