@@ -201,3 +201,19 @@ func (h Handler) GetTeachingListHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, classes)
 }
+
+func (h Handler) GetClassInfoHandler(c *gin.Context) {
+	classId, err := strconv.Atoi(c.Param("class-id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get class id"})
+		return
+	}
+
+	class, err := services.GetClassInfo(h.Database, classId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{})
+		return
+	}
+	
+	c.JSON(http.StatusOK, class)
+}
