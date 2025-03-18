@@ -46,6 +46,7 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 		classes.DELETE("/leave-class/:class-id", handler.LeaveTheClassHandler)
 		classes.GET("/education-list", handler.GetEducationClassesHandler)
 		classes.GET("teaching-list", handler.GetTeachingListHandler)
+		classes.GET("get-info/:class-id", handler.GetClassInfoHandler)
 
 		classes.GET("/student-list/:class-id", handler.GetStudentsListHandler)
 		classes.GET("/teacher/:class-id", handler.GetClassTeacherHandler)

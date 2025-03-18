@@ -24,7 +24,7 @@ func UpdateMessage(db *sql.DB, messageId int, text string) error {
 	query := "UPDATE class_comments SET text = ? WHERE id = ?"
 
 	_, err := db.Exec(query, text, messageId)
-	
+
 	return err
 }
 
@@ -36,8 +36,13 @@ func DeleteClassMessage(db *sql.DB, messageId int) error {
 	return err
 }
 
-func GetAllClassMessages(db *sql.DB, classId int) ([]models.Message, error) {
-	query := "SELECT id, class_id, user_id, text, time_posted FROM class_comments WHERE class_id = ?"
+func GetAllClassMessages(db *sql.DB, classId int) ([]models.ExpandedMessage, error) {
+	query := "SELECT c.id, c.class_id, c.user_id, " +
+		"CONCAT(u.second_name, ' ', u.first_name, ' ', u.middle_name) AS user_name, " +
+		"u.profile_image_path, c.text, c.time_posted " +
+		"FROM class_comments c " +
+		"JOIN users u ON u.id = c.user_id " +
+		"WHERE c.class_id = ?"
 
 	rows, err := db.Query(query, classId)
 
@@ -47,14 +52,16 @@ func GetAllClassMessages(db *sql.DB, classId int) ([]models.Message, error) {
 
 	defer rows.Close()
 
-	var messages []models.Message
+	var messages []models.ExpandedMessage
 	for rows.Next() {
-		var message models.Message
+		var message models.ExpandedMessage
 
 		err := rows.Scan(
 			&message.Id,
 			&message.ClassId,
 			&message.UserId,
+			&message.UserName,
+			&message.UserProfileImg,
 			&message.Text,
 			&message.TimePosted)
 

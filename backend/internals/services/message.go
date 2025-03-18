@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/shevchenko-nikita/EDiary/internals/models"
 	"github.com/shevchenko-nikita/EDiary/internals/repository"
+	"time"
 )
 
 func CreateClassMessage(db *sql.DB, message models.Message) error {
@@ -18,6 +19,9 @@ func CreateClassMessage(db *sql.DB, message models.Message) error {
 		message.UserId != class.TeacherId {
 		return fmt.Errorf("user doesn't have access")
 	}
+
+	now := time.Now()
+	message.TimePosted = now.Format("2006-01-02 15:04:05")
 
 	return repository.CreateClassMessage(db, message)
 }
@@ -62,7 +66,7 @@ func DeleteClassMessage(db *sql.DB, userId, messageId int) error {
 	return repository.DeleteClassMessage(db, messageId)
 }
 
-func GetAllClassMessages(db *sql.DB, userId, classId int) ([]models.Message, error) {
+func GetAllClassMessages(db *sql.DB, userId, classId int) ([]models.ExpandedMessage, error) {
 	class, err := repository.GetClassById(db, classId)
 
 	if err != nil {
