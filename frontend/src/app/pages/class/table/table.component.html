@@ -1,0 +1,28 @@
+<app-sidebar></app-sidebar>
+<app-topbar></app-topbar>
+
+<div class="row justify-content-center marks-table">
+    <table class="table table-bordered table-hover rounded-table">
+        <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">ПІБ</th>
+                <th *ngFor="let assignment of assignments" scope="col">{{ assignment.name }}</th>
+                <th scope="col">Загальна оцінка</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let student of students; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ student.second_name }} {{ student.first_name }} {{ student.middle_name }} </td>
+                <td *ngFor="let assignment of assignments">
+                    {{ getMark(student.id, assignment.id) }}
+                </td>
+                <td>
+                    {{ getTotalMark(student.id) }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

@@ -7,6 +7,7 @@ import { EducationComponent } from './pages/education/education.component';
 import { TeachingComponent } from './pages/teaching/teaching.component';
 import { AnnouncementComponent } from './pages/class/announcement/announcement.component';
 import { UsersComponent } from './pages/class/users/users.component';
+import { TableComponent } from './pages/class/table/table.component';
 
 import { AuthGuard } from './auth.guard';
 
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'teaching', component: TeachingComponent, canActivate: [AuthGuard] },
   { path: 'class/:id', component: AnnouncementComponent, canActivate: [AuthGuard] },
   { path: 'class/:id/users-list', component: UsersComponent, canActivate: [AuthGuard] },
+  { path: 'class/:id/table', component: TableComponent, canActivate: [AuthGuard] },
   // { path: '', component: MainComponent, canActivate: [AuthGuard]} ,
   // { path: '**', redirectTo: 'log-in'},
 ];

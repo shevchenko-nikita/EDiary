@@ -8,7 +8,7 @@
                 <a routerLink="/tasks" routerLinkActive="active">Завдання</a>
             </li>
             <li>
-                <a routerLink="/table" routerLinkActive="active">Журнал</a>
+                <a [routerLink]="['/class', classId, 'table']" routerLinkActive="active">Журнал</a>
             </li>
             <li>
                 <a [routerLink]="['/class', classId, 'users-list']" routerLinkActive="active">Користувачі</a>
