@@ -86,10 +86,10 @@ body {
 }
 
 .class-code-div {
-    border-radius: 10px; /* задаёт радиус скругления углов */
-    border: 2px solid rgba(0, 0, 0, 0.4); /* добавляет рамку */
-    padding: 20px; /* добавляет отступы внутри элемента */
-    background-color: #f4f4f4; /* для лучшего контраста с рамкой */
+    border-radius: 10px; 
+    border: 2px solid rgba(0, 0, 0, 0.4); 
+    padding: 20px; 
+    background-color: #f4f4f4; 
 }
 
 
