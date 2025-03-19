@@ -1,0 +1,76 @@
+<app-sidebar></app-sidebar>
+<app-topbar></app-topbar>
+
+<div class="main-div">
+    <div class="row justify-content-center user-list">
+        <div class="col-4">
+          <h4 class="user-type-label">Викладачі</h4>
+          <table class="table table-bordered table-hover rounded-table">
+            <tbody>
+              <tr *ngIf="teacher">
+                <td>
+                  <div>
+                    <img [src]="teacher.profile_img_path" alt="Аватарка" class="avatar" />
+                    <div class="user-header">
+                      <span class="user-name">{{ teacher.second_name }} {{ teacher.first_name }} {{ teacher.middle_name }} </span>
+                      <span class="user-email"> {{ teacher.email }}</span>
+                      <!-- <span class="user-username"> {{ teacher.username }}</span> -->
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="row justify-content-center user-list">
+        <div class="col-4">
+          <h4 class="user-type-label">Учні</h4>
+          <table class="table table-bordered table-hover rounded-table">
+            <tbody>
+              <tr *ngFor="let student of students">
+                <td>
+                  <div class="student-row">
+                    <img [src]="student.profile_img_path" alt="Аватарка" class="avatar" />
+                    <div class="user-header">
+                      <span class="user-name"> {{ student.second_name }} {{ student.first_name }} {{ student.middle_name }} </span>
+                      <span class="user-email">{{ student.email }} </span>
+                      <!-- <span class="user-username">{{ student.username }} </span> -->
+                    </div>
+                    <button class="delete-button" (click)="openDeleteModal(student.id)">
+                      <i class="bx bx-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="modal" [ngClass]="{ 'show': showDeleteModal }">
+        <div class="modal-content">
+          <h2>Ви точно хочете видалити користувача з класу?</h2>
+          <br />
+          <div class="modal-buttons">
+            <button class="cancel-delete-btn" (click)="closeDeleteModal()">Залишити</button>
+            <button class="delete-user-btn" (click)="confirmDelete()">Видалити</button>
+          </div>
+        </div>
+      </div>
+      
+      <button class="class-code-info-btn" (click)="openClassCodeModal()">
+        <i class="bx bx-info-circle" title="Код класу"></i>
+      </button>
+      
+      <div class="modal" [ngClass]="{ 'show': showClassCodeModal }">
+        <div class="modal-content">
+          <span class="close-modal-btn" (click)="closeClassCodeModal()">&times;</span>
+          <h2>Код класу</h2>
+          <div class="class-code-div">
+            <span><b> {{ this.class_code }} </b></span>
+          </div>
+        </div>
+      </div>      
+</div>

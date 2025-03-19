@@ -2,7 +2,7 @@
     <nav>
         <ul>
             <li>
-                <a routerLink="/" routerLinkActive="active">Головна</a>
+                <a [routerLink]="['/class', classId]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Головна</a>
             </li>
             <li>
                 <a routerLink="/tasks" routerLinkActive="active">Завдання</a>
@@ -11,7 +11,7 @@
                 <a routerLink="/table" routerLinkActive="active">Журнал</a>
             </li>
             <li>
-                <a routerLink="/users" routerLinkActive="active">Користувачі</a>
+                <a [routerLink]="['/class', classId, 'users-list']" routerLinkActive="active">Користувачі</a>
             </li>
         </ul>
     </nav>

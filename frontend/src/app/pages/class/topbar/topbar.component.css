@@ -36,5 +36,5 @@
 
 .navbar_header nav a.active {
     font-weight: bold;
-    border-bottom: 2px solid #55f;
+    /* border-bottom: 2px solid #55f; */
 }

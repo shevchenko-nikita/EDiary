@@ -1,0 +1,232 @@
+body {
+    background: #eef5fe;
+}
+
+.sidebar * {
+    all: unset;
+}
+
+.user-list h4 {
+    text-align: center;
+}
+
+.user-list {
+    margin-top: 2rem;
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+.user-list th,
+.user-list tr {
+    padding: 10px;
+    border: 1px solid #ddd;
+    position: relative;
+}
+
+.rounded-table {
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #000000;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.user-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-username,
+.user-email {
+    font-size: 14px;
+    color: gray;
+    margin-top: 2px;
+}
+
+.delete-button {
+    position: absolute;
+    right: 20px;
+    top: 30%;
+    font-size: 20px;
+    background: none;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    display: none;
+    transform: translateX(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.student-row:hover .delete-button {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.user-list tr:hover .delete-button {
+    display: block;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-family: Arial, sans-serif;
+}
+
+.class-code-div {
+    border-radius: 10px; /* задаёт радиус скругления углов */
+    border: 2px solid rgba(0, 0, 0, 0.4); /* добавляет рамку */
+    padding: 20px; /* добавляет отступы внутри элемента */
+    background-color: #f4f4f4; /* для лучшего контраста с рамкой */
+}
+
+
+.modal span {
+    font-size: 22px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.modal-buttons {
+    margin-top: 10px;
+}
+
+.modal-buttons button {
+    margin: 5px;
+    padding: 5px 10px;
+    height: 50px;
+    border: none;
+}
+
+.delete-user-btn {
+    width: calc(50% - 20px);
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: rgb(235, 54, 54);
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-user-btn:hover {
+    background-color: rgb(235, 54, 54, 0.8);
+}
+
+.cancel-delete-btn {
+    width: calc(50% - 20px);
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: rgb(25, 198, 80);
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-delete-btn:hover {
+    background-color: rgb(25, 198, 80, 0.8);
+}
+
+.class-code-info-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #55f;
+    border: none;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.class-code-info-btn:hover {
+    background-color: rgb(72, 72, 251);
+    transform: scale(1.1);
+}
+
+.class-code-info-btn i {
+    pointer-events: none;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: #333333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-modal-btn:hover {
+    color: #f44336;
+}
+
+/* .modal-buttons .confirm {
+    background: red;
+    color: white;
+}
+
+.modal-buttons .cancel {
+    background: gray;
+    color: white;
+} */
