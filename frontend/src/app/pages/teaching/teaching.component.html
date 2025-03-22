@@ -29,7 +29,9 @@
             <span class="close-modal-btn" (click)="closeModal()">&times;</span>
             <h2>Створити новий клас</h2>
             <label for="class-name">Введіть назву класу:</label>
-            <input type="text" id="class-name" [(ngModel)]="newClassName" placeholder="Математика" />
+            <div>
+                <input type="text" id="class-name" [(ngModel)]="newClassName" placeholder="Математика" />
+            </div>
             <div class="modal-buttons">
                 <button class="create-btn" (click)="createClass()">Створити</button>
             </div>
