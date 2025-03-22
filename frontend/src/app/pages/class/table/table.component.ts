@@ -34,9 +34,10 @@ export class TableComponent implements OnInit {
 	constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
 	ngOnInit() {
-
+		
 		this.route.paramMap.subscribe(params => {
-			const id = params.get('class_id'); 
+			const id = params.get('id'); 
+			console.log(id);
 			if (id) {
 				this.classId = +id; 
 				this.loadTableData();
@@ -50,14 +51,20 @@ export class TableComponent implements OnInit {
 			this.assignments = response.assignments;
 			this.students = response.students;
 			this.marks = response.marks;
-			console.log(this.assignments);
-			console.log(this.students);
-			console.log(this.marks);
-			console.log(this.classId);
+
+			// console.log(this.assignments);
+			// console.log(this.students);
+			// console.log(this.marks);
+			// console.log(this.classId);
 		});
 	}
 
 	getMark(studentId: number, assignmentId: number): number {
+		if(!this.marks)
+		{
+			return 0;
+		}
+
 		const mark = this.marks.find(m => m.student_id === studentId && m.assignment_id === assignmentId);
 		return mark ? mark.mark : 0;
 	}
