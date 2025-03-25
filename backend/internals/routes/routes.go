@@ -18,7 +18,7 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	router.Static("/images", "./images")
+	router.Static("/images", "./uploads/images")
 
 	router.POST("/sign-up", handler.SignUpHandler)
 	router.POST("/sign-in", handler.SignInHandler)
@@ -56,6 +56,8 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 		classes.DELETE("/delete-assignment/:assignment-id", handler.DeleteAssignmentHandler)
 		classes.GET("/assignments-list/:class-id", handler.GetAssignmentsListHandler)
 		classes.PUT("/grade-assignment", handler.GradeAssignmentHandler)
+
+		//classes.POST("/upload-file", handler.UploadFileHandler)
 
 		classes.GET("/table/:class-id", handler.GetClassTableHandler)
 
