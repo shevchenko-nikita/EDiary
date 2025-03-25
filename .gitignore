@@ -1,6 +1,6 @@
 backend/.idea
 backend/.env
-backend/images
+backend/uploads/
 
 frontend/.vscode
 frontend/node_modules
