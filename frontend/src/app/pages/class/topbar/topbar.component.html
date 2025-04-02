@@ -5,7 +5,7 @@
                 <a [routerLink]="['/class', classId]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Головна</a>
             </li>
             <li>
-                <a routerLink="/tasks" routerLinkActive="active">Завдання</a>
+                <a [routerLink]="['/class', classId, 'assignments']" routerLinkActive="active">Завдання</a>
             </li>
             <li>
                 <a [routerLink]="['/class', classId, 'table']" routerLinkActive="active">Журнал</a>

@@ -1,0 +1,41 @@
+<app-sidebar></app-sidebar>
+<app-topbar></app-topbar>
+
+<div class="content">
+  <div *ngFor="let assignment of assignments" class="task-preview">
+    <div class="task-header">
+      <h4 class="task-name">
+        <a [routerLink]="['/task', assignment.id]">{{ assignment.name }}</a>
+      </h4>
+      <div class="grade" [ngStyle]="{
+        'background-color': '#55f',
+        'color': 'white'
+      }">
+        <span>Оцінка - {{ assignment.mark }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="create-task-btn" (click)="openModal()">
+  <i class="bx bx-plus" title="Створити завдання"></i>
+</button>
+
+<!-- Модальное окно -->
+<div *ngIf="isModalOpen" class="modal">
+  <div class="modal-content">
+    <span class="close-modal-button" (click)="closeModal()">&times;</span>
+    <h2>Добавить задание</h2>
+
+    <label for="task-name">Название задания:</label>
+    <input type="text" id="task-name" placeholder="Введите название" />
+
+    <label for="short-name">Краткое название:</label>
+    <input type="text" id="short-name" placeholder="До 9 символов" maxlength="9" />
+
+    <label for="max-grade">Максимальная оценка:</label>
+    <input type="number" id="max-grade" placeholder="Введите максимальную оценку" />
+
+    <button id="add-task-btn">Добавить</button>
+  </div>
+</div>
