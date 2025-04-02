@@ -128,6 +128,29 @@ func (h Handler) GetAssignmentsListHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, assignments)
 }
 
+func (h Handler) GetMarkHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	assignmentID, err := strconv.Atoi(c.Param("assignment-id"))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Wrong assignment id"})
+		return
+	}
+
+	mark, err := services.GetMark(h.Database, user.Id, assignmentID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get mark"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"mark": mark})
+}
+
 func (h Handler) GetClassTableHandler(c *gin.Context) {
 	user, ok := GetUserFromCookie(c)
 	if !ok {

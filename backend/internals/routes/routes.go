@@ -55,9 +55,11 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 		classes.PUT("/update-assignment", handler.UpdateAssignmentHandler)
 		classes.DELETE("/delete-assignment/:assignment-id", handler.DeleteAssignmentHandler)
 		classes.GET("/assignments-list/:class-id", handler.GetAssignmentsListHandler)
-		classes.PUT("/grade-assignment", handler.GradeAssignmentHandler)
 
 		classes.POST("/upload-file", handler.UploadFileHandler)
+
+		classes.PUT("/grade-assignment", handler.GradeAssignmentHandler)
+		classes.GET("mark/:assignment-id", handler.GetMarkHandler)
 
 		classes.GET("/table/:class-id", handler.GetClassTableHandler)
 
