@@ -45,10 +45,10 @@ func (h Handler) UpdateAssignmentHandler(c *gin.Context) {
 		return
 	}
 
-	if assignment.TimeCreated != "" || assignment.ClassId != 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "You can't change class_id and time_created fields"})
-		return
-	}
+	//if assignment.TimeCreated != "" || assignment.ClassId != 0 {
+	//	c.JSON(http.StatusBadRequest, gin.H{"error": "You can't change class_id and time_created fields"})
+	//	return
+	//}
 
 	if err := services.UpdateAssignment(h.Database, user.Id, &assignment); err != nil {
 		c.JSON(http.StatusBadRequest, err)
@@ -101,6 +101,30 @@ func (h Handler) GradeAssignmentHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{})
+}
+
+func (h Handler) GetAssignmentHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	assignmentID, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad assignment id"})
+		return
+	}
+
+	assignment, err := services.GetAssignment(h.Database, user.Id, assignmentID)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get assignment"})
+		return
+	}
+
+	c.JSON(http.StatusOK, assignment)
 }
 
 func (h Handler) GetAssignmentsListHandler(c *gin.Context) {

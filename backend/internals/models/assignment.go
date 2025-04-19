@@ -6,5 +6,5 @@ type Assignment struct {
 	ClassId     int    `json:"class_id"`
 	Statement   string `json:"statement"`
 	TimeCreated string `json:"time_created"`
-	DeadLine    string `json:"dead_line"`
+	DeadLine    string `json:"deadline"`
 }

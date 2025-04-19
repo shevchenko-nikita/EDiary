@@ -70,6 +70,16 @@ func GradeAssignment(db *sql.DB, teacherId int, mark models.Mark) error {
 	return repository.AddNewMark(db, mark)
 }
 
+func GetAssignment(db *sql.DB, userID, assignmentID int) (models.Assignment, error) {
+	assignment, err := repository.GetAssignmentByID(db, assignmentID)
+
+	if err != nil {
+		return models.Assignment{}, err
+	}
+
+	return assignment, nil
+}
+
 func GetAssignmentsList(db *sql.DB, userId, classId int) ([]models.Assignment, error) {
 	class, err := repository.GetClassById(db, classId)
 
