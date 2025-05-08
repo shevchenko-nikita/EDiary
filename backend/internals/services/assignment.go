@@ -8,7 +8,7 @@ import (
 )
 
 func CreateNewAssignment(db *sql.DB, teacherId int, assignment *models.Assignment) error {
-	class, err := repository.GetClassById(db, assignment.ClassId)
+	class, err := repository.GetClassById(db, assignment.ClassID)
 
 	if err != nil {
 		return fmt.Errorf("class isn't exist")
@@ -28,7 +28,7 @@ func DeleteAssignment(db *sql.DB, teacherId, assignmentId int) error {
 		return err
 	}
 
-	class, err := repository.GetClassById(db, assignment.ClassId)
+	class, err := repository.GetClassById(db, assignment.ClassID)
 
 	if err != nil {
 		return err
@@ -42,24 +42,24 @@ func DeleteAssignment(db *sql.DB, teacherId, assignmentId int) error {
 }
 
 func GradeAssignment(db *sql.DB, teacherId int, mark models.Mark) error {
-	assignment, err := repository.GetAssignmentByID(db, mark.AssignmentId)
+	assignment, err := repository.GetAssignmentByID(db, mark.AssignmentID)
 
 	if err != nil {
 		return err
 	}
 
-	class, err := repository.GetClassById(db, assignment.ClassId)
+	class, err := repository.GetClassById(db, assignment.ClassID)
 
 	if err != nil {
 		return err
 	}
-	mark.ClassId = class.Id
+	mark.ClassID = class.Id
 
 	if class.TeacherId != teacherId {
 		return fmt.Errorf("user is not a teacher")
 	}
 
-	if !repository.StudentExistInClass(db, mark.StudentId, class.Id) {
+	if !repository.StudentExistInClass(db, mark.StudentID, class.Id) {
 		return fmt.Errorf("user is not a student of the class")
 	}
 
@@ -95,13 +95,13 @@ func GetAssignmentsList(db *sql.DB, userId, classId int) ([]models.Assignment, e
 }
 
 func UpdateAssignment(db *sql.DB, teacherId int, newAssignmentInfo *models.Assignment) error {
-	assignmentOrigin, err := repository.GetAssignmentByID(db, newAssignmentInfo.Id)
+	assignmentOrigin, err := repository.GetAssignmentByID(db, newAssignmentInfo.ID)
 
 	if err != nil {
 		return err
 	}
 
-	class, err := repository.GetClassById(db, assignmentOrigin.ClassId)
+	class, err := repository.GetClassById(db, assignmentOrigin.ClassID)
 
 	if err != nil {
 		return err

@@ -14,7 +14,7 @@ func GetUserById(db *sql.DB, userId int) (models.User, error) {
 
 	err := db.QueryRow(query, userId).
 		Scan(
-			&user.Id,
+			&user.ID,
 			&user.FirstName,
 			&user.MiddleName,
 			&user.SecondName,
@@ -37,7 +37,7 @@ func UpdateUserProfile(db *sql.DB, newUserInfo *models.User) error {
 		newUserInfo.SecondName,
 		newUserInfo.Email,
 		newUserInfo.Username,
-		newUserInfo.Id)
+		newUserInfo.ID)
 
 	return err
 }

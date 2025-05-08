@@ -23,7 +23,7 @@ func (h Handler) CreateAssignmentHandler(c *gin.Context) {
 		return
 	}
 
-	if err := services.CreateNewAssignment(h.Database, user.Id, &assignment); err != nil {
+	if err := services.CreateNewAssignment(h.Database, user.ID, &assignment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{})
 		return
 	}
@@ -45,12 +45,12 @@ func (h Handler) UpdateAssignmentHandler(c *gin.Context) {
 		return
 	}
 
-	//if assignment.TimeCreated != "" || assignment.ClassId != 0 {
+	//if assignment.TimeCreated != "" || assignment.ClassID != 0 {
 	//	c.JSON(http.StatusBadRequest, gin.H{"error": "You can't change class_id and time_created fields"})
 	//	return
 	//}
 
-	if err := services.UpdateAssignment(h.Database, user.Id, &assignment); err != nil {
+	if err := services.UpdateAssignment(h.Database, user.ID, &assignment); err != nil {
 		c.JSON(http.StatusBadRequest, err)
 		return
 	}
@@ -72,7 +72,7 @@ func (h Handler) DeleteAssignmentHandler(c *gin.Context) {
 		return
 	}
 
-	if err := services.DeleteAssignment(h.Database, user.Id, assignmentId); err != nil {
+	if err := services.DeleteAssignment(h.Database, user.ID, assignmentId); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{})
 		return
 	}
@@ -95,7 +95,7 @@ func (h Handler) GradeAssignmentHandler(c *gin.Context) {
 		return
 	}
 
-	if err := services.GradeAssignment(h.Database, user.Id, mark); err != nil {
+	if err := services.GradeAssignment(h.Database, user.ID, mark); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{})
 		return
 	}
@@ -117,7 +117,7 @@ func (h Handler) GetAssignmentHandler(c *gin.Context) {
 		return
 	}
 
-	assignment, err := services.GetAssignment(h.Database, user.Id, assignmentID)
+	assignment, err := services.GetAssignment(h.Database, user.ID, assignmentID)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get assignment"})
@@ -142,7 +142,7 @@ func (h Handler) GetAssignmentsListHandler(c *gin.Context) {
 		return
 	}
 
-	assignments, err := services.GetAssignmentsList(h.Database, user.Id, classId)
+	assignments, err := services.GetAssignmentsList(h.Database, user.ID, classId)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get assignments"})
@@ -166,7 +166,7 @@ func (h Handler) GetMarkHandler(c *gin.Context) {
 		return
 	}
 
-	mark, err := services.GetMark(h.Database, user.Id, assignmentID)
+	mark, err := services.GetMark(h.Database, user.ID, assignmentID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get mark"})
 		return
@@ -188,14 +188,14 @@ func (h Handler) GetClassTableHandler(c *gin.Context) {
 		return
 	}
 
-	assignments, err := services.GetAssignmentsList(h.Database, user.Id, classId)
+	assignments, err := services.GetAssignmentsList(h.Database, user.ID, classId)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get assignments list"})
 		return
 	}
 
-	students, err := services.GetStudentsList(h.Database, user.Id, classId)
+	students, err := services.GetStudentsList(h.Database, user.ID, classId)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get students list"})

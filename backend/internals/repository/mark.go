@@ -8,7 +8,7 @@ import (
 func AddNewMark(db *sql.DB, mark models.Mark) error {
 	query := "INSERT INTO marks (class_id, assignment_id, student_id, mark) VALUES(?, ?, ?, ?)"
 
-	_, err := db.Exec(query, mark.ClassId, mark.AssignmentId, mark.StudentId, mark.Mark)
+	_, err := db.Exec(query, mark.ClassID, mark.AssignmentID, mark.StudentID, mark.Mark)
 
 	return err
 }
@@ -16,7 +16,7 @@ func AddNewMark(db *sql.DB, mark models.Mark) error {
 func UpdateMark(db *sql.DB, mark models.Mark) error {
 	query := "UPDATE marks SET mark = ? WHERE assignment_id = ? AND student_id = ?"
 
-	_, err := db.Exec(query, mark.Mark, mark.AssignmentId, mark.StudentId)
+	_, err := db.Exec(query, mark.Mark, mark.AssignmentID, mark.StudentID)
 
 	return err
 }
@@ -26,7 +26,7 @@ func MarkAlreadyExist(db *sql.DB, mark models.Mark) bool {
 
 	var alreadyExist bool
 
-	if err := db.QueryRow(query, mark.AssignmentId, mark.StudentId).Scan(&alreadyExist); err != nil {
+	if err := db.QueryRow(query, mark.AssignmentID, mark.StudentID).Scan(&alreadyExist); err != nil {
 		return false
 	}
 

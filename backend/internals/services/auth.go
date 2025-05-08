@@ -44,7 +44,7 @@ func SignIn(db *sql.DB, username string, password string) (string, error) {
 
 func GenerateToken(db *sql.DB, user *models.User) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":      user.Id,
+		"sub":      user.ID,
 		"username": user.Username,
 		"exp":      time.Now().Add(time.Hour * 24 * 30).Unix(),
 	})

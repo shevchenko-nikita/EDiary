@@ -15,7 +15,7 @@ func AddNewAssignment(db *sql.DB, assignment *models.Assignment) error {
 	_, err = db.Exec(
 		query,
 		assignment.Name,
-		assignment.ClassId,
+		assignment.ClassID,
 		assignment.Statement,
 		timeCreated,
 		deadLine)
@@ -38,9 +38,9 @@ func GetAssignmentByID(db *sql.DB, assignmentId int) (models.Assignment, error) 
 		" FROM assignments WHERE id = ?"
 
 	err := db.QueryRow(query, assignmentId).
-		Scan(&assignment.Id,
+		Scan(&assignment.ID,
 			&assignment.Name,
-			&assignment.ClassId,
+			&assignment.ClassID,
 			&assignment.Statement,
 			&assignment.TimeCreated,
 			&assignment.DeadLine)
@@ -62,7 +62,7 @@ func UpdateAssignment(db *sql.DB, newAssignmentInfo *models.Assignment) error {
 		newAssignmentInfo.Name,
 		newAssignmentInfo.Statement,
 		deadLine,
-		newAssignmentInfo.Id)
+		newAssignmentInfo.ID)
 
 	return err
 }
@@ -84,9 +84,9 @@ func GetAssignmentsList(db *sql.DB, classId int) ([]models.Assignment, error) {
 		var assignment models.Assignment
 
 		err := rows.Scan(
-			&assignment.Id,
+			&assignment.ID,
 			&assignment.Name,
-			&assignment.ClassId,
+			&assignment.ClassID,
 			&assignment.Statement,
 			&assignment.TimeCreated,
 			&assignment.DeadLine)
@@ -129,10 +129,10 @@ func GetAllClassMarks(db *sql.DB, classId int) ([]models.Mark, error) {
 		var mark models.Mark
 
 		err := rows.Scan(
-			&mark.Id,
-			&mark.ClassId,
-			&mark.AssignmentId,
-			&mark.StudentId,
+			&mark.ID,
+			&mark.ClassID,
+			&mark.AssignmentID,
+			&mark.StudentID,
 			&mark.Mark)
 
 		if err != nil {

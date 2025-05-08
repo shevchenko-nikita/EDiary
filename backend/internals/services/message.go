@@ -9,14 +9,14 @@ import (
 )
 
 func CreateClassMessage(db *sql.DB, message models.Message) error {
-	class, err := repository.GetClassById(db, message.ClassId)
+	class, err := repository.GetClassById(db, message.ClassID)
 
 	if err != nil {
 		return err
 	}
 
-	if !repository.StudentExistInClass(db, message.UserId, class.Id) &&
-		message.UserId != class.TeacherId {
+	if !repository.StudentExistInClass(db, message.UserID, class.Id) &&
+		message.UserID != class.TeacherId {
 		return fmt.Errorf("user doesn't have access")
 	}
 
@@ -39,7 +39,7 @@ func UpdateMessage(db *sql.DB, userId, messageId int, text string) error {
 		return err
 	}
 
-	if message.UserId != userId {
+	if message.UserID != userId {
 		return fmt.Errorf("user doesn't have access")
 	}
 
@@ -59,7 +59,7 @@ func DeleteClassMessage(db *sql.DB, userId, messageId int) error {
 		return err
 	}
 
-	if message.UserId != userId {
+	if message.UserID != userId {
 		return fmt.Errorf("user doesn't have access")
 	}
 

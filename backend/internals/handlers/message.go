@@ -23,7 +23,7 @@ func (h Handler) CreateClassMessageHandler(c *gin.Context) {
 		return
 	}
 
-	message.UserId = user.Id
+	message.UserID = user.ID
 
 	if err := services.CreateClassMessage(h.Database, message); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -50,7 +50,7 @@ func (h Handler) UpdateMessageHandler(c *gin.Context) {
 		return
 	}
 
-	if err := services.UpdateMessage(h.Database, user.Id, req.MessageId, req.Text); err != nil {
+	if err := services.UpdateMessage(h.Database, user.ID, req.MessageId, req.Text); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -73,7 +73,7 @@ func (h Handler) DeleteClassMessageHandler(c *gin.Context) {
 		return
 	}
 
-	if err := services.DeleteClassMessage(h.Database, user.Id, messageId); err != nil {
+	if err := services.DeleteClassMessage(h.Database, user.ID, messageId); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -96,7 +96,7 @@ func (h Handler) GetAllClassMessagesHandler(c *gin.Context) {
 		return
 	}
 
-	messages, err := services.GetAllClassMessages(h.Database, user.Id, classId)
+	messages, err := services.GetAllClassMessages(h.Database, user.ID, classId)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

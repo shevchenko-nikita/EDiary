@@ -10,7 +10,7 @@ import (
 )
 
 func UpdateUserProfile(db *sql.DB, userId int, newUserInfo *models.User) error {
-	//if userId != newUserInfo.Id {
+	//if userId != newUserInfo.ID {
 	//	return fmt.Errorf("User ID does not match")
 	//}
 
@@ -37,7 +37,7 @@ func DeleteProfileImage(db *sql.DB, userId int) error {
 		return nil
 	}
 
-	if err := repository.DeleteUserProfileImage(db, user.Id); err != nil {
+	if err := repository.DeleteUserProfileImage(db, user.ID); err != nil {
 		return fmt.Errorf("Failed to delete user profile image")
 	}
 

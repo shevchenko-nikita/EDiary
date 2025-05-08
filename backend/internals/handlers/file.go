@@ -28,14 +28,14 @@ func (h Handler) UploadFileHandler(c *gin.Context) {
 	}
 
 	fileName := file.Filename
-	relativePath, err := SaveFile(c, os.Getenv("FILES_PATH"), file, user.Id)
+	relativePath, err := SaveFile(c, os.Getenv("FILES_PATH"), file, user.ID)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "failed to upload file"})
 		return
 	}
 
-	if err = services.UploadFile(h.Database, fileName, relativePath, user.Id, assignment_id); err != nil {
+	if err = services.UploadFile(h.Database, fileName, relativePath, user.ID, assignment_id); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "failed to upload file"})
 		return
 	}

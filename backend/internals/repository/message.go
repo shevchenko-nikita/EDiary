@@ -15,7 +15,7 @@ func CreateClassMessage(db *sql.DB, message models.Message) error {
 		return err
 	}
 
-	_, err = db.Exec(query, message.ClassId, message.UserId, message.Text, timeCreated)
+	_, err = db.Exec(query, message.ClassID, message.UserID, message.Text, timeCreated)
 
 	return err
 }
@@ -57,9 +57,9 @@ func GetAllClassMessages(db *sql.DB, classId int) ([]models.ExpandedMessage, err
 		var message models.ExpandedMessage
 
 		err := rows.Scan(
-			&message.Id,
-			&message.ClassId,
-			&message.UserId,
+			&message.ID,
+			&message.ClassID,
+			&message.UserID,
 			&message.UserName,
 			&message.UserProfileImg,
 			&message.Text,
@@ -91,7 +91,7 @@ func GetMessageById(db *sql.DB, messageId int) (models.Message, error) {
 
 	row := db.QueryRow(query, messageId)
 
-	err := row.Scan(&message.Id, &message.ClassId, &message.UserId, &message.Text, &message.TimePosted)
+	err := row.Scan(&message.ID, &message.ClassID, &message.UserID, &message.Text, &message.TimePosted)
 
 	return message, err
 }

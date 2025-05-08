@@ -34,9 +34,9 @@ func (h Handler) UpdateUserProfileHandler(c *gin.Context) {
 		return
 	}
 
-	newUserInfo.Id = user.Id
+	newUserInfo.ID = user.ID
 
-	if err := services.UpdateUserProfile(h.Database, user.Id, &newUserInfo); err != nil {
+	if err := services.UpdateUserProfile(h.Database, user.ID, &newUserInfo); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
@@ -59,19 +59,19 @@ func (h Handler) UpdateProfileImageHandler(c *gin.Context) {
 		return
 	}
 
-	if err := services.DeleteProfileImage(h.Database, user.Id); err != nil {
+	if err := services.DeleteProfileImage(h.Database, user.ID); err != nil {
 		// TBD
 		return
 	}
 
-	imgName, err := SaveFile(c, os.Getenv("IMAGE_PATH"), profileImg, user.Id)
+	imgName, err := SaveFile(c, os.Getenv("IMAGE_PATH"), profileImg, user.ID)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "can't save image"})
 		return
 	}
 
-	if err := services.UpdateUserProfileImage(h.Database, user.Id, imgName); err != nil {
+	if err := services.UpdateUserProfileImage(h.Database, user.ID, imgName); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't save image"})
 		return
 	}
@@ -86,7 +86,7 @@ func (h Handler) DeleteProfileImageHandler(c *gin.Context) {
 		return
 	}
 
-	if err := services.DeleteProfileImage(h.Database, user.Id); err != nil {
+	if err := services.DeleteProfileImage(h.Database, user.ID); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't delete image"})
 		return
 	}

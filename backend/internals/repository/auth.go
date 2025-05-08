@@ -13,7 +13,7 @@ func FindUserByUsername(db *sql.DB, username string) (*models.User, error) {
 		"FROM users WHERE username = ?"
 
 	err := db.QueryRow(query, username).
-		Scan(&user.Id, &user.FirstName, &user.MiddleName, &user.SecondName,
+		Scan(&user.ID, &user.FirstName, &user.MiddleName, &user.SecondName,
 			&user.Email, &user.Username, &user.Password, &user.ProfileImgPath)
 
 	if err != nil {
