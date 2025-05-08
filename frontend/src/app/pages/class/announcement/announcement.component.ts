@@ -75,6 +75,7 @@ export class AnnouncementComponent implements OnInit {
         }, { withCredentials: true }).subscribe(() => {
             // this.messages.unshift(newAnnouncement);
             this.newMessage = '';
+            this.loadMessages();
         }, error => {
             console.error('Помилка при відправленні повідомлення:', error);
         });

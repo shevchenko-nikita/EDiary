@@ -28,7 +28,7 @@
             <span class="announcement-date">{{ message.time_posted }}</span>
         </div>
 
-        <div class="menu">
+        <!-- <div class="menu">
             <button class="menu-button" (click)="toggleMenu(message)">
                 <i class="bx bx-dots-vertical-rounded"></i>
             </button>
@@ -36,7 +36,7 @@
                 <button class="edit-button" (click)="editMessage(message)">Редагувати</button>
                 <button class="delete-button" (click)="deleteMessage(message)">Видалити</button>
             </div>
-        </div>
+        </div> -->
 
         <p class="message-text" *ngIf="!message.editing">
             {{ message.text }}
@@ -48,9 +48,9 @@
             [(ngModel)]="message.text"
         ></textarea>
 
-        <i class="bx bxs-chevron-down toggle-text"></i>
+        <!-- <i class="bx bxs-chevron-down toggle-text"></i>
         <button class="save-button" *ngIf="message.editing" (click)="saveEdit(message)">
             Зберегти
-        </button>
+        </button> -->
     </div>
 </div>
