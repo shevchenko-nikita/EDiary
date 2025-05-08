@@ -86,8 +86,20 @@ export class UsersComponent implements OnInit {
 
   confirmDelete(): void {
     if (this.studentToDelete) {
-      this.students = this.students.filter(student => student.id !== this.studentToDelete);
-      this.closeDeleteModal();
+      this.http.delete(
+        `http://localhost:8080/classes/delete-user/${this.classID}/${this.studentToDelete}`,
+        { withCredentials: true }
+      ).subscribe(
+        () => {
+          // Remove student from local list after successful deletion
+          this.students = this.students.filter(student => student.id !== this.studentToDelete);
+          this.closeDeleteModal();
+        },
+        (error) => {
+          console.error('Failed to delete student:', error);
+          this.closeDeleteModal();
+        }
+      );
     }
   }
 

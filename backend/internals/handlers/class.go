@@ -115,6 +115,37 @@ func (h Handler) LeaveTheClassHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{})
 		return
 	}
+
+	c.JSON(http.StatusOK, gin.H{})
+}
+
+func (h Handler) DeleteUserFromClassHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	classID, err := strconv.Atoi(c.Param("class-id"))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	targetUserID, err := strconv.Atoi(c.Param("user-id"))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := services.DeleteUserFromClass(h.Database, user.ID, classID, targetUserID); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{})
+		return
+	}
+	
+	c.JSON(http.StatusOK, gin.H{})
 }
 
 func (h Handler) GetStudentsListHandler(c *gin.Context) {

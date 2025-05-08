@@ -71,12 +71,22 @@ func DeleteClass(db *sql.DB, teacherId, classId int) error {
 	return repository.DeleteClass(db, classId)
 }
 
-func LeaveClass(db *sql.DB, studentId, classId int) error {
+func LeaveClass(db *sql.DB, studentID, classID int) error {
 	//if !repository.StudentExistInClass(db, studentId, classId) {
 	//	return fmt.Errorf("the student does not exist in the class")
 	//}
 
-	return repository.LeaveClass(db, studentId, classId)
+	return repository.LeaveClass(db, studentID, classID)
+}
+
+func DeleteUserFromClass(db *sql.DB, userID, classID, targetUserID int) error {
+	class, err := repository.GetClassById(db, classID)
+
+	if err != nil || class.TeacherId != userID {
+		return fmt.Errorf("Access denied")
+	}
+
+	return repository.LeaveClass(db, targetUserID, classID)
 }
 
 func GetStudentsList(db *sql.DB, userId, classId int) ([]models.User, error) {
