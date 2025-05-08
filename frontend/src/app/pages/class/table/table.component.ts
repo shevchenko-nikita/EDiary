@@ -49,7 +49,11 @@ export class TableComponent implements OnInit {
 		this.http.get<any>(`http://localhost:8080/classes/table/${this.classId}`, { withCredentials: true })
 		.subscribe(response => {
 			this.assignments = response.assignments;
-			this.students = response.students;
+			this.students = response.students.sort((a: Student, b: Student) => {
+				const lastNameCompare = a.second_name.localeCompare(b.second_name);
+				if (lastNameCompare !== 0) return lastNameCompare;
+				return a.first_name.localeCompare(b.first_name);
+			});
 			this.marks = response.marks;
 
 			// console.log(this.assignments);
