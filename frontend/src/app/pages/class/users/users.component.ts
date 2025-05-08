@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { RoleService } from 'src/app/services/role.service';
 
 @Component({
   selector: 'app-users',
@@ -10,25 +11,32 @@ import { ActivatedRoute } from '@angular/router';
 export class UsersComponent implements OnInit {
   students: any[] = [];
   teacher: any = {};
-  classId: number = 1;
+  classID: number = 1;
   class_code: string = '';
   showDeleteModal = false;
   showClassCodeModal = false;
   studentToDelete: string | null = null;
+  isTeacher = false;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) { }
+  constructor(
+    private http: HttpClient, 
+    private route: ActivatedRoute,
+    private roleService: RoleService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.classId = Number(params.get('id'));
-      if (this.classId) {
+      this.classID = Number(params.get('id'));
+      if (this.classID) {
         this.loadData();
       }
+      this.roleService.isTeacher(this.classID).subscribe(res => {
+        this.isTeacher = res.isTeacher;
+      });
     });
   }
 
   loadData(): void {
-    this.http.get<any[]>(`http://localhost:8080/classes/student-list/${this.classId}`, { withCredentials: true })
+    this.http.get<any[]>(`http://localhost:8080/classes/student-list/${this.classID}`, { withCredentials: true })
       .subscribe(
         (data) => {
           this.students = data.map(cls => ({
@@ -43,7 +51,7 @@ export class UsersComponent implements OnInit {
         }
       );
 
-    this.http.get<any>(`http://localhost:8080/classes/teacher/${this.classId}`, { withCredentials: true })
+    this.http.get<any>(`http://localhost:8080/classes/teacher/${this.classID}`, { withCredentials: true })
       .subscribe(
         (response) => {
           this.teacher = response;
@@ -55,7 +63,7 @@ export class UsersComponent implements OnInit {
         }
       );
 
-      this.http.get<any>(`http://localhost:8080/classes/get-info/${this.classId}`, { withCredentials: true })
+      this.http.get<any>(`http://localhost:8080/classes/get-info/${this.classID}`, { withCredentials: true })
       .subscribe(
         (response) => {
           this.class_code = response.class_code
@@ -66,8 +74,8 @@ export class UsersComponent implements OnInit {
       );
   }
 
-  openDeleteModal(studentId: string): void {
-    this.studentToDelete = studentId;
+  openDeleteModal(studentID: string): void {
+    this.studentToDelete = studentID;
     this.showDeleteModal = true;
   }
 

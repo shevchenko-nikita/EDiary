@@ -38,7 +38,7 @@
                       <span class="user-email">{{ student.email }} </span>
                       <!-- <span class="user-username">{{ student.username }} </span> -->
                     </div>
-                    <button class="delete-button" (click)="openDeleteModal(student.id)">
+                    <button *ngIf="isTeacher" class="delete-button" (click)="openDeleteModal(student.id)">
                       <i class="bx bx-trash"></i>
                     </button>
                   </div>
