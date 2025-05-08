@@ -64,14 +64,14 @@ func (h Handler) UpdateProfileImageHandler(c *gin.Context) {
 		return
 	}
 
-	dstRelative, err := SaveFile(c, os.Getenv("IMAGE_PATH"), profileImg, user.Id)
+	imgName, err := SaveFile(c, os.Getenv("IMAGE_PATH"), profileImg, user.Id)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "can't save image"})
 		return
 	}
 
-	if err := services.UpdateUserProfileImage(h.Database, user.Id, dstRelative); err != nil {
+	if err := services.UpdateUserProfileImage(h.Database, user.Id, imgName); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't save image"})
 		return
 	}

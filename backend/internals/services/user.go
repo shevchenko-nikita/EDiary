@@ -6,6 +6,7 @@ import (
 	"github.com/shevchenko-nikita/EDiary/internals/models"
 	"github.com/shevchenko-nikita/EDiary/internals/repository"
 	"os"
+	"path/filepath"
 )
 
 func UpdateUserProfile(db *sql.DB, userId int, newUserInfo *models.User) error {
@@ -40,5 +41,5 @@ func DeleteProfileImage(db *sql.DB, userId int) error {
 		return fmt.Errorf("Failed to delete user profile image")
 	}
 
-	return os.Remove(user.ProfileImgPath)
+	return os.Remove(filepath.Join(os.Getenv("IMAGE_PATH"), user.ProfileImgPath))
 }

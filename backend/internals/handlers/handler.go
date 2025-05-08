@@ -44,7 +44,7 @@ func SaveFile(c *gin.Context, path string, file *multipart.FileHeader, userId in
 		return "", fmt.Errorf("can't save file")
 	}
 
-	return dstRelative, nil
+	return imgName, nil
 }
 
 const CODE_LEN = 5
