@@ -205,7 +205,7 @@ func (h Handler) GetTeachingListHandler(c *gin.Context) {
 func (h Handler) GetClassInfoHandler(c *gin.Context) {
 	classId, err := strconv.Atoi(c.Param("class-id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get class id"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get class ID"})
 		return
 	}
 
@@ -214,6 +214,30 @@ func (h Handler) GetClassInfoHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{})
 		return
 	}
-	
+
 	c.JSON(http.StatusOK, class)
+}
+
+func (h Handler) IsTeacherHandler(c *gin.Context) {
+	user, ok := GetUserFromCookie(c)
+
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	classID, err := strconv.Atoi(c.Param("class-id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get class ID"})
+		return
+	}
+
+	class, err := services.GetClassInfo(h.Database, classID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{})
+		return
+	}
+
+	isTeacher := class.TeacherId == user.Id
+	c.JSON(http.StatusOK, gin.H{"isTeacher": isTeacher})
 }

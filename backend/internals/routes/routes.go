@@ -47,6 +47,7 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 		classes.GET("/education-list", handler.GetEducationClassesHandler)
 		classes.GET("teaching-list", handler.GetTeachingListHandler)
 		classes.GET("get-info/:class-id", handler.GetClassInfoHandler)
+		classes.GET("is-teacher/:class-id", handler.IsTeacherHandler)
 
 		classes.GET("/student-list/:class-id", handler.GetStudentsListHandler)
 		classes.GET("/teacher/:class-id", handler.GetClassTeacherHandler)

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { RoleService } from 'src/app/services/role.service';
 
 @Component({
   selector: 'app-assignment',
@@ -12,8 +13,13 @@ export class AssignmentComponent implements OnInit {
   isEditing = false;
   editedStatement: string = '';
   parsedMarkdown: string = '';
+  isTeacher = false;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private http: HttpClient,
+    private roleService: RoleService
+  ) {}
 
   ngOnInit(): void {
     const assignmentId = this.route.snapshot.paramMap.get('id');
@@ -23,6 +29,11 @@ export class AssignmentComponent implements OnInit {
         this.assignment = data;
         this.editedStatement = this.assignment.statement || '';
         this.parsedMarkdown = (window as any).marked?.parse(this.assignment.statement || '') || '';
+        console.log(this.assignment);
+
+        this.roleService.isTeacher(this.assignment.class_id).subscribe(res => {
+          this.isTeacher = res.isTeacher;
+        });
       });
   }
   
