@@ -53,7 +53,7 @@ export class AnnouncementComponent implements OnInit {
             .subscribe(data => {
                 this.messages = data.map(cls => ({
                   ...cls,
-                  user_profile_img: 'http://localhost:8080/' + cls.user_profile_img
+                  user_profile_img: 'http://localhost:8080/images/' + cls.user_profile_img
                 })).reverse();
                 // console.log(this.messages);
             }, error => {

@@ -36,7 +36,7 @@ export class ProfileComponent {
 				email: data.email
 		  	});
 		  	
-			const baseURL = 'http://localhost:8080/';
+			const baseURL = 'http://localhost:8080/images/';
 			this.profileImage = baseURL + data.profile_img_path;
 			console.log(this.profileImage);
 		});
@@ -51,5 +51,29 @@ export class ProfileComponent {
 	changeImage() {
 	  alert('Функція зміни зображення ще не реалізована');
 	}
+
+	onFileSelected(event: Event) {
+		const input = event.target as HTMLInputElement;
+	
+		if (input.files && input.files[0]) {
+			const file = input.files[0];
+			const formData = new FormData();
+			console.log(file);
+			formData.append('profile_image', file); // adjust key if backend expects a different name
+	
+			this.http.put('http://localhost:8080/user/update-profile-image', formData, {
+				withCredentials: true
+			}).subscribe({
+				next: (response: any) => {
+					console.log('Зображення оновлено', response);
+					this.loadProfile(); // reload profile to update image preview
+				},
+				error: err => {
+					console.error('Помилка під час оновлення зображення', err);
+				}
+			});
+		}
+	}
+	
   }
   

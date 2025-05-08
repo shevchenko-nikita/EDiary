@@ -33,7 +33,7 @@ export class UsersComponent implements OnInit {
         (data) => {
           this.students = data.map(cls => ({
             ...cls,
-            profile_img_path: 'http://localhost:8080/' + cls.profile_img_path
+            profile_img_path: 'http://localhost:8080/images/' + cls.profile_img_path
           }));
 
           console.log(data);
@@ -47,7 +47,7 @@ export class UsersComponent implements OnInit {
       .subscribe(
         (response) => {
           this.teacher = response;
-          this.teacher.profile_img_path = 'http://localhost:8080/' + this.teacher.profile_img_path 
+          this.teacher.profile_img_path = 'http://localhost:8080/images/' + this.teacher.profile_img_path 
           // this.teacher.username = '@' + this.teacher.username
         },
         (error) => {

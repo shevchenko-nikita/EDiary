@@ -6,6 +6,10 @@
     <img class="profile-image" [src]="profileImage" alt="Фото профілю" />
     <div class="edit-icon" (click)="changeImage()"><i class="bx bx-pencil"></i></div>
     <div class="tooltip">Змінити зображення</div>
+
+    <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none" />
+    <div class="edit-icon" (click)="fileInput.click()"><i class="bx bx-pencil"></i></div>
+
   </div>
 
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">

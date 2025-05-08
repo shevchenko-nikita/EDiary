@@ -33,7 +33,7 @@ export class EducationComponent implements OnInit {
       .subscribe(data => {
         this.classes = data.map(cls => ({
           ...cls,
-          profile_img_path: 'http://localhost:8080/' + cls.profile_img_path
+          profile_img_path: 'http://localhost:8080/images/' + cls.profile_img_path
         }));
         console.log(this.classes);
       });
