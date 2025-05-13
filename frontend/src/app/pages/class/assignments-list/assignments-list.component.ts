@@ -2,6 +2,7 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { RoleService } from 'src/app/services/role.service';
 
 interface Assignment {
   id: number;
@@ -38,18 +39,24 @@ export class AssignmentsService {
 export class AssignmentsListComponent implements OnInit {
   assignments: Assignment[] = [];
   isModalOpen = false;
+  isTeacher = false;
 
   constructor(
     private route: ActivatedRoute,
-    private assignmentsService: AssignmentsService
+    private assignmentsService: AssignmentsService,
+    private roleService: RoleService
   ) {}
 
   ngOnInit(): void {
-    const classId = this.route.snapshot.paramMap.get('id');
-    console.log(classId)
-    if (classId) {
-      this.assignmentsService.getAssignments(classId).subscribe((data) => {
+    const classID = this.route.snapshot.paramMap.get('id');
+    console.log(classID)
+    if (classID) {
+      this.assignmentsService.getAssignments(classID).subscribe((data) => {
         this.assignments = data;
+
+        this.roleService.isTeacher(Number(classID)).subscribe(res => {
+          this.isTeacher = res.isTeacher;
+        });
         
         this.assignments.forEach((assignment) => {
           assignment.mark = 0;

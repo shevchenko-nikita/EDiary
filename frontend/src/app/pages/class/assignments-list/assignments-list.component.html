@@ -7,7 +7,7 @@
       <h4 class="task-name">
         <a [routerLink]="['/class/assignment/', assignment.id]">{{ assignment.name }}</a>
       </h4>
-      <div class="grade" [ngStyle]="{
+      <div *ngIf="!isTeacher" class="grade" [ngStyle]="{
         'background-color': '#55f',
         'color': 'white'
       }">
