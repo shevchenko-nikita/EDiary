@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { RoleService } from 'src/app/services/role.service';
 
@@ -21,6 +21,7 @@ export class AssignmentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, 
+    private router: Router,
     private http: HttpClient,
     private roleService: RoleService
   ) {}
@@ -167,5 +168,18 @@ export class AssignmentComponent implements OnInit {
         this.assignment.deadline = null;
         this.isEditingDeadline = false;
       });
+  }
+  
+  deleteAssignment() {
+    if (confirm('Ви впевнені, що хочете видалити це завдання? Ця дія є незворотною.')) {
+      const assignmentId = this.assignment.id;
+      
+      this.http
+        .delete(`http://localhost:8080/classes/delete-assignment/${assignmentId}`, { withCredentials: true })
+        .subscribe(() => {
+          // После успешного удаления вернуться на страницу класса
+          this.router.navigate(['/class', this.assignment.class_id]);
+        });
+    }
   }
 }

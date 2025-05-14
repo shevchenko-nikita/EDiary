@@ -150,3 +150,33 @@ textarea {
     border: 1px solid #ddd;
     border-radius: 5px;
 }
+
+.delete-assignment-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+/* Красивая фиолетовая кнопка удаления */
+.delete-btn {
+    background-color: #f4edff;
+    color: #6b3fa0;
+    border: 1px solid #d3bfff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.delete-btn i {
+    font-size: 18px;
+}
+
+.delete-btn:hover {
+    background-color: #e6d9ff;
+    transform: scale(1.05);
+}

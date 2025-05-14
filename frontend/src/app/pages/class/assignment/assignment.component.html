@@ -59,12 +59,12 @@
         <button *ngIf="isTeacher" class="edit-btn" (click)="editDescription()">Редагувати</button>
       </div>
   
-      <div *ngIf="isEditing && isTeacher">
-        <textarea
-          [(ngModel)]="editedStatement"
-          (input)="updateMarkdown()"
-        ></textarea>
-        <button class="save-btn" (click)="saveDescription()">Зберегти</button>
+      <div *ngIf="isTeacher" class="delete-assignment-container">
+        <button class="delete-btn" (click)="deleteAssignment()">
+          <i class='bx bx-trash'></i>
+        </button>
       </div>
+
+
     </div>
   </div>
