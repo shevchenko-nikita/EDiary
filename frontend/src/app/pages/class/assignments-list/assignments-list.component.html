@@ -25,7 +25,7 @@
 <div *ngIf="isModalOpen" class="modal">
   <div class="modal-content">
     <span class="close-modal-button" (click)="closeModal()">&times;</span>
-    <h2>Добавить задание</h2>
+    <h2>Додати завдання</h2>
 
     <form [formGroup]="assignmentForm" (ngSubmit)="addAssignment()">
       <div class="form-group">
@@ -37,7 +37,7 @@
           formControlName="taskName"
         />
         <div *ngIf="assignmentForm.get('taskName')?.invalid && assignmentForm.get('taskName')?.touched" class="error-text">
-          Пожалуйста, введите название задания
+          Введіть назву завдання
         </div>
       </div>
 
