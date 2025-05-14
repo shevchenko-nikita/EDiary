@@ -1,4 +1,3 @@
-
 .container {
     font-family: Arial, sans-serif;
     width: 100%;
@@ -20,16 +19,30 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.task-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
 .task-title {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
 }
 
 .task-info {
     font-size: 14px;
     color: gray;
     margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 .task-description {
@@ -81,4 +94,59 @@ textarea {
     padding: 10px;
     resize: vertical;
     margin-bottom: 10px;
+}
+
+/* Стили для inline редактирования */
+.edit-inline-btn {
+    background: none;
+    border: none;
+    color: #55f;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0 5px;
+    opacity: 0.6;
+}
+
+.edit-inline-btn:hover {
+    opacity: 1;
+}
+
+.save-inline-btn, 
+.remove-inline-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 5px;
+    font-size: 14px;
+}
+
+.save-inline-btn {
+    color: #4CAF50;
+}
+
+.remove-inline-btn {
+    color: #F44336;
+}
+
+.title-edit-container,
+.deadline-edit-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.title-input {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.deadline-input {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }

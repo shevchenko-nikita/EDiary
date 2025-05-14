@@ -3,15 +3,52 @@
 
 <div class="container">
     <div class="task-container" *ngIf="assignment">
-      <div class="task-title">{{ assignment.name }}</div>
+      <!-- Название задания: редактируемое для учителя, просто текст для ученика -->
+      <div class="task-header">
+        <div *ngIf="!isEditingTitle" class="task-title">
+          {{ assignment.name }}
+          <button *ngIf="isTeacher" class="edit-inline-btn" (click)="editTitle()">
+            <i class='bx bx-pencil'></i> 
+          </button>
+        </div>
+        <div *ngIf="isEditingTitle && isTeacher" class="title-edit-container">
+          <input 
+            type="text" 
+            [(ngModel)]="editedTitle" 
+            class="title-input" 
+            placeholder="Введіть назву завдання">
+          <button class="save-inline-btn" (click)="saveTitle()">
+            <i class='bx bx-check-circle'></i> 
+          </button>
+        </div>
+      </div>
+
+      <!-- Информация о задании с редактируемым дедлайном для учителя -->
       <div class="task-info">
         Оцінка: {{ assignment.grade || '-' }} •
-        Дедлайн:
-        {{
-          assignment.deadline
-            ? (assignment.deadline | date: 'dd MMMM, HH:mm')
-            : 'немає'
-        }}
+        <span *ngIf="!isEditingDeadline">
+          Дедлайн:
+          {{
+            assignment.deadline
+              ? (assignment.deadline | date: 'dd MMMM, HH:mm')
+              : 'немає'
+          }}
+          <button *ngIf="isTeacher" class="edit-inline-btn" (click)="editDeadline()">
+            <i class='bx bx-pencil'></i> 
+          </button>
+        </span>
+        <span *ngIf="isEditingDeadline && isTeacher" class="deadline-edit-container">
+          <input 
+            type="datetime-local" 
+            [(ngModel)]="editedDeadline" 
+            class="deadline-input">
+          <button class="save-inline-btn" (click)="saveDeadline()">
+            <i class='bx bx-check-circle'></i> 
+          </button>
+          <button class="remove-inline-btn" *ngIf="assignment.deadline" (click)="removeDeadline()">
+            <i class="fa fa-times"></i>
+          </button>
+        </span>
       </div>
   
       <div *ngIf="!isEditing">
@@ -31,4 +68,3 @@
       </div>
     </div>
   </div>
-  
