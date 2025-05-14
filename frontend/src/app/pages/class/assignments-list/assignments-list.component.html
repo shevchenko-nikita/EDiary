@@ -17,24 +17,71 @@
   </div>
 </div>
 
-<button class="create-task-btn" (click)="openModal()">
+<button class="create-task-btn" (click)="openModal()" *ngIf="isTeacher">
   <i class="bx bx-plus" title="Створити завдання"></i>
 </button>
 
 <!-- Модальное окно -->
 <div *ngIf="isModalOpen" class="modal">
   <div class="modal-content">
-    <div>
-      <span class="close-modal-button" (click)="closeModal()">&times;</span>
-      <h2>Добавить задание</h2>
+    <span class="close-modal-button" (click)="closeModal()">&times;</span>
+    <h2>Добавить задание</h2>
 
-      <label for="task-name">Назва роботи</label>
-      <input type="text" id="task-name" placeholder="Введіть назву роботи" />
+    <form [formGroup]="assignmentForm" (ngSubmit)="addAssignment()">
+      <div class="form-group">
+        <label for="task-name">Назва завдання:</label>
+        <input 
+          type="text" 
+          id="task-name" 
+          placeholder="Введіть назву роботи" 
+          formControlName="taskName"
+        />
+        <div *ngIf="assignmentForm.get('taskName')?.invalid && assignmentForm.get('taskName')?.touched" class="error-text">
+          Пожалуйста, введите название задания
+        </div>
+      </div>
 
-      <!-- <label for="short-name">Краткое название:</label>
-      <input type="text" id="short-name" placeholder="До 9 символов" maxlength="9" />  -->
+      <div class="form-group deadline-container">
+        <div class="deadline-title">
+          <label>Встановіть дедлайн:</label>
+          <i class="bx bx-time deadline-icon"></i>
+        </div>
+        
+        <div class="deadline-inputs">
+          <div class="date-input">
+            <label for="deadline-date">Дата:</label>
+            <input 
+              type="date" 
+              id="deadline-date" 
+              formControlName="deadlineDate"
+              [min]="minDeadlineDate"
+            />
+            <div *ngIf="assignmentForm.get('deadlineDate')?.invalid && assignmentForm.get('deadlineDate')?.touched" class="error-text">
+              Виберіть дату
+            </div>
+          </div>
+          
+          <div class="time-input">
+            <label for="deadline-time">Час:</label>
+            <input 
+              type="time" 
+              id="deadline-time" 
+              formControlName="deadlineTime"
+            />
+            <div *ngIf="assignmentForm.get('deadlineTime')?.invalid && assignmentForm.get('deadlineTime')?.touched" class="error-text">
+              Виберіть час
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <button id="add-task-btn">Добавить</button>
-    </div>
+      <button 
+        type="submit" 
+        id="add-task-btn" 
+        [disabled]="assignmentForm.invalid"
+      >
+        Добавить
+      </button>
+    </form>
   </div>
 </div>
