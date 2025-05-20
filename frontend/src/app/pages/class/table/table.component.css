@@ -33,3 +33,42 @@ body {
     overflow: hidden;
     background-color: #ffffff;
 }
+
+/* Стили для редактирования оценок */
+.mark-cell {
+    position: relative;
+}
+
+.editable-cell {
+    cursor: pointer;
+}
+
+.editable-cell:hover {
+    background-color: #f5f9ff;
+}
+
+.edit-mark-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.edit-mark-input {
+    width: 80%;
+    margin: 0 auto;
+    padding: 2px 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.edit-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.edit-buttons .btn {
+    padding: 2px 8px;
+    border-radius: 4px;
+}

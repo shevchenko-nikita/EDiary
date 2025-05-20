@@ -15,8 +15,23 @@
             <tr *ngFor="let student of students; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ student.second_name }} {{ student.first_name }} {{ student.middle_name }} </td>
-                <td *ngFor="let assignment of assignments">
-                    {{ getMark(student.id, assignment.id) }}
+                <td *ngFor="let assignment of assignments" 
+                    (click)="isTeacher && startEditingMark(student.id, assignment.id)"
+                    [ngClass]="{'editable-cell': isTeacher}"
+                    class="mark-cell">
+                    <ng-container *ngIf="!(editMode && editMode.studentId === student.id && editMode.assignmentId === assignment.id); else editBlock">
+                        {{ getMark(student.id, assignment.id) }}
+                    </ng-container>
+                    <ng-template #editBlock>
+                        <div class="edit-mark-container">
+                            <input type="number" min="0" max="100" [(ngModel)]="currentMark" class="edit-mark-input" 
+                                   (click)="$event.stopPropagation()" (keydown.enter)="saveMark()" autofocus>
+                            <div class="edit-buttons">
+                                <!-- <button class="btn btn-sm" (click)="saveMark(); $event.stopPropagation()"><i class='bx  bx-check'></i></button> -->
+                                <!-- <button class="btn btn-sm" (click)="cancelEditing(); $event.stopPropagation()"><i class='bx  bx-x'></i></button> -->
+                            </div>
+                        </div>
+                    </ng-template>
                 </td>
                 <td>
                     {{ getTotalMark(student.id) }}
@@ -25,4 +40,3 @@
         </tbody>
     </table>
 </div>
-
