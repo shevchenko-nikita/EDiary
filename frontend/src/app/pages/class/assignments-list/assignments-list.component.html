@@ -5,7 +5,7 @@
   <div *ngFor="let assignment of assignments" class="task-preview">
     <div class="task-header">
       <h4 class="task-name">
-        <a [routerLink]="['/class/assignment/', assignment.id]">{{ assignment.name }}</a>
+        <a [routerLink]="['/class', currentClassId, 'assignment', assignment.id]">{{ assignment.name }}</a>
       </h4>
       <div *ngIf="!isTeacher" class="grade" [ngStyle]="{
         'background-color': '#55f',

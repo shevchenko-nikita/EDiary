@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'class/:id/users-list', component: UsersComponent, canActivate: [AuthGuard] },
   { path: 'class/:id/table', component: TableComponent, canActivate: [AuthGuard] },
   { path: 'class/:id/assignments', component: AssignmentsListComponent, canActivate: [AuthGuard] },
-  { path: 'class/assignment/:id', component: AssignmentComponent, canActivate: [AuthGuard] },
+  { path: 'class/:id/assignment/:assignmentId', component: AssignmentComponent, canActivate: [AuthGuard] },
   // { path: '', component: MainComponent, canActivate: [AuthGuard]} ,
   // { path: '**', redirectTo: 'log-in'},
 ];
