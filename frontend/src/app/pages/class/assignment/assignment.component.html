@@ -25,7 +25,7 @@
 
       <!-- Информация о задании с редактируемым дедлайном для учителя -->
       <div class="task-info">
-        Оцінка: {{ assignment.grade || '-' }} •
+        <span *ngIf="!isTeacher">Оцінка: {{ assignment.grade || '-' }} •</span>
         <span *ngIf="!isEditingDeadline">
           Дедлайн:
           {{
@@ -58,6 +58,17 @@
         ></div>
         <button *ngIf="isTeacher" class="edit-btn" (click)="editDescription()">Редагувати</button>
       </div>
+
+      <div *ngIf="isEditing && isTeacher" class="edit-container">
+      <textarea 
+        [(ngModel)]="editedStatement" 
+        class="statement-textarea" 
+        placeholder="Введіть текст завдання"></textarea>
+      <div class="edit-actions">
+        <button class="save-btn" (click)="saveDescription()">Зберегти</button>
+        <button class="cancel-btn" (click)="isEditing = false">Скасувати</button>
+      </div>
+    </div>
   
       <div *ngIf="isTeacher" class="delete-assignment-container">
         <button class="delete-btn" (click)="deleteAssignment()">

@@ -66,8 +66,16 @@
     display: block;
 }
 
+.edit-actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 5px;
+}
+
 .edit-btn,
-.save-btn {
+.save-btn,
+.cancel-btn {
     margin-top: 10px;
     padding: 8px 12px;
     background: #55f;
@@ -82,7 +90,8 @@
 }
 
 .edit-btn:hover,
-.save-btn:hover {
+.save-btn:hover,
+.cancel-btn:hover {
     background: rgb(72, 72, 251);
 }
 
