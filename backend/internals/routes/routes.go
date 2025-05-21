@@ -72,5 +72,5 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 		classes.GET("/all-messages/:class-id", handler.GetAllClassMessagesHandler)
 	}
 
-	router.GET("/statistic", handler.GetStatisticHandler)
+	router.GET("/statistic", middleware.RequireAuth(handler.Database), handler.GetStatisticHandler)
 }
