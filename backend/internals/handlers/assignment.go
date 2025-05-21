@@ -65,14 +65,14 @@ func (h Handler) DeleteAssignmentHandler(c *gin.Context) {
 		return
 	}
 
-	assignmentId, err := strconv.Atoi(c.Param("assignment-id"))
+	assignmentID, err := strconv.Atoi(c.Param("assignment-id"))
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad assignment id"})
 		return
 	}
 
-	if err := services.DeleteAssignment(h.Database, user.ID, assignmentId); err != nil {
+	if err := services.DeleteAssignment(h.Database, user.ID, assignmentID); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{})
 		return
 	}
@@ -182,27 +182,27 @@ func (h Handler) GetClassTableHandler(c *gin.Context) {
 		return
 	}
 
-	classId, err := strconv.Atoi(c.Param("class-id"))
+	classID, err := strconv.Atoi(c.Param("class-id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Wrong class id"})
 		return
 	}
 
-	assignments, err := services.GetAssignmentsList(h.Database, user.ID, classId)
+	assignments, err := services.GetAssignmentsList(h.Database, user.ID, classID)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get assignments list"})
 		return
 	}
 
-	students, err := services.GetStudentsList(h.Database, user.ID, classId)
+	students, err := services.GetStudentsList(h.Database, user.ID, classID)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get students list"})
 		return
 	}
 
-	marks, err := services.GetAllClassMarks(h.Database, classId)
+	marks, err := services.GetAllClassMarks(h.Database, classID)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't get all class_marks"})

@@ -71,4 +71,6 @@ func InitRoutes(router *gin.Engine, handler *handlers.Handler) {
 		classes.DELETE("/delete-message/:message-id", handler.DeleteClassMessageHandler)
 		classes.GET("/all-messages/:class-id", handler.GetAllClassMessagesHandler)
 	}
+
+	router.GET("/statistic", handler.GetStatisticHandler)
 }
