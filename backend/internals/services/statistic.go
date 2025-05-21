@@ -2,25 +2,20 @@ package services
 
 import (
 	"database/sql"
+	"github.com/shevchenko-nikita/EDiary/internals/models"
 	"github.com/shevchenko-nikita/EDiary/internals/repository"
 )
 
 type Statistic struct {
-	StudentInfo       StudentInfo       `json:"student_info"`
-	Subjects          []Subject         `json:"subjects"`
-	GradeDistribution GradeDistribution `json:"grade_distribution"`
+	StudentInfo       StudentInfo        `json:"student_info"`
+	Subjects          []models.ClassCard `json:"subjects"`
+	GradeDistribution GradeDistribution  `json:"grade_distribution"`
 }
 
 type StudentInfo struct {
 	OverallAverage  float32 `json:"overall_average"`
 	StudentClasses  int     `json:"student_classes"`
 	TeachingClasses int     `json:"teaching_classes"`
-}
-
-type Subject struct {
-	SubjectID   int    `json:"subject_id"`
-	SubjectName string `json:"subject_name"`
-	Grade       int    `json:"grade"`
 }
 
 type GradeDistribution struct {
@@ -33,7 +28,7 @@ func GetStatisticInfo(db *sql.DB, userID int) (Statistic, error) {
 	var statistic Statistic
 
 	var studentInfo StudentInfo
-	//var subjects []Subject
+	var subjects []models.ClassCard
 
 	studentClasses, err := repository.GetStudentClassesNum(db, userID)
 	if err != nil {
@@ -50,7 +45,7 @@ func GetStatisticInfo(db *sql.DB, userID int) (Statistic, error) {
 	marksSum, err := repository.GetAllStudentMarks(db, userID)
 
 	if err != nil {
-		return Statistic{}, err
+		marksSum = 0
 	}
 
 	if studentClasses > 0 {
@@ -59,7 +54,13 @@ func GetStatisticInfo(db *sql.DB, userID int) (Statistic, error) {
 		studentInfo.OverallAverage = 0.
 	}
 
+	subjects, err = repository.GetEducationClasses(db, userID)
+	if err != nil {
+		subjects = []models.ClassCard{}
+	}
+
 	statistic.StudentInfo = studentInfo
+	statistic.Subjects = subjects
 
 	return statistic, nil
 }
