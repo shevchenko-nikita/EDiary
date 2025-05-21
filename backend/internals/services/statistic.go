@@ -24,24 +24,25 @@ type GradeDistribution struct {
 	Colors []string `json:"colors"` // TBD
 }
 
-func GetStatisticInfo(db *sql.DB, userID int) (Statistic, error) {
-	var statistic Statistic
-
-	var studentInfo StudentInfo
-	var subjects []models.ClassCard
-
+func GetStudentClassesNum(db *sql.DB, userID int) int {
 	studentClasses, err := repository.GetStudentClassesNum(db, userID)
 	if err != nil {
 		studentClasses = 0
 	}
-	studentInfo.StudentClasses = studentClasses
 
+	return studentClasses
+}
+
+func GetTeachingClassesNum(db *sql.DB, userID int) int {
 	teachingClasses, err := repository.GetTeachingClassesNum(db, userID)
 	if err != nil {
 		teachingClasses = 0
 	}
-	studentInfo.TeachingClasses = teachingClasses
 
+	return teachingClasses
+}
+
+func GetOverallAverage(db *sql.DB, userID, studentClasses int) float32 {
 	marksSum, err := repository.GetAllStudentMarks(db, userID)
 
 	if err != nil {
@@ -49,10 +50,21 @@ func GetStatisticInfo(db *sql.DB, userID int) (Statistic, error) {
 	}
 
 	if studentClasses > 0 {
-		studentInfo.OverallAverage = float32(marksSum) / float32(studentClasses)
-	} else {
-		studentInfo.OverallAverage = 0.
+		return float32(marksSum) / float32(studentClasses)
 	}
+	return 0
+}
+
+func GetStatisticInfo(db *sql.DB, userID int) (Statistic, error) {
+	var statistic Statistic
+
+	var studentInfo StudentInfo
+	var subjects []models.ClassCard
+	var gradeDistribution GradeDistribution
+
+	studentInfo.StudentClasses = GetStudentClassesNum(db, userID)
+	studentInfo.TeachingClasses = GetTeachingClassesNum(db, userID)
+	studentInfo.OverallAverage = GetOverallAverage(db, userID, studentInfo.StudentClasses)
 
 	subjects, err = repository.GetEducationClasses(db, userID)
 	if err != nil {
