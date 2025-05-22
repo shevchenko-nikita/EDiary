@@ -6,126 +6,142 @@
     <p>Перегляд та аналіз учбових показників</p>
   </div>
 
-  <!-- Основная информация -->
-  <div class="stats-overview" @fadeIn>
-    <div class="stat-card">
-      <div class="stat-icon">
-        <i class="fas fa-chart-line"></i>
-      </div>
-      <div class="stat-details">
-        <h3>Загальний средній бал</h3>
-        <div class="stat-value">{{ overallAverage }}</div>
-        <div class="trend up">
-          <i class="fas fa-arrow-up"></i> 0.3 с прошлого месяца
-        </div>
-      </div>
-    </div>
+  <!-- Загрузка -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Завантаження даних...</p>
+  </div>
 
-    <div class="stat-card">
-      <div class="stat-icon">
-        <i class="fas fa-book"></i>
-      </div>
-      <div class="stat-details">
-        <h3>Учбові класи</h3>
-        <div class="stat-value">{{ studentClasses }}</div>
-        <div class="label">Активна участь</div>
-      </div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon">
-        <i class="fas fa-chalkboard-teacher"></i>
-      </div>
-      <div class="stat-details">
-        <h3>Викладання</h3>
-        <div class="stat-value">{{ teachingClasses }}</div>
-        <div class="label">Створені класи</div>
-      </div>
+  <!-- Ошибка -->
+  <div *ngIf="error" class="error-container">
+    <div class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>{{ error }}</p>
+      <button (click)="loadStatistics()" class="retry-button">Спробувати знову</button>
     </div>
   </div>
 
-  <div class="content-wrapper">
-    <!-- Левая секция - предметы и оценки -->
-    <div class="content-left" @scaleIn>
-      <div class="panel subjects-panel">
-        <h2>Успішність по предметах</h2>
-        <div class="subject-list">
-          <div class="subject-item" *ngFor="let subject of avgGrades">
-            <div class="subject-info">
-              <h4>{{ subject.subject }}</h4>
-              <span class="grade">{{ subject.grade }}</span>
-            </div>
-            <div class="progress-container">
-              <div class="progress-bar" [style.width.%]="getPercentage(subject.grade)" [style.background-color]="subject.color"></div>
-            </div>
-          </div>
+  <!-- Основной контент -->
+  <div *ngIf="!loading && !error">
+    <!-- Основная информация -->
+    <div class="stats-overview" @fadeIn>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="stat-details">
+          <h3>Загальний середній бал</h3>
+          <div class="stat-value">{{ statistics?.student_info?.overall_average || 0 }}</div>
         </div>
       </div>
 
-      <div class="panel notifications-panel">
-        <h2>Останні повідомлення</h2>
-        <div class="notification-list">
-          <div class="notification" *ngFor="let notification of recentNotifications">
-            <div class="notification-content">
-              <p>{{ notification.text }}</p>
-              <span class="time">{{ notification.time }}</span>
-            </div>
-          </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-book"></i>
+        </div>
+        <div class="stat-details">
+          <h3>Учбові класи</h3>
+          <div class="stat-value">{{ statistics?.student_info?.student_classes || 0 }}</div>
+          <div class="label">Активна участь</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <div class="stat-details">
+          <h3>Викладання</h3>
+          <div class="stat-value">{{ statistics?.student_info?.teaching_classes || 0 }}</div>
+          <div class="label">Створені класи</div>
         </div>
       </div>
     </div>
 
-    <!-- Правая секция - графики -->
-    <div class="content-right" @scaleIn>
-      <div class="panel chart-panel">
-        <h2>Розподіл оцінок</h2>
-        <div class="chart-container">
-          <div class="donut-chart">
-            <!-- Здесь будет круговая диаграмма -->
-            <div class="chart-placeholder">
-              <div class="chart-segments">
-                <div class="segment segment-1" [style.transform]="'rotate(0deg) skew(0deg)'"></div>
-                <div class="segment segment-2" [style.transform]="'rotate(234deg) skew(72deg)'"></div>
-                <div class="segment segment-3" [style.transform]="'rotate(306deg) skew(36deg)'"></div>
-                <div class="segment segment-4" [style.transform]="'rotate(342deg) skew(18deg)'"></div>
+    <div class="content-wrapper">
+      <!-- Левая секция - предметы и уведомления -->
+      <div class="content-left" @scaleIn>
+        <div class="panel subjects-panel">
+          <h2>Успішність по предметах</h2>
+          <div class="subject-list">
+            <div class="subject-item" *ngFor="let subject of statistics?.subjects">
+              <div class="subject-info">
+                <h4>{{ subject?.name || 'Предмет' }}</h4>
+                <span class="grade">{{ subject?.grade || 0 }}</span>
               </div>
-              <div class="chart-center">{{ overallAverage }}</div>
+              <div class="progress-container">
+                <div class="progress-bar" 
+                     [style.width.%]="getPercentage(subject?.grade || 0)" 
+                     [style.background-color]="getSubjectColor(subject?.name)">
+                </div>
+              </div>
             </div>
-            <div class="chart-legend">
-              <div class="legend-item" *ngFor="let label of gradeDistribution.labels; let i = index">
-                <div class="legend-color" [style.background-color]="gradeDistribution.colors[i]"></div>
-                <div class="legend-label">{{ label }}: {{ gradeDistribution.data[i] }}%</div>
+          </div>
+          <div *ngIf="!statistics?.subjects || statistics?.subjects?.length === 0" class="no-data">
+            <p>Немає даних про предмети</p>
+          </div>
+        </div>
+
+        <!-- Закомментированный блок уведомлений -->
+        <!-- 
+        <div class="panel notifications-panel">
+          <h2>Останні повідомлення</h2>
+          <div class="notification-list">
+            <div class="notification" *ngFor="let notification of recentNotifications">
+              <div class="notification-content">
+                <p>{{ notification.text }}</p>
+                <span class="time">{{ notification.time }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        -->
+        
+        <!-- Временный блок уведомлений с моковыми данными -->
+        <div class="panel notifications-panel">
+          <h2>Останні повідомлення</h2>
+          <div class="notification-list">
+            <div class="notification" *ngFor="let notification of mockNotifications">
+              <div class="notification-content">
+                <p>{{ notification.text }}</p>
+                <span class="time">{{ notification.time }}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="panel chart-panel">
-        <h2>Динаміка успішності</h2>
-        <div class="chart-container">
-          <div class="line-chart">
-            <!-- Здесь будет линейный график -->
-            <div class="line-chart-placeholder">
-              <div class="chart-line">
-                <div class="chart-point" *ngFor="let point of progressData.data; let i = index" 
-                     [style.left.%]="i * 25" 
-                     [style.bottom.%]="(point / 5) * 100">
-                  <div class="tooltip">{{ progressData.labels[i] }}: {{ point }}</div>
+      <!-- Правая секция - график распределения оценок -->
+      <div class="content-right" @scaleIn>
+        <div class="panel chart-panel">
+          <h2>Розподіл оцінок</h2>
+          <div class="chart-container">
+            <div class="donut-chart" *ngIf="statistics?.grade_distribution">
+              <div class="chart-placeholder">
+                <div class="chart-segments">
+                  <div class="segment" 
+                       *ngFor="let data of statistics?.grade_distribution?.data; let i = index"
+                       [style.background-color]="getGradeColor(i)"
+                       [style.transform]="getSegmentTransform(i, statistics?.grade_distribution?.data || [])">
+                  </div>
+                </div>
+                <div class="chart-center">{{ statistics?.student_info?.overall_average || 0 }}</div>
+              </div>
+              <div class="chart-legend">
+                <div class="legend-item" 
+                     *ngFor="let label of statistics?.grade_distribution?.labels; let i = index">
+                  <div class="legend-color" [style.background-color]="getGradeColor(i)"></div>
+                  <div class="legend-label">{{ label }}: {{ statistics?.grade_distribution?.data?.[i] }}</div>
                 </div>
               </div>
-              <div class="chart-grid">
-                <div class="grid-line" *ngFor="let num of [1,2,3,4,5]" [style.bottom.%]="(num / 5) * 100"></div>
-              </div>
-              <div class="axis-labels x-axis">
-                <span *ngFor="let label of progressData.labels; let i = index" [style.left.%]="i * 25">{{ label }}</span>
-              </div>
-              <div class="axis-labels y-axis">
-                <span *ngFor="let num of [1,2,3,4,5]">{{ num }}</span>
-              </div>
+            </div>
+            <div *ngIf="!statistics?.grade_distribution" class="no-data">
+              <p>Немає даних для розподілу оцінок</p>
             </div>
           </div>
         </div>
+
+        <!-- Блок "Динаміка успішності" удален согласно требованию -->
       </div>
     </div>
   </div>

@@ -1,5 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';
+
+// Интерфейсы для типизации данных
+interface StudentInfo {
+  overall_average: number;
+  student_classes: number;
+  teaching_classes: number;
+}
+
+interface ClassCard {
+  name?: string;
+  grade?: number;
+  // Добавьте другие поля, если они есть в вашей модели ClassCard
+}
+
+interface GradeDistribution {
+  labels: string[];
+  data: number[];
+}
+
+interface Statistic {
+  student_info: StudentInfo;
+  subjects: ClassCard[];
+  grade_distribution: GradeDistribution;
+}
 
 @Component({
   selector: 'app-performance',
@@ -21,57 +46,120 @@ import { trigger, transition, style, animate } from '@angular/animations';
   ]
 })
 export class PerformanceComponent implements OnInit {
-  // Данные для графиков и статистики
-  studentClasses = 5;
-  teachingClasses = 2;
-  avgGrades: { subject: string; grade: number; color: string }[] = [
-    { subject: 'Математика', grade: 4.5, color: '#4070f4' },
-    { subject: 'Физика', grade: 4.2, color: '#ff6384' },
-    { subject: 'Программирование', grade: 4.8, color: '#36a2eb' },
-    { subject: 'Литература', grade: 3.9, color: '#ffcd56' },
-    { subject: 'История', grade: 4.1, color: '#4bc0c0' }
+  // Основные данные
+  statistics: Statistic | null = null;
+  loading = false;
+  error: string | null = null;
+
+  // API URL
+  private apiUrl = 'http://localhost:8080/statistic';
+
+  // Цвета для предметов и графиков
+  private subjectColors = ['#4070f4', '#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0', '#9966ff', '#ff9f40'];
+  private gradeColors = ['#36a2eb', '#4bc0c0', '#ffcd56', '#ff6384'];
+
+  // Временные данные для уведомлений (пока не подключены к API)
+  mockNotifications = [
+    { text: 'Новий тест з математики доступний', time: '2 години тому' },
+    { text: 'Ви отримали оцінку 5 з програмування', time: '1 день тому' },
+    { text: 'Викладач додав новий матеріал', time: '2 дні тому' }
   ];
-  
-  // Данные для круговой диаграммы распределения оценок
-  gradeDistribution = {
-    labels: ['Отлично (5)', 'Хорошо (4)', 'Удовлетворительно (3)', 'Неудовлетворительно (2)'],
-    data: [65, 20, 10, 5],
-    colors: ['#36a2eb', '#4bc0c0', '#ffcd56', '#ff6384']
-  };
-  
-  // Данные для линейного графика прогресса
-  progressData = {
-    labels: ['Янв', 'Фев', 'Март', 'Апр', 'Май'],
-    data: [3.8, 4.0, 4.2, 4.5, 4.7]
-  };
-  
-  // Последние уведомления
-  recentNotifications = [
-    { text: 'Новый тест по математике доступен', time: '2 часа назад' },
-    { text: 'Вы получили оценку 5 по программированию', time: '1 день назад' },
-    { text: 'Преподаватель добавил новый материал', time: '2 дня назад' }
-  ];
-  
-  constructor() { }
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.setupCharts();
+    this.loadStatistics();
   }
 
-  setupCharts(): void {
-    // Здесь можно инициализировать графики, если используются сторонние библиотеки
-    // Например, Chart.js или похожие
-    console.log('Charts initialized');
+  /**
+   * Загрузка статистики с backend
+   */
+  loadStatistics(): void {
+    this.loading = true;
+    this.error = null;
+
+    this.http.get<Statistic>(this.apiUrl, { withCredentials: true }).subscribe({
+      next: (data: Statistic) => {
+        this.statistics = data;
+        console.log(data);
+        this.loading = false;
+        console.log('Статистика загружена:', data);
+      },
+      error: (error) => {
+        this.loading = false;
+        this.error = 'Не вдалося завантажити дані. Перевірте з\'єднання з сервером.';
+        console.error('Ошибка при загрузке статистики:', error);
+      }
+    });
   }
-  
-  // Расчет общего среднего балла
-  get overallAverage(): number {
-    const sum = this.avgGrades.reduce((total, subject) => total + subject.grade, 0);
-    return Math.round((sum / this.avgGrades.length) * 100) / 100;
-  }
-  
-  // Расчет процента выполнения для прогресс-баров
+
+  /**
+   * Расчет процента для прогресс-баров предметов
+   */
   getPercentage(grade: number): number {
-    return (grade / 5) * 100;
+    return Math.min((grade / 100) * 100, 100);
+  }
+
+  /**
+   * Получение цвета для предмета по его названию
+   */
+  getSubjectColor(subjectName: string | undefined): string {
+    if (!subjectName) return this.subjectColors[0];
+    
+    // Простой алгоритм для присвоения цвета на основе названия
+    const hash = subjectName.split('').reduce((a, b) => {
+      a = ((a << 5) - a) + b.charCodeAt(0);
+      return a & a;
+    }, 0);
+    
+    const index = Math.abs(hash) % this.subjectColors.length;
+    return this.subjectColors[index];
+  }
+
+  /**
+   * Получение цвета для элемента распределения оценок
+   */
+  getGradeColor(index: number): string {
+    return this.gradeColors[index % this.gradeColors.length];
+  }
+
+  /**
+   * Расчет трансформации для сегментов круговой диаграммы
+   * Упрощенная версия - для более точной диаграммы рекомендуется использовать Chart.js
+   */
+  getSegmentTransform(index: number, data: number[]): string {
+    const total = data.reduce((sum, value) => sum + value, 0);
+    if (total === 0) return 'rotate(0deg) skew(0deg)';
+
+    let currentAngle = 0;
+    for (let i = 0; i < index; i++) {
+      currentAngle += (data[i] / total) * 360;
+    }
+
+    const segmentAngle = (data[index] / total) * 360;
+    const skewAngle = 90 - segmentAngle;
+
+    return `rotate(${currentAngle}deg) skew(${Math.max(skewAngle, 0)}deg)`;
+  }
+
+  /**
+   * Получение общего среднего балла (для совместимости, если нужно использовать в других местах)
+   */
+  get overallAverage(): number {
+    return this.statistics?.student_info?.overall_average || 0;
+  }
+
+  /**
+   * Получение количества учебных классов
+   */
+  get studentClasses(): number {
+    return this.statistics?.student_info?.student_classes || 0;
+  }
+
+  /**
+   * Получение количества преподаваемых классов
+   */
+  get teachingClasses(): number {
+    return this.statistics?.student_info?.teaching_classes || 0;
   }
 }

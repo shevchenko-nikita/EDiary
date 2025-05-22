@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,7 +22,7 @@ import { PerformanceComponent } from './pages/performance/performance.component'
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, SignupComponent, ProfileComponent, SidebarComponent, EducationComponent, TeachingComponent, AnnouncementComponent, TopbarComponent, UsersComponent, TableComponent, AssignmentsListComponent, AssignmentComponent, PerformanceComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, ReactiveFormsModule],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, FormsModule, HttpClientModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
