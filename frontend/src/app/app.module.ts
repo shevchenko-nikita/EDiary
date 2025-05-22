@@ -17,9 +17,10 @@ import { UsersComponent } from './pages/class/users/users.component';
 import { TableComponent } from './pages/class/table/table.component';
 import { AssignmentsListComponent } from './pages/class/assignments-list/assignments-list.component';
 import { AssignmentComponent } from './pages/class/assignment/assignment.component';
+import { PerformanceComponent } from './pages/performance/performance.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, SignupComponent, ProfileComponent, SidebarComponent, EducationComponent, TeachingComponent, AnnouncementComponent, TopbarComponent, UsersComponent, TableComponent, AssignmentsListComponent, AssignmentComponent],
+  declarations: [AppComponent, LoginComponent, SignupComponent, ProfileComponent, SidebarComponent, EducationComponent, TeachingComponent, AnnouncementComponent, TopbarComponent, UsersComponent, TableComponent, AssignmentsListComponent, AssignmentComponent, PerformanceComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],

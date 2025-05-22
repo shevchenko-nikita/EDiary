@@ -10,6 +10,7 @@ import { UsersComponent } from './pages/class/users/users.component';
 import { TableComponent } from './pages/class/table/table.component';
 import { AssignmentsListComponent } from './pages/class/assignments-list/assignments-list.component';
 import { AssignmentComponent } from './pages/class/assignment/assignment.component';
+import { PerformanceComponent } from './pages/performance/performance.component';
 
 import { AuthGuard } from './auth.guard';
 
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: '', component: EducationComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'teaching', component: TeachingComponent, canActivate: [AuthGuard] },
+  { path: 'performance', component: PerformanceComponent, canActivate: [AuthGuard] },
   { path: 'class/:id', component: AnnouncementComponent, canActivate: [AuthGuard] },
   { path: 'class/:id/users-list', component: UsersComponent, canActivate: [AuthGuard] },
   { path: 'class/:id/table', component: TableComponent, canActivate: [AuthGuard] },
