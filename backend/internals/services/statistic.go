@@ -78,8 +78,10 @@ func GetGradeDistribution(db *sql.DB, userID int) GradeDistribution {
 
 	totalGradesAmount := len(grades)
 
-	for i := range distribution.Data {
-		distribution.Data[i] = distribution.Data[i] * 100 / totalGradesAmount
+	if totalGradesAmount != 0 {
+		for i := range distribution.Data {
+			distribution.Data[i] = distribution.Data[i] * 100 / totalGradesAmount
+		}
 	}
 
 	return distribution
