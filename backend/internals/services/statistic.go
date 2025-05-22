@@ -61,7 +61,7 @@ func GetGradeDistribution(db *sql.DB, userID int) GradeDistribution {
 
 	grades, err := repository.GetAllStudentGrades(db, userID)
 	if err != nil {
-		grades = []int{}
+		grades = []float32{}
 	}
 
 	for _, grade := range grades {
@@ -73,14 +73,6 @@ func GetGradeDistribution(db *sql.DB, userID int) GradeDistribution {
 			distribution.Data[2]++
 		} else {
 			distribution.Data[3]++
-		}
-	}
-
-	totalGradesAmount := len(grades)
-
-	if totalGradesAmount != 0 {
-		for i := range distribution.Data {
-			distribution.Data[i] = distribution.Data[i] * 100 / totalGradesAmount
 		}
 	}
 
