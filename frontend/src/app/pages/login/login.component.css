@@ -1,17 +1,6 @@
 /* Import Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
 
-body {
-  min-height: 100vh;
-  width: 100%;
-  background-color: #eef5fe;
-} */
 .container {
   position: absolute;
   top: 50%;
@@ -88,4 +77,15 @@ body {
 }
 .signup label:hover {
   text-decoration: underline;
+}
+
+.error-message {
+  color: #e74c3c;
+  background-color: #fdecea;
+  border: 1px solid #f5c6cb;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  text-align: center;
 }

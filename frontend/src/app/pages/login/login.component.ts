@@ -16,20 +16,21 @@ export class LoginComponent
 
 	constructor(private http: HttpClient, private router: Router) {}
 
-	onLogin() 
-	{
+	onLogin() {
+		this.errorMessage = '';
 		console.log('Вхідні дані:', { username: this.username, password: this.password });
 		const loginData = { username: this.username, password: this.password };
 
 		this.http.post('http://localhost:8080/sign-in', loginData, { withCredentials: true }).subscribe({
-		next: () => {
-			console.log('Авторизація успішна!');
-			this.router.navigate(['']);
-		},
-		error: (err) => {
-			console.error('Помилка авторизації:', err);
-			this.errorMessage = 'Невірний username або пароль!';
-		},
-    });
+			next: () => {
+				console.log('Авторизація успішна!');
+				this.router.navigate(['']);
+			},
+			error: (err) => {
+				console.error('Помилка авторизації:', err);
+				this.errorMessage = 'Невірний username або пароль!';
+			},
+		});
 	}
+
 }
