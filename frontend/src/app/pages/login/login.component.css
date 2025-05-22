@@ -89,3 +89,37 @@
   margin-bottom: 15px;
   text-align: center;
 }
+
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 45px;
+}
+
+.toggle-btn {
+  position: absolute;
+  right: 10px;
+  top: 45%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.eye, .eye-slash {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background-size: cover;
+}
+
+.eye {
+  background-image: url('https://img.icons8.com/ios-glyphs/30/000000/visible--v1.png');
+}
+
+.eye-slash {
+  background-image: url('https://img.icons8.com/ios-glyphs/30/000000/invisible.png');
+}

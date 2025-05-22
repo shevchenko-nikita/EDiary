@@ -17,13 +17,18 @@
         required
       />
 
-      <input
-        type="password"
-        placeholder="Введіть пароль"
-        [(ngModel)]="password"
-        name="password"
-        required
-      />
+      <div class="password-field">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Введіть пароль"
+          [(ngModel)]="password"
+          name="password"
+          required
+        />
+        <button type="button" class="toggle-btn" (click)="togglePasswordVisibility()" aria-label="toggle password visibility">
+          <span [ngClass]="showPassword ? 'eye-slash' : 'eye'"></span>
+        </button>
+      </div>
 
       <input type="submit" class="button" value="Увійти" />
     </form>
