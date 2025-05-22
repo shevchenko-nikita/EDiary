@@ -50,7 +50,7 @@ func GetAllStudentGrades(db *sql.DB, userID int) ([]int, error) {
 	return marks, nil
 }
 
-func GetAllStudentGradesSum(db *sql.DB, userID int) (int, error) {
+func GetAllStudentGradesSum(db *sql.DB, userID int) (float32, error) {
 	query := "SELECT mark FROM marks WHERE student_id = ?"
 
 	rows, err := db.Query(query, userID)
@@ -61,8 +61,8 @@ func GetAllStudentGradesSum(db *sql.DB, userID int) (int, error) {
 
 	defer rows.Close()
 
-	var mark int
-	var sum = 0
+	var mark float32
+	var sum float32 = 0.
 	for rows.Next() {
 		err := rows.Scan(&mark)
 		if err != nil {

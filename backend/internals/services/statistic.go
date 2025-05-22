@@ -45,13 +45,13 @@ func GetOverallAverage(db *sql.DB, userID, studentClasses int) float32 {
 	marksSum, err := repository.GetAllStudentGradesSum(db, userID)
 
 	if err != nil {
-		marksSum = 0
+		marksSum = 0.
 	}
 
 	if studentClasses > 0 {
-		return float32(marksSum) / float32(studentClasses)
+		return marksSum / float32(studentClasses)
 	}
-	return 0
+	return 0.
 }
 
 func GetGradeDistribution(db *sql.DB, userID int) GradeDistribution {

@@ -6,13 +6,11 @@
     <p>Перегляд та аналіз учбових показників</p>
   </div>
 
-  <!-- Загрузка -->
   <div *ngIf="loading" class="loading-container">
     <div class="loading-spinner"></div>
     <p>Завантаження даних...</p>
   </div>
 
-  <!-- Ошибка -->
   <div *ngIf="error" class="error-container">
     <div class="error-message">
       <i class="fas fa-exclamation-triangle"></i>
@@ -59,7 +57,6 @@
     </div>
 
     <div class="content-wrapper">
-      <!-- Левая секция - предметы и уведомления -->
       <div class="content-left" @scaleIn>
         <div class="panel subjects-panel">
           <h2>Успішність по предметах</h2>
@@ -96,9 +93,7 @@
           </div>
         </div>
         -->
-        
-        <!-- Временный блок уведомлений с моковыми данными -->
-        <div class="panel notifications-panel">
+        <!-- <div class="panel notifications-panel">
           <h2>Останні повідомлення</h2>
           <div class="notification-list">
             <div class="notification" *ngFor="let notification of mockNotifications">
@@ -108,10 +103,9 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
-      <!-- Правая секция - график распределения оценок -->
       <div class="content-right" @scaleIn>
         <div class="panel chart-panel">
           <h2>Розподіл оцінок</h2>
@@ -141,7 +135,6 @@
           </div>
         </div>
 
-        <!-- Блок "Динаміка успішності" удален согласно требованию -->
       </div>
     </div>
   </div>
