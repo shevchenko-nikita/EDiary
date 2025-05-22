@@ -97,6 +97,9 @@ export class TableComponent implements OnInit {
 	}
 
 	getTotalMark(studentId: number): number {
+		if(!this.marks) {
+			return 0;
+		}
 		return this.assignments.reduce((sum, a) => sum + this.getMark(studentId, a.id), 0);
 	}
 
