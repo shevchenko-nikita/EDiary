@@ -21,7 +21,6 @@ type StudentInfo struct {
 type GradeDistribution struct {
 	Labels []string `json:"labels"`
 	Data   []int    `json:"data"`
-	Colors []string `json:"colors"` // TBD
 }
 
 func GetStudentClassesNum(db *sql.DB, userID int) int {
@@ -43,7 +42,7 @@ func GetTeachingClassesNum(db *sql.DB, userID int) int {
 }
 
 func GetOverallAverage(db *sql.DB, userID, studentClasses int) float32 {
-	marksSum, err := repository.GetAllStudentMarks(db, userID)
+	marksSum, err := repository.GetAllStudentGradesSum(db, userID)
 
 	if err != nil {
 		marksSum = 0
@@ -55,24 +54,56 @@ func GetOverallAverage(db *sql.DB, userID, studentClasses int) float32 {
 	return 0
 }
 
+func GetGradeDistribution(db *sql.DB, userID int) GradeDistribution {
+	var distribution GradeDistribution
+	distribution.Labels = []string{"незадовільно", "задовільно", "добре", "відмінно"}
+	distribution.Data = []int{0, 0, 0, 0}
+
+	grades, err := repository.GetAllStudentGrades(db, userID)
+	if err != nil {
+		grades = []int{}
+	}
+
+	for _, grade := range grades {
+		if grade < 60 {
+			distribution.Data[0]++
+		} else if grade < 75 {
+			distribution.Data[1]++
+		} else if grade < 90 {
+			distribution.Data[2]++
+		} else {
+			distribution.Data[3]++
+		}
+	}
+
+	totalGradesAmount := len(grades)
+
+	for i := range distribution.Data {
+		distribution.Data[i] = distribution.Data[i] * 100 / totalGradesAmount
+	}
+
+	return distribution
+}
+
 func GetStatisticInfo(db *sql.DB, userID int) (Statistic, error) {
 	var statistic Statistic
 
 	var studentInfo StudentInfo
 	var subjects []models.ClassCard
-	var gradeDistribution GradeDistribution
+	//var gradeDistribution GradeDistribution
 
 	studentInfo.StudentClasses = GetStudentClassesNum(db, userID)
 	studentInfo.TeachingClasses = GetTeachingClassesNum(db, userID)
 	studentInfo.OverallAverage = GetOverallAverage(db, userID, studentInfo.StudentClasses)
 
-	subjects, err = repository.GetEducationClasses(db, userID)
+	subjects, err := repository.GetEducationClasses(db, userID)
 	if err != nil {
 		subjects = []models.ClassCard{}
 	}
 
 	statistic.StudentInfo = studentInfo
 	statistic.Subjects = subjects
+	statistic.GradeDistribution = GetGradeDistribution(db, userID)
 
 	return statistic, nil
 }

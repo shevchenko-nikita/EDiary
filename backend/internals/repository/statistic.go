@@ -26,7 +26,31 @@ func GetTeachingClassesNum(db *sql.DB, userID int) (int, error) {
 	return count, nil
 }
 
-func GetAllStudentMarks(db *sql.DB, userID int) (int, error) {
+func GetAllStudentGrades(db *sql.DB, userID int) ([]int, error) {
+	query := "SELECT SUM(mark) FROM marks where student_id = ? GROUP BY class_id"
+
+	rows, err := db.Query(query, userID)
+	if err != nil {
+		return []int{}, err
+	}
+
+	defer rows.Close()
+
+	var mark int
+	var marks []int
+
+	for rows.Next() {
+		err := rows.Scan(&mark)
+		if err != nil {
+			return []int{}, err
+		}
+		marks = append(marks, mark)
+	}
+
+	return marks, nil
+}
+
+func GetAllStudentGradesSum(db *sql.DB, userID int) (int, error) {
 	query := "SELECT mark FROM marks WHERE student_id = ?"
 
 	rows, err := db.Query(query, userID)
