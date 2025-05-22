@@ -78,54 +78,37 @@
             <p>Немає даних про предмети</p>
           </div>
         </div>
-
-        <!-- Закомментированный блок уведомлений -->
-        <!-- 
-        <div class="panel notifications-panel">
-          <h2>Останні повідомлення</h2>
-          <div class="notification-list">
-            <div class="notification" *ngFor="let notification of recentNotifications">
-              <div class="notification-content">
-                <p>{{ notification.text }}</p>
-                <span class="time">{{ notification.time }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        -->
-        <!-- <div class="panel notifications-panel">
-          <h2>Останні повідомлення</h2>
-          <div class="notification-list">
-            <div class="notification" *ngFor="let notification of mockNotifications">
-              <div class="notification-content">
-                <p>{{ notification.text }}</p>
-                <span class="time">{{ notification.time }}</span>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
 
       <div class="content-right" @scaleIn>
         <div class="panel chart-panel">
           <h2>Розподіл оцінок</h2>
           <div class="chart-container">
-            <div class="donut-chart" *ngIf="statistics?.grade_distribution">
-              <div class="chart-placeholder">
-                <div class="chart-segments">
-                  <div class="segment" 
-                       *ngFor="let data of statistics?.grade_distribution?.data; let i = index"
-                       [style.background-color]="getGradeColor(i)"
-                       [style.transform]="getSegmentTransform(i, statistics?.grade_distribution?.data || [])">
-                  </div>
+            <div class="chart-wrapper" *ngIf="statistics?.grade_distribution">
+              <!-- Chart.js Doughnut Chart -->
+              <div class="chart-canvas-container">
+                <canvas 
+                  baseChart
+                  [data]="doughnutChartData"
+                  [type]="doughnutChartType"
+                  [options]="doughnutChartOptions">
+                </canvas>
+                <!-- Центральный текст с общим средним баллом -->
+                <div class="chart-center-text">
+                  <div class="center-value">{{ statistics?.student_info?.overall_average || 0 }}</div>
+                  <div class="center-label">Середній бал</div>
                 </div>
-                <div class="chart-center">{{ statistics?.student_info?.overall_average || 0 }}</div>
               </div>
+              
+              <!-- Кастомная легенда -->
               <div class="chart-legend">
                 <div class="legend-item" 
-                     *ngFor="let label of statistics?.grade_distribution?.labels; let i = index">
-                  <div class="legend-color" [style.background-color]="getGradeColor(i)"></div>
-                  <div class="legend-label">{{ label }}: {{ statistics?.grade_distribution?.data?.[i] }}</div>
+                     *ngFor="let item of getLegendData()">
+                  <div class="legend-color" [style.background-color]="item.color"></div>
+                  <div class="legend-content">
+                    <div class="legend-label">{{ item.label }}</div>
+                    <div class="legend-value">{{ item.value }} ({{ item.percentage }}%)</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -134,7 +117,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>

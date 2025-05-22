@@ -20,6 +20,9 @@ import { AssignmentsListComponent } from './pages/class/assignments-list/assignm
 import { AssignmentComponent } from './pages/class/assignment/assignment.component';
 import { PerformanceComponent } from './pages/performance/performance.component';
 import { NgChartsModule } from 'ng2-charts';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, SignupComponent, ProfileComponent, SidebarComponent, EducationComponent, TeachingComponent, AnnouncementComponent, TopbarComponent, UsersComponent, TableComponent, AssignmentsListComponent, AssignmentComponent, PerformanceComponent],

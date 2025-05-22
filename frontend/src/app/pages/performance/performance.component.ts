@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
+import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 
 interface StudentInfo {
   overall_average: number;
@@ -51,7 +52,62 @@ export class PerformanceComponent implements OnInit {
   private apiUrl = 'http://localhost:8080/statistic';
 
   private subjectColors = ['#4070f4', '#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0', '#9966ff', '#ff9f40'];
-  private gradeColors = ['#36a2eb', '#4bc0c0', '#ffcd56', '#ff6384'];
+  private gradeColors = ['#36a2eb', '#4bc0c0', '#ffcd56', '#ff6384', '#9966ff', '#ff9f40'];
+
+  // Chart.js configuration
+  public doughnutChartType = 'doughnut' as const;
+  public doughnutChartData: ChartData<'doughnut'> = {
+    labels: [],
+    datasets: [{
+      data: [],
+      backgroundColor: [],
+      borderColor: '#ffffff',
+      borderWidth: 3,
+      hoverBackgroundColor: [],
+      hoverBorderWidth: 4
+    }]
+  };
+
+  public doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false // Мы создадим свою легенду
+      },
+      tooltip: {
+        enabled: true,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        borderColor: '#ffffff',
+        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: true,
+        callbacks: {
+          label: (context) => {
+            const label = context.label || '';
+            const value = context.parsed;
+            const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
+            const percentage = ((value / total) * 100).toFixed(1);
+            return `${label}: ${value} (${percentage}%)`;
+          }
+        }
+      }
+    },
+    cutout: '60%', // Размер внутреннего отверстия
+    animation: {
+      animateRotate: true,
+      animateScale: true,
+      duration: 1000,
+      easing: 'easeOutQuart'
+    },
+    elements: {
+      arc: {
+        borderJoinStyle: 'round'
+      }
+    }
+  };
 
   mockNotifications = [
     { text: 'Новий тест з математики доступний', time: '2 години тому' },
@@ -72,6 +128,7 @@ export class PerformanceComponent implements OnInit {
     this.http.get<Statistic>(this.apiUrl, { withCredentials: true }).subscribe({
       next: (data: Statistic) => {
         this.statistics = data;
+        this.updateChartData();
         console.log(data);
         this.loading = false;
         console.log('Статистика загружена:', data);
@@ -82,6 +139,24 @@ export class PerformanceComponent implements OnInit {
         console.error('Ошибка при загрузке статистики:', error);
       }
     });
+  }
+
+  private updateChartData(): void {
+    if (this.statistics?.grade_distribution) {
+      const { labels, data } = this.statistics.grade_distribution;
+      
+      this.doughnutChartData = {
+        labels: labels,
+        datasets: [{
+          data: data,
+          backgroundColor: labels.map((_, index) => this.getGradeColor(index)),
+          borderColor: '#ffffff',
+          borderWidth: 3,
+          hoverBackgroundColor: labels.map((_, index) => this.getGradeColorHover(index)),
+          hoverBorderWidth: 4
+        }]
+      };
+    }
   }
 
   getPercentage(grade: number): number {
@@ -104,19 +179,36 @@ export class PerformanceComponent implements OnInit {
     return this.gradeColors[index % this.gradeColors.length];
   }
 
-  getSegmentTransform(index: number, data: number[]): string {
+  private getGradeColorHover(index: number): string {
+    const baseColor = this.getGradeColor(index);
+    // Делаем цвет немного светлее при наведении
+    return this.lightenColor(baseColor, 20);
+  }
+
+  private lightenColor(color: string, percent: number): string {
+    const num = parseInt(color.replace("#", ""), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = (num >> 16) + amt;
+    const G = (num >> 8 & 0x00FF) + amt;
+    const B = (num & 0x0000FF) + amt;
+    return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+      (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+      (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+  }
+
+  // Методы для получения данных легенды
+  getLegendData(): Array<{label: string, value: number, color: string, percentage: string}> {
+    if (!this.statistics?.grade_distribution) return [];
+    
+    const { labels, data } = this.statistics.grade_distribution;
     const total = data.reduce((sum, value) => sum + value, 0);
-    if (total === 0) return 'rotate(0deg) skew(0deg)';
-
-    let currentAngle = 0;
-    for (let i = 0; i < index; i++) {
-      currentAngle += (data[i] / total) * 360;
-    }
-
-    const segmentAngle = (data[index] / total) * 360;
-    const skewAngle = 90 - segmentAngle;
-
-    return `rotate(${currentAngle}deg) skew(${Math.max(skewAngle, 0)}deg)`;
+    
+    return labels.map((label, index) => ({
+      label,
+      value: data[index],
+      color: this.getGradeColor(index),
+      percentage: total > 0 ? ((data[index] / total) * 100).toFixed(1) : '0'
+    }));
   }
 
   get overallAverage(): number {
