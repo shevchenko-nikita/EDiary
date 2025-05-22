@@ -85,15 +85,16 @@ export class AssignmentsListComponent implements OnInit {
 
   ngOnInit(): void {
     const classID = this.route.snapshot.paramMap.get('id');
-    console.log(classID);
     if (classID) {
       this.currentClassId = Number(classID);
+      
+      this.roleService.isTeacher(Number(classID)).subscribe(res => {
+          this.isTeacher = res.isTeacher;
+          console.log(this.isTeacher);
+      });
+
       this.assignmentsService.getAssignments(classID).subscribe((data) => {
         this.assignments = data.reverse();
-
-        this.roleService.isTeacher(Number(classID)).subscribe(res => {
-          this.isTeacher = res.isTeacher;
-        });
         
         this.assignments.forEach((assignment) => {
           assignment.mark = 0;
