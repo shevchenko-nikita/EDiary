@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 
-// Интерфейсы для типизации данных
 interface StudentInfo {
   overall_average: number;
   student_classes: number;
@@ -12,7 +11,6 @@ interface StudentInfo {
 interface ClassCard {
   name?: string;
   grade?: number;
-  // Добавьте другие поля, если они есть в вашей модели ClassCard
 }
 
 interface GradeDistribution {
@@ -46,19 +44,15 @@ interface Statistic {
   ]
 })
 export class PerformanceComponent implements OnInit {
-  // Основные данные
   statistics: Statistic | null = null;
   loading = false;
   error: string | null = null;
 
-  // API URL
   private apiUrl = 'http://localhost:8080/statistic';
 
-  // Цвета для предметов и графиков
   private subjectColors = ['#4070f4', '#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0', '#9966ff', '#ff9f40'];
   private gradeColors = ['#36a2eb', '#4bc0c0', '#ffcd56', '#ff6384'];
 
-  // Временные данные для уведомлений (пока не подключены к API)
   mockNotifications = [
     { text: 'Новий тест з математики доступний', time: '2 години тому' },
     { text: 'Ви отримали оцінку 5 з програмування', time: '1 день тому' },
@@ -71,9 +65,6 @@ export class PerformanceComponent implements OnInit {
     this.loadStatistics();
   }
 
-  /**
-   * Загрузка статистики с backend
-   */
   loadStatistics(): void {
     this.loading = true;
     this.error = null;
@@ -93,20 +84,13 @@ export class PerformanceComponent implements OnInit {
     });
   }
 
-  /**
-   * Расчет процента для прогресс-баров предметов
-   */
   getPercentage(grade: number): number {
     return Math.min((grade / 100) * 100, 100);
   }
 
-  /**
-   * Получение цвета для предмета по его названию
-   */
   getSubjectColor(subjectName: string | undefined): string {
     if (!subjectName) return this.subjectColors[0];
     
-    // Простой алгоритм для присвоения цвета на основе названия
     const hash = subjectName.split('').reduce((a, b) => {
       a = ((a << 5) - a) + b.charCodeAt(0);
       return a & a;
@@ -116,17 +100,10 @@ export class PerformanceComponent implements OnInit {
     return this.subjectColors[index];
   }
 
-  /**
-   * Получение цвета для элемента распределения оценок
-   */
   getGradeColor(index: number): string {
     return this.gradeColors[index % this.gradeColors.length];
   }
 
-  /**
-   * Расчет трансформации для сегментов круговой диаграммы
-   * Упрощенная версия - для более точной диаграммы рекомендуется использовать Chart.js
-   */
   getSegmentTransform(index: number, data: number[]): string {
     const total = data.reduce((sum, value) => sum + value, 0);
     if (total === 0) return 'rotate(0deg) skew(0deg)';
@@ -142,23 +119,14 @@ export class PerformanceComponent implements OnInit {
     return `rotate(${currentAngle}deg) skew(${Math.max(skewAngle, 0)}deg)`;
   }
 
-  /**
-   * Получение общего среднего балла (для совместимости, если нужно использовать в других местах)
-   */
   get overallAverage(): number {
     return this.statistics?.student_info?.overall_average || 0;
   }
 
-  /**
-   * Получение количества учебных классов
-   */
   get studentClasses(): number {
     return this.statistics?.student_info?.student_classes || 0;
   }
 
-  /**
-   * Получение количества преподаваемых классов
-   */
   get teachingClasses(): number {
     return this.statistics?.student_info?.teaching_classes || 0;
   }

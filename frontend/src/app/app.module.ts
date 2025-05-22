@@ -19,10 +19,11 @@ import { TableComponent } from './pages/class/table/table.component';
 import { AssignmentsListComponent } from './pages/class/assignments-list/assignments-list.component';
 import { AssignmentComponent } from './pages/class/assignment/assignment.component';
 import { PerformanceComponent } from './pages/performance/performance.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, SignupComponent, ProfileComponent, SidebarComponent, EducationComponent, TeachingComponent, AnnouncementComponent, TopbarComponent, UsersComponent, TableComponent, AssignmentsListComponent, AssignmentComponent, PerformanceComponent],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, FormsModule, HttpClientModule, ReactiveFormsModule],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, FormsModule, HttpClientModule, ReactiveFormsModule, NgChartsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
