@@ -33,11 +33,11 @@ func MarkAlreadyExist(db *sql.DB, mark models.Mark) bool {
 	return alreadyExist
 }
 
-func GetMark(db *sql.DB, userID, assignmentID int) (int, error) {
+func GetMark(db *sql.DB, userID, assignmentID int) (float32, error) {
 	query := "SELECT mark FROM marks WHERE assignment_id = ? AND student_id = ?"
-	var mark int
+	var mark float32
 	if err := db.QueryRow(query, assignmentID, userID).Scan(&mark); err != nil {
-		return 0, err
+		return 0., err
 	}
 
 	return mark, nil

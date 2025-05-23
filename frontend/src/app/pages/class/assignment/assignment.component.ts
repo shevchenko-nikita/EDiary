@@ -18,6 +18,7 @@ export class AssignmentComponent implements OnInit {
   editedDeadline: string = '';
   parsedMarkdown: string = '';
   isTeacher = false;
+  mark: number | null = null;
 
   constructor(
     private route: ActivatedRoute, 
@@ -27,7 +28,7 @@ export class AssignmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const assignmentId = this.route.snapshot.paramMap.get('id');
+    const assignmentId = this.route.snapshot.paramMap.get('assignmentId');
     this.http
       .get(`http://localhost:8080/classes/assignment/${assignmentId}`, { withCredentials: true })
       .subscribe((data) => {
@@ -36,7 +37,6 @@ export class AssignmentComponent implements OnInit {
         this.editedTitle = this.assignment.name || '';
         this.parsedMarkdown = (window as any).marked?.parse(this.assignment.statement || '') || '';
         
-        // Format deadline for datetime-local input if exists
         if (this.assignment.deadline) {
           const deadlineDate = new Date(this.assignment.deadline);
           this.editedDeadline = this.formatDateForInput(deadlineDate);
@@ -48,6 +48,21 @@ export class AssignmentComponent implements OnInit {
           this.isTeacher = res.isTeacher;
         });
       });
+      
+      this.http.get<{ mark: number }>(`http://localhost:8080/classes/mark/${assignmentId}`, {
+        withCredentials: true
+      }).subscribe({
+        next: (response) => {
+          this.mark = response.mark;
+          console.log(response);
+        },
+        error: (error) => {
+          console.error('Ошибка при получении оценки:', error);
+          this.mark = null;
+        }
+      });
+
+
   }
   
   // Helper method to format date for datetime-local input

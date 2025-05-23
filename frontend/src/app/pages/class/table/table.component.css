@@ -11,25 +11,91 @@ body {
     padding-right: 20px;
 }
 
+/* Основные стили таблицы */
+.table {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+}
+
 .marks-table th,
 .marks-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 12px 10px;
+    border: 1px solid #e5e7eb;
     text-align: center;
+    vertical-align: middle;
+    transition: background-color 0.2s ease;
+}
+
+/* Стили для заголовков */
+.marks-table thead th {
+    background-color: #f8fafc;
+    color: #374151;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-bottom: 2px solid #d1d5db;
+}
+
+/* Чередующиеся строки */
+.marks-table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.marks-table tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+/* Эффект при наведении на строку */
+.marks-table tbody tr:hover {
+    background-color: #f3f4f6 !important;
+}
+
+/* Ширина столбцов */
+.marks-table table tr th:nth-child(1),
+.marks-table table tr td:nth-child(1) {
+    width: 5%;
+    font-weight: 500;
+    color: #6b7280;
 }
 
 .marks-table table tr th:nth-child(2),
 .marks-table table tr td:nth-child(2) {
     width: 20%;
+    text-align: left;
+    padding-left: 16px;
+    font-weight: 500;
+    color: #374151;
 }
 
-.marks-table table tr th:nth-child(1),
-.marks-table table tr td:nth-child(1) {
-    width: 5%;
+/* СТИЛИ ДЛЯ ФИНАЛЬНОГО СТОЛБЦА */
+.marks-table table tr th:last-child {
+    background-color: #e5e7eb;
+    font-weight: 700;
+    color: #1f2937;
+    border-left: 3px solid #6b7280;
+}
+
+.marks-table table tr td:last-child {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #1f2937;
+    border-left: 3px solid #6b7280;
+}
+
+/* Финальный столбец наследует цвет строки, но с небольшим затемнением */
+.marks-table table tr:nth-child(odd) td:last-child {
+    background-color: #f3f4f6;
+}
+
+.marks-table table tr:nth-child(even) td:last-child {
+    background-color: #e5e7eb;
+}
+
+.marks-table table tr:hover td:last-child {
+    background-color: #d1d5db !important;
 }
 
 .rounded-table {
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
     background-color: #ffffff;
 }
@@ -37,6 +103,8 @@ body {
 /* Стили для редактирования оценок */
 .mark-cell {
     position: relative;
+    font-weight: 500;
+    color: #4b5563;
 }
 
 .editable-cell {
@@ -44,7 +112,8 @@ body {
 }
 
 .editable-cell:hover {
-    background-color: #f5f9ff;
+    background-color: #e0f2fe !important;
+    border-color: #0284c7;
 }
 
 .edit-mark-container {
@@ -56,10 +125,18 @@ body {
 .edit-mark-input {
     width: 80%;
     margin: 0 auto;
-    padding: 2px 5px;
+    padding: 6px 8px;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 1px solid #d1d5db;
     border-radius: 4px;
+    font-weight: 500;
+    background: #ffffff;
+    outline: none;
+}
+
+.edit-mark-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
 .edit-buttons {
@@ -69,6 +146,39 @@ body {
 }
 
 .edit-buttons .btn {
-    padding: 2px 8px;
+    padding: 4px 8px;
     border-radius: 4px;
+    border: none;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+/* Убираем границы по краям */
+.marks-table table tr th:first-child,
+.marks-table table tr td:first-child {
+    border-left: none;
+}
+
+.marks-table table tr th:last-child,
+.marks-table table tr td:last-child {
+    border-right: none;
+}
+
+/* Мобильная адаптивность */
+@media (max-width: 768px) {
+    .marks-table {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    .marks-table th,
+    .marks-table td {
+        padding: 8px 6px;
+        font-size: 0.9rem;
+    }
+    
+    .marks-table table tr th:nth-child(2),
+    .marks-table table tr td:nth-child(2) {
+        width: 25%;
+    }
 }

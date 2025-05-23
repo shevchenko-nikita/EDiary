@@ -84,7 +84,6 @@ func GetStatisticInfo(db *sql.DB, userID int) (Statistic, error) {
 
 	var studentInfo StudentInfo
 	var subjects []models.ClassCard
-	//var gradeDistribution GradeDistribution
 
 	studentInfo.StudentClasses = GetStudentClassesNum(db, userID)
 	studentInfo.TeachingClasses = GetTeachingClassesNum(db, userID)

@@ -118,6 +118,6 @@ func GetAllClassMarks(db *sql.DB, classId int) ([]models.Mark, error) {
 	return repository.GetAllClassMarks(db, classId)
 }
 
-func GetMark(db *sql.DB, userID, assignmentID int) (int, error) {
+func GetMark(db *sql.DB, userID, assignmentID int) (float32, error) {
 	return repository.GetMark(db, userID, assignmentID)
 }

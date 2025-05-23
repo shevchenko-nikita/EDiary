@@ -25,7 +25,7 @@
 
       <!-- Информация о задании с редактируемым дедлайном для учителя -->
       <div class="task-info">
-        <span *ngIf="!isTeacher">Оцінка: {{ assignment.grade || '-' }} •</span>
+        <span *ngIf="!isTeacher">Оцінка: {{ mark || '-' }} •</span>
         <span *ngIf="!isEditingDeadline">
           Дедлайн:
           {{
