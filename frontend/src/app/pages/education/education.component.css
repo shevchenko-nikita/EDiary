@@ -85,7 +85,9 @@ body {
 
 .modal-buttons {
     display: flex;
-    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+    justify-content: center;
 }
 
 .close-modal-btn {
@@ -119,8 +121,8 @@ body {
 }
 
 .cancel-btn {
-    width: calc(50% - 20px);
-    padding: 10px;
+    flex: 1;
+    padding: 12px 20px;
     border: none;
     border-radius: 5px;
     font-size: 16px;
@@ -128,15 +130,17 @@ body {
     color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    white-space: nowrap;
+    min-width: 120px;
 }
 
 .cancel-btn:hover {
-    background-color: rgb(235, 54, 54, 0.8);
+    background-color: rgba(235, 54, 54, 0.8);
 }
 
 .exit-btn {
-    width: calc(50% - 20px);
-    padding: 10px;
+    flex: 1;
+    padding: 12px 20px;
     border: none;
     border-radius: 5px;
     font-size: 16px;
@@ -144,12 +148,13 @@ body {
     color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    white-space: nowrap;
+    min-width: 120px;
 }
 
 .exit-btn:hover {
-    background-color: rgb(25, 198, 80, 0.8);
+    background-color: rgba(25, 198, 80, 0.8);
 }
-
 
 .card-container {
     display: grid;
